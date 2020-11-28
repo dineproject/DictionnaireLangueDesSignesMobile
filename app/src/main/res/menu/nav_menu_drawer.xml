@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_drawer_accueil"
+            android:icon="@drawable/baseline_home_24"
+            android:title="@string/titre_lien_accueil" />
+
+
+        <item android:title="@string/titre_groupe_dictionnaire">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/navigation_drawer_alphabetique"
+                        android:icon="@drawable/baseline_local_library_24"
+                        android:title="@string/titre_lien_alphabetique" />
+                    <item
+                        android:id="@+id/navigation_drawer_categories"
+                        android:icon="@drawable/baseline_view_list_24"
+                        android:title="@string/titre_lien_categories" />
+                </group>
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/navigation_drawer_suggestions"
+            android:icon="@drawable/baseline_create_24"
+            android:title="@string/titre_lien_suggestions" />
+        <item
+            android:id="@+id/navigation_drawer_bases"
+            android:icon="@drawable/baseline_school_24"
+            android:title="@string/titre_lien_bases" />
+        <item
+            android:id="@+id/navigation_drawer_parametres"
+            android:icon="@drawable/baseline_settings_24"
+            android:title="@string/titre_lien_parametres" />
+        <item
+            android:id="@+id/navigation_drawer_apropos"
+            android:icon="@drawable/baseline_info_24"
+            android:title="@string/titre_lien_apropos"/>
+
+    </group>
+
+</menu>

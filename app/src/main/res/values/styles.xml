@@ -11,6 +11,7 @@
     <!-- TOOLBAR TITLE THEME -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">21sp</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
 </resources>

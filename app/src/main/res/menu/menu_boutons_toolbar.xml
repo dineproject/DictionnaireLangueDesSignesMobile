@@ -4,12 +4,6 @@
 
 
     <item
-        android:id="@+id/menu_bouton_toolbar_menu"
-        android:icon="@drawable/baseline_menu_24"
-        app:showAsAction="ifRoom"
-        android:title="Menu">
-    </item>
-    <item
         android:id="@+id/menu_bouton_toolbar_apropos"
         android:icon="@drawable/baseline_info_24"
         app:showAsAction="ifRoom"

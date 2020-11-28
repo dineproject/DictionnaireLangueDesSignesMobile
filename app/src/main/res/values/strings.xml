@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Dictionnaire de Langue des Signes</string>
+
+    <string name="titre_lien_accueil">Accueil</string>
+    <string name="titre_groupe_dictionnaire">Dictionnaire</string>
+    <string name="titre_lien_alphabetique">Alphabétique</string>
+    <string name="titre_lien_categories">Catégories</string>
+    <string name="titre_lien_suggestions">Suggestions</string>
+    <string name="titre_lien_bases">Apprendre les bases</string>
+    <string name="titre_lien_parametres">Paramètres</string>
+    <string name="titre_lien_apropos">A propos</string>
+
+    <string name="description_navigation_drawer_open">Open Navigation Open</string>
+    <string name="description_navigation_drawer_close">Close navigation drawer</string>
+
+
 </resources>

@@ -1,25 +1,41 @@
 package com.wontanara.dictionnairedelanguedessignes;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.navigation.NavigationView;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Configuration de la toolbar
+        // Configurations
         this.configureToolbar();
+        this.configureDrawerLayout();
+        this.configureNavigationView();
+        this.mNavigationView.getMenu().getItem(0).setChecked(true);
+
     }
 
 
+// ---- Toolbar ---- //
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -31,21 +47,84 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Ajout des actions sur les boutons de la toolbar
-        switch (item.getItemId()) {
-            case R.id.menu_bouton_toolbar_menu:
-                Toast.makeText(this, "Ouverture du menu", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.menu_bouton_toolbar_apropos:
-                Toast.makeText(this, "Ouverture de A Propos", Toast.LENGTH_LONG).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_bouton_toolbar_apropos) {
+            Intent i = new Intent(MainActivity.this, AproposActivity.class);
+            startActivity(i);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
     private void configureToolbar() {
         // Récupérer visuellement la toolbar dans l'activité
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
     }
+
+
+// ---- Menu ---- //
+
+    @Override
+    public void onBackPressed() {
+        // Handle back click to close menu
+        if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        // Actions au clic dans les items du menu
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.navigation_drawer_accueil :
+                break;
+            case R.id.navigation_drawer_alphabetique:
+                break;
+            case R.id.navigation_drawer_categories:
+                break;
+            case R.id.navigation_drawer_suggestions:
+                break;
+            case R.id.navigation_drawer_bases:
+                break;
+            case R.id.navigation_drawer_parametres:
+                break;
+            case R.id.navigation_drawer_apropos:
+//                mNavigationView.setNavigationItemSelectedListener(); TODO: voir pour que l'item selectionné pour a propos dans le menu soit quand meme celui de l'accueil
+//                en gros quand on va dessus et qu'on revient il dit qu'on y est encore dans le menu
+                Intent i = new Intent(MainActivity.this, AproposActivity.class);
+//                ne fonctionne pas
+//                item.setChecked(false);
+//                this.mNavigationView.getMenu().getItem(0).setChecked(true);
+                startActivity(i);
+                break;
+            default:
+                break;
+        }
+
+        this.mDrawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+
+    // Configure Drawer Layout
+    private void configureDrawerLayout(){
+        this.mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout); // TODO:
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.description_navigation_drawer_open, R.string.description_navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    // Configure NavigationView
+    private void configureNavigationView(){
+        this.mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
 }
