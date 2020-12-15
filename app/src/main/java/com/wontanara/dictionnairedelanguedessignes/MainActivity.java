@@ -1,41 +1,58 @@
 package com.wontanara.dictionnairedelanguedessignes;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    protected DrawerLayout mDrawerLayout;
+    protected NavigationView mNavigationView;
+    protected Toolbar mToolbar;
 
 
-    private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
-    private Toolbar mToolbar;
+//    ------ BASE METHODS ------
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getLayout() {
+        return R.layout.activity_main;
+    }
 
-        // Configurations
+    @Override
+    protected Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    protected void configureDesign() {
+    // Elements graphiques configurés dans onCreate
         this.configureToolbar();
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.mNavigationView.getMenu().getItem(0).setChecked(true);
+    }
 
+    @Override
+    protected void findElements() {
+    // Enregistre les éléments dont on a besoin au démarrage
+        this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        this.mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout);
+        this.mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
     }
 
 
-// ---- Toolbar ---- //
+//    ------ OVERRIDE METHODS ------
+//    ---- Toolbar ----
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,14 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void configureToolbar() {
-        // Récupérer visuellement la toolbar dans l'activité
-        this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-    }
-
-
-// ---- Menu ---- //
+//    ---- Menu ----
 
     @Override
     public void onBackPressed() {
@@ -81,8 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Actions au clic dans les items du menu
         int id = item.getItemId();
 
-        switch (id){
-            case R.id.navigation_drawer_accueil :
+        switch (id){ //TODO: R.id. etc a voir par quoi on change
+            case R.id.navigation_drawer_accueil:
                 break;
             case R.id.navigation_drawer_alphabetique:
                 break;
@@ -101,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                ne fonctionne pas
 //                item.setChecked(false);
 //                this.mNavigationView.getMenu().getItem(0).setChecked(true);
-                startActivity(i);
+                startActivity(i); // TODO: voir si on peut stop l'activité sans probleme pour le retour ensuite ?
                 break;
             default:
                 break;
@@ -115,16 +125,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // Configure Drawer Layout
     private void configureDrawerLayout(){
-        this.mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout); // TODO:
+        this.mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.description_navigation_drawer_open, R.string.description_navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
-
-    // Configure NavigationView
-    private void configureNavigationView(){
-        this.mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
-    }
-
 }

@@ -3,28 +3,36 @@ package com.wontanara.dictionnairedelanguedessignes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.Bundle;
+import android.app.Activity;
 
-public class AproposActivity extends AppCompatActivity {
+
+public class AproposActivity extends BaseActivity {
 
     // TODO: Remplir la classe
     // TODO: Activer le bouton retour (en haut à gauche)
 
     Toolbar mToolbar;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_apropos);
 
-        configureToolbar();
+//    ------ BASE METHODS ------
+
+    @Override
+    protected int getLayout() {
+        return R.layout.activity_apropos;
     }
 
+    @Override
+    protected Activity getActivity() {
+        return this;
+    }
 
-    private void configureToolbar() {
-        // Récupérer visuellement la toolbar dans l'activité
+    @Override
+    protected void configureDesign() {
+        this.configureToolbar(R.string.titre_lien_apropos);
+    }
+
+    @Override
+    protected void findElements() {
         this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        this.mToolbar.setTitle(R.string.titre_lien_apropos);
-        setSupportActionBar(mToolbar);
     }
 }
