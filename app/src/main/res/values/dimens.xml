@@ -2,4 +2,5 @@
 <resources>
     <dimen name="nav_header_height">176dip</dimen>
     <dimen name="nav_width">290dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

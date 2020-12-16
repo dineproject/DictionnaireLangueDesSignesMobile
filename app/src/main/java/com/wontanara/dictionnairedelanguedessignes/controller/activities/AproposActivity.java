@@ -1,9 +1,10 @@
-package com.wontanara.dictionnairedelanguedessignes;
+package com.wontanara.dictionnairedelanguedessignes.controller.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
+
+import com.wontanara.dictionnairedelanguedessignes.R;
 
 
 public class AproposActivity extends BaseActivity {
