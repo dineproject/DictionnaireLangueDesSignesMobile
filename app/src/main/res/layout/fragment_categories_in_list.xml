@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -11,21 +11,26 @@
         android:id="@+id/icon_categorie"
         android:src="@drawable/baseline_info_24"
         android:background="@color/white"
-        android:layout_margin="@dimen/text_margin"/>
+        android:layout_margin="@dimen/text_margin"
+        />
 
     <TextView
         android:id="@+id/item_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_toEndOf="@id/icon_categorie"
+        android:layout_toRightOf="@id/icon_categorie" />
 
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_toEndOf="@id/item_number"
+        android:layout_toRightOf="@id/item_number" />
 
 
     <ImageButton
@@ -34,6 +39,16 @@
         android:id="@+id/chevron_categorie"
         android:src="@drawable/baseline_chevron_right_24"
         android:background="@color/white"
-        android:layout_margin="@dimen/text_margin"/>
+        android:layout_margin="@dimen/text_margin"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 
-</LinearLayout>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_alignParentBottom="true"/>
+
+
+</RelativeLayout>

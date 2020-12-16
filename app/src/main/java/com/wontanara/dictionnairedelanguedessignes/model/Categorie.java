@@ -18,6 +18,8 @@ public class Categorie {
 
     // Temporaire
     public Categorie(String nom) {
+        lastId++;
+        this.id = lastId;
         this.nom = nom;
         this.listeMots = new ArrayList<Mot>();
         this.listeMots.add(new Mot("Mot1", "def"));

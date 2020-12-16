@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.fragments.ListCategoriesFragment;
+import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 
 public class CategoriesActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,10 +39,11 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
     @Override
     protected void configureDesign() {
         // Elements graphiques configurés dans onCreate
-        this.configureToolbar();
+        this.configureToolbar(R.string.titre_lien_categories);
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.configureAndShowListCategoriesFragment();
+        this.mNavigationView.getMenu().getItem(1).getSubMenu().getItem(1).setChecked(true);
     }
 
     @Override
@@ -54,6 +56,12 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
 
 
 //    ------ OVERRIDE METHODS ------
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Categorie.lastId = 0;
+    }
+
 //    ---- Menu ----
 
     @Override
@@ -75,8 +83,9 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
 
         switch (id){ //TODO: R.id. etc a voir par quoi on change
             case R.id.navigation_drawer_accueil:
-                i = new Intent(CategoriesActivity.this, MainActivity.class);
-                startActivity(i);
+//                i = new Intent(CategoriesActivity.this, MainActivity.class);
+//                startActivity(i);
+                finish();
                 break;
             case R.id.navigation_drawer_alphabetique:
                 break;
