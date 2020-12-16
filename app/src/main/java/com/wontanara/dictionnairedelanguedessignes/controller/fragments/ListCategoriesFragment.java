@@ -16,7 +16,7 @@ import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoriesListe;
 
 
-public class ListCategoriesFragment extends Fragment {
+public class ListCategoriesFragment extends BaseFragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
@@ -24,36 +24,27 @@ public class ListCategoriesFragment extends Fragment {
     public ListCategoriesFragment() {
     }
 
-    public static ListCategoriesFragment newInstance(int columnCount) {
+
+//    ------ BASE METHODS ------
+
+    @Override
+    protected BaseFragment newInstance() {
         ListCategoriesFragment fragment = new ListCategoriesFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putInt(ARG_COLUMN_COUNT, mColumnCount);
         fragment.setArguments(args);
         return fragment;
     }
 
-
-//    ------ BASE METHODS ------
-
-//    @Override
-//    protected BaseFragment newInstance() {
-//        ListCategoriesFragment fragment = new ListCategoriesFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(ARG_COLUMN_COUNT, mColumnCount);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
-//    @Override
+    @Override
     protected int getFragmentLayout() {
         return R.layout.fragment_categories_list;
     }
 
-//    @Override
-//    protected void configureDesign(View view) {
-//        this.configureAdaptater(view);
-//    }
-
+    @Override
+    protected void configureDesign(View view) {
+        this.configureAdaptater(view);
+    }
 
 //    ------ OVERRIDE METHODS ------
 
@@ -66,14 +57,7 @@ public class ListCategoriesFragment extends Fragment {
         }
     }
 
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_categories_list, container, false);
-
-        // Set the adapter
+    protected void configureAdaptater(View view) {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -85,19 +69,5 @@ public class ListCategoriesFragment extends Fragment {
             CategoriesListe listeDeCategories = new CategoriesListe();
             recyclerView.setAdapter(new MyListCategoriesRecyclerViewAdapter(listeDeCategories.getListeCategories()));
         }
-        return view;
     }
-
-//    protected void configureAdaptater(View view) {
-//        if (view instanceof RecyclerView) {
-//            Context context = view.getContext();
-//            RecyclerView recyclerView = (RecyclerView) view;
-//            if (mColumnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-//            }
-//            recyclerView.setAdapter(new MyListCategoriesRecyclerViewAdapter(DummyContent.ITEMS));
-//        }
-//    }
 }
