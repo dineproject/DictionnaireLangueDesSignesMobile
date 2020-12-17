@@ -32,8 +32,8 @@ public class MyListCategoriesRecyclerViewAdapter extends RecyclerView.Adapter<My
     public void onBindViewHolder(final ViewHolder holder, int position) {
 //        Met à jour la recyclerview avec les données de la liste
         holder.mItem = mValues.get(position);
-        String no = Integer.toString(mValues.get(position).id);
-        holder.mIdView.setText(no);
+//        String no = Integer.toString(mValues.get(position).id);
+//        holder.mIdView.setText(no);
         holder.mContentView.setText(mValues.get(position).nom);
     }
 
@@ -49,14 +49,14 @@ public class MyListCategoriesRecyclerViewAdapter extends RecyclerView.Adapter<My
 //    Permet de représenter visuellement chaque éléemtns de la recyclerview
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+//        public final TextView mIdView;
         public final TextView mContentView;
         public Categorie mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
+//            mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 

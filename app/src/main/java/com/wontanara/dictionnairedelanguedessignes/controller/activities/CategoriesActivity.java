@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.controller.fragments.CategorieFragment;
 import com.wontanara.dictionnairedelanguedessignes.controller.fragments.ListCategoriesFragment;
 import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 
@@ -21,7 +23,7 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
 
     protected DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
-    protected Toolbar mToolbar;
+    public Toolbar mToolbar;
     protected ListCategoriesFragment mListCategoriesFragment;
 
 //    ------ BASE METHODS ------
@@ -56,11 +58,11 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
 
 
 //    ------ OVERRIDE METHODS ------
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Categorie.lastId = 0;
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        Categorie.lastId = 0;
+//    }
 
 //    ---- Menu ----
 
@@ -125,12 +127,18 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
 
 //    ---- Fragment ----
     private void configureAndShowListCategoriesFragment(){
-        mListCategoriesFragment = (ListCategoriesFragment) getSupportFragmentManager().findFragmentById(R.id.list_categories_frame_layout);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.list_categories_frame_layout);
 
-        if (mListCategoriesFragment == null) {
+        if (fragment == null) {
             mListCategoriesFragment = new ListCategoriesFragment();
             this.showFragment(mListCategoriesFragment, R.id.list_categories_frame_layout);
         }
+    }
+
+
+
+    public Toolbar getToolbar() {
+        return this.mToolbar;
     }
 
 }

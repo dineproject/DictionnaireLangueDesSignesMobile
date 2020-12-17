@@ -25,6 +25,7 @@ public class ListCategoriesFragment extends BaseFragment {
 
     protected RecyclerView mRecyclerView;
     protected MyListCategoriesRecyclerViewAdapter mAdapter;
+    protected CategorieFragment mCategorieFragment;
 
     public ListCategoriesFragment() {
     }
@@ -66,6 +67,12 @@ public class ListCategoriesFragment extends BaseFragment {
         }
     }
 
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        Categorie.lastId = 0;
+//    }
+
 //    ------ CONFIGURATION ------
     protected void configureRecyclerView(View view) {
         if (view instanceof RecyclerView) {
@@ -92,6 +99,15 @@ public class ListCategoriesFragment extends BaseFragment {
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         Categorie mCategorie = mAdapter.getCategorie(position);
                         Toast.makeText(getContext(), "Clic sur la categorie : "+mCategorie.getNom(), Toast.LENGTH_SHORT).show();
+
+//                        Permet de passer dans le bundle du framgent à lancer l'id de la catégorie à afficher
+                        mCategorieFragment = new CategorieFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id-categorie", mCategorie.getId());
+                        mCategorieFragment.setArguments(bundle);
+
+                        replaceFragment(mCategorieFragment, R.id.list_categories_frame_layout);
+
                     }
                 });
     }

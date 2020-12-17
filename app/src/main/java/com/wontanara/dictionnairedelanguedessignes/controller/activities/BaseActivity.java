@@ -62,4 +62,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .commit();
     }
 
+    protected void replaceFragment(Fragment fragment, int layout){
+        getSupportFragmentManager().beginTransaction()
+                .replace(layout, fragment)
+                .commit();
+    }
+
 }

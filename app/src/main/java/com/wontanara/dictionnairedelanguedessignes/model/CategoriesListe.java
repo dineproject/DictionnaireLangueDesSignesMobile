@@ -11,6 +11,7 @@ public class CategoriesListe {
 
     // Temporaire
     public CategoriesListe() {
+        Categorie.lastId=0;
         this.listeCategories = new ArrayList<Categorie>();
         this.listeCategories.add(new Categorie("Categorie A"));
         this.listeCategories.add(new Categorie("Categorie B"));
