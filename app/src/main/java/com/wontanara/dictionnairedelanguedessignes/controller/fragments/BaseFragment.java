@@ -18,6 +18,7 @@ public abstract class BaseFragment extends Fragment {
     protected abstract BaseFragment newInstance();
     protected abstract int getFragmentLayout();
     protected abstract void configureDesign(View view);
+    protected abstract void findElements();
 
     // -----------------
     // METHODS OVERRIDE

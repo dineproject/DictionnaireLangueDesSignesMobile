@@ -126,6 +126,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
+//    ------ CONFIGURATION ------
+
     // Configure Drawer Layout
     private void configureDrawerLayout(){
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout);

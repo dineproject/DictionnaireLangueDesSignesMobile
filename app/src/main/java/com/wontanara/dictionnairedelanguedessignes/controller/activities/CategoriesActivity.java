@@ -112,6 +112,8 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
     }
 
 
+//    ------ CONFIGURATION ------
+
     // Configure Drawer Layout
     private void configureDrawerLayout(){
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.categories_activity_drawer_layout);

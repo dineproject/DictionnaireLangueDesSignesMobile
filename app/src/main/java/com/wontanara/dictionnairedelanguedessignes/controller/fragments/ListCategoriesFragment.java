@@ -3,23 +3,28 @@ package com.wontanara.dictionnairedelanguedessignes.controller.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoriesListe;
+import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
+import com.wontanara.dictionnairedelanguedessignes.view.MyListCategoriesRecyclerViewAdapter;
 
 
 public class ListCategoriesFragment extends BaseFragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
+
+    protected RecyclerView mRecyclerView;
+    protected MyListCategoriesRecyclerViewAdapter mAdapter;
 
     public ListCategoriesFragment() {
     }
@@ -43,8 +48,12 @@ public class ListCategoriesFragment extends BaseFragment {
 
     @Override
     protected void configureDesign(View view) {
-        this.configureAdaptater(view);
+        this.configureRecyclerView(view);
+        this.configureOnClickRecyclerView();
     }
+
+    @Override
+    protected void findElements() { }
 
 //    ------ OVERRIDE METHODS ------
 
@@ -57,17 +66,33 @@ public class ListCategoriesFragment extends BaseFragment {
         }
     }
 
-    protected void configureAdaptater(View view) {
+//    ------ CONFIGURATION ------
+    protected void configureRecyclerView(View view) {
         if (view instanceof RecyclerView) {
+
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            this.mRecyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                // Pas forcement nécessaire pour un affichage seulement en ligne, mais gardé si jamais besoin d'un affichage en grid
+                mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+
             CategoriesListe listeDeCategories = new CategoriesListe();
-            recyclerView.setAdapter(new MyListCategoriesRecyclerViewAdapter(listeDeCategories.getListeCategories()));
+            mAdapter = new MyListCategoriesRecyclerViewAdapter(listeDeCategories.getListeCategories());
+            mRecyclerView.setAdapter(this.mAdapter);
         }
+    }
+
+    protected void configureOnClickRecyclerView() {
+        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_categories_in_list)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Categorie mCategorie = mAdapter.getCategorie(position);
+                        Toast.makeText(getContext(), "Clic sur la categorie : "+mCategorie.getNom(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
