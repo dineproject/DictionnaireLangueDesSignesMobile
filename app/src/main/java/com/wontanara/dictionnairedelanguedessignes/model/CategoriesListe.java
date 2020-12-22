@@ -1,6 +1,7 @@
 package com.wontanara.dictionnairedelanguedessignes.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoriesListe {
     public ArrayList<Categorie> listeCategories;
@@ -36,5 +37,17 @@ public class CategoriesListe {
 
     public void setListeCategories(ArrayList<Categorie> listeCategories) {
         this.listeCategories = listeCategories;
+    }
+
+    // Temporaire
+//    TODO: A tester
+    public List<Mot> getAllMot () {
+        ArrayList<Mot> listAll = new ArrayList<Mot>();
+
+        for (Categorie categorie : this.listeCategories) {
+            listAll.addAll(categorie.listeMots);
+        }
+
+        return listAll;
     }
 }

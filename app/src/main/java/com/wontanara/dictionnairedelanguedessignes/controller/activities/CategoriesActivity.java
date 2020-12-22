@@ -71,6 +71,8 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
         // Handle back click to close menu
         if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.mDrawerLayout.closeDrawer(GravityCompat.START);
+//        } else if (getSupportFragmentManager().findFragmentById(R.id.layout_mot).isInLayout()) {
+//            getIntent().removeExtra("id-mot");
         } else {
             super.onBackPressed();
         }

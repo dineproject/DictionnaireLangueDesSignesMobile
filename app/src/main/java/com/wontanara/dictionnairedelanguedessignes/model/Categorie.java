@@ -22,12 +22,12 @@ public class Categorie {
         this.id = lastId;
         this.nom = nom;
         this.listeMots = new ArrayList<Mot>();
-        this.listeMots.add(new Mot("Mot1", "def"));
-        this.listeMots.add(new Mot("Mot2", "def"));
-        this.listeMots.add(new Mot("Mot3", "def"));
-        this.listeMots.add(new Mot("Mot4", "def"));
-        this.listeMots.add(new Mot("Mot5", "def"));
-        this.listeMots.add(new Mot("Mot6", "def"));
+        this.listeMots.add(new Mot("Mot" + this.id + ".1", "def"));
+        this.listeMots.add(new Mot("Mot" + this.id + ".2", "def"));
+        this.listeMots.add(new Mot("Mot" + this.id + ".3", "def"));
+        this.listeMots.add(new Mot("Mot" + this.id + ".4", "def"));
+        this.listeMots.add(new Mot("Mot" + this.id + ".5", "def"));
+        this.listeMots.add(new Mot("Mot" + this.id + ".6", "def"));
 
     }
 
