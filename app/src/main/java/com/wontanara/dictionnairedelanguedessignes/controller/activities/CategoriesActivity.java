@@ -81,13 +81,10 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
 
         // Actions au clic dans les items du menu
         int id = item.getItemId();
-        Intent i;
 
         switch (id){ //TODO: R.id. etc a voir par quoi on change
             case R.id.navigation_drawer_accueil:
-//                i = new Intent(CategoriesActivity.this, MainActivity.class);
-//                startActivity(i);
-                finish();
+                this.navigationAccueil();
                 break;
             case R.id.navigation_drawer_alphabetique:
                 break;
@@ -100,9 +97,7 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
             case R.id.navigation_drawer_parametres:
                 break;
             case R.id.navigation_drawer_apropos:
-//              TODO: Comme dans MainActivity
-                i = new Intent(CategoriesActivity.this, AproposActivity.class);
-                startActivity(i);
+                this.navigationAPropos();
                 break;
             default:
                 break;

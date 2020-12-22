@@ -1,6 +1,7 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -68,4 +69,25 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .commit();
     }
 
+//    ------ NAVIGATION ------
+    protected void navigationAccueil() {
+//        i = new Intent(CategoriesActivity.this, MainActivity.class);
+//        startActivity(i);
+        finish();
+    }
+
+    protected void navigationAPropos() {
+//        mNavigationView.setNavigationItemSelectedListener(); TODO: voir pour que l'item selectionné pour a propos dans le menu soit quand meme celui de l'accueil
+//        en gros quand on va dessus et qu'on revient il dit qu'on y est encore dans le menu
+        Intent i = new Intent(getActivity(), AproposActivity.class);
+//        ne fonctionne pas
+//        item.setChecked(false);
+//        this.mNavigationView.getMenu().getItem(0).setChecked(true);
+        startActivity(i); // TODO: voir si on peut stop l'activité sans probleme pour le retour ensuite ?
+    }
+
+    protected void navigationCategories() {
+        Intent i = new Intent(getActivity(), CategoriesActivity.class);
+        startActivity(i);
+    }
 }

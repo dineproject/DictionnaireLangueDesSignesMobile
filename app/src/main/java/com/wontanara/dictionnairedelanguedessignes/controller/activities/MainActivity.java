@@ -20,6 +20,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected NavigationView mNavigationView;
     protected Toolbar mToolbar;
 
+//    TODO: Faire les listeners pour les boutons de l'acceuil
 
 //    ------ BASE METHODS ------
 
@@ -90,7 +91,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // Actions au clic dans les items du menu
         int id = item.getItemId();
-        Intent i;
 
         switch (id){ //TODO: R.id. etc a voir par quoi on change
             case R.id.navigation_drawer_accueil:
@@ -98,8 +98,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.navigation_drawer_alphabetique:
                 break;
             case R.id.navigation_drawer_categories:
-                i = new Intent(MainActivity.this, CategoriesActivity.class);
-                startActivity(i);
+                this.navigationCategories();
                 break;
             case R.id.navigation_drawer_suggestions:
                 break;
@@ -108,13 +107,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.navigation_drawer_parametres:
                 break;
             case R.id.navigation_drawer_apropos:
-//                mNavigationView.setNavigationItemSelectedListener(); TODO: voir pour que l'item selectionné pour a propos dans le menu soit quand meme celui de l'accueil
-//                en gros quand on va dessus et qu'on revient il dit qu'on y est encore dans le menu
-                i = new Intent(MainActivity.this, AproposActivity.class);
-//                ne fonctionne pas
-//                item.setChecked(false);
-//                this.mNavigationView.getMenu().getItem(0).setChecked(true);
-                startActivity(i); // TODO: voir si on peut stop l'activité sans probleme pour le retour ensuite ?
+                this.navigationAPropos();
                 break;
             default:
                 break;
