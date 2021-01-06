@@ -14,4 +14,28 @@
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
+    <!--  WORD TITLE THEME  -->
+    <style name="Word.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!--  WORD DESCRIPTION THEME  -->
+    <style name="Word.Description" parent="Widget.AppCompat.TextView">
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <!--        <item name="android:layout_marginTop">5dp</item>-->
+
+    </style>
+
+    <style name="Widget.Theme.DictionnaireDeLangueDesSignes.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.Theme.DictionnaireDeLangueDesSignes.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
 </resources>

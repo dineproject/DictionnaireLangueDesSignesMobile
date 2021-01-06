@@ -60,7 +60,7 @@ public class CategorieFragment extends BaseFragment {
     }
 
     @Override
-    protected void findElements() {
+    protected void findElements(View view) {
         this.mToolbar = ((CategoriesActivity) getActivity()).getToolbar();
 
         // Temporaire

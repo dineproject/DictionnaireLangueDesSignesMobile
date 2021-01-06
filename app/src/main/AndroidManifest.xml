@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DictionnaireDeLangueDesSignes">
-        <activity android:name=".controller.activities.CategoriesActivity"></activity>
+        <activity
+            android:name=".controller.activities.VideoPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_video_player"
+            android:theme="@style/Theme.DictionnaireDeLangueDesSignes.Fullscreen"></activity>
+        <activity android:name=".controller.activities.CategoriesActivity" />
         <activity android:name=".controller.activities.AproposActivity" />
         <activity android:name=".controller.activities.MainActivity">
             <intent-filter>

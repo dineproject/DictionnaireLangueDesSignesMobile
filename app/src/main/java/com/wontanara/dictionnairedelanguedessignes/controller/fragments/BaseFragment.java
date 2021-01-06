@@ -18,7 +18,7 @@ public abstract class BaseFragment extends Fragment {
     protected abstract BaseFragment newInstance();
     protected abstract int getFragmentLayout();
     protected abstract void configureDesign(View view);
-    protected abstract void findElements();
+    protected abstract void findElements(View view);
 
 
 //    ------ METHODS OVERRIDE ------
@@ -27,7 +27,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getFragmentLayout(), container, false);
-        this.findElements();
+        this.findElements(view);
         this.configureDesign(view);
         return(view);
     }

@@ -54,7 +54,7 @@ public class ListCategoriesFragment extends BaseFragment {
     }
 
     @Override
-    protected void findElements() { }
+    protected void findElements(View view) { }
 
 //    ------ OVERRIDE METHODS ------
 

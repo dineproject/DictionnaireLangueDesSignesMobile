@@ -10,8 +10,13 @@ public class Mot {
         this.definition = definition;
     }
 
+    public Mot(String nom) {
+        this.nom = nom;
+        this.definition = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor";
+    }
+
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     public void setNom(String nom) {
@@ -19,7 +24,7 @@ public class Mot {
     }
 
     public String getDefinition() {
-        return definition;
+        return this.definition;
     }
 
     public void setDefinition(String definition) {
