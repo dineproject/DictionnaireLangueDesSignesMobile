@@ -7,20 +7,29 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     protected DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
     protected Toolbar mToolbar;
 
-//    TODO: Faire les listeners pour les boutons de l'acceuil
+    private ImageButton mDicoButton;
+    private ImageButton mCategorieButton;
+    private ImageButton mSuggestionButton;
+    private ImageButton mBaseButton;
+    private ImageButton mParametreButton;
+
+//    TODO: Faire les listeners pour les boutons de l'accueil
 
 //    ------ BASE METHODS ------
 
@@ -41,6 +50,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.mNavigationView.getMenu().getItem(0).setChecked(true);
+        this.configureOnClickListener();
     }
 
     @Override
@@ -49,6 +59,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout);
         this.mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        this.mDicoButton = findViewById(R.id.imageDicoButton);
+        this.mCategorieButton = findViewById(R.id.imageCategorieButton);
+        this.mSuggestionButton = findViewById(R.id.imageSuggestionButton);
+        this.mBaseButton = findViewById(R.id.imageBaseButton);
+        this.mParametreButton = findViewById(R.id.imageParametreButton);
+
     }
 
 
@@ -118,6 +135,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
+//    ---- Boutons ----
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imageDicoButton:
+                break;
+            case R.id.imageCategorieButton:
+                navigationCategories();
+                break;
+            case R.id.imageSuggestionButton:
+                break;
+            case R.id.imageBaseButton:
+                break;
+            case R.id.imageParametreButton:
+                break;
+            default:
+                break;
+        }
+    }
 
 //    ------ CONFIGURATION ------
 
@@ -128,4 +165,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
+
+    private void configureOnClickListener(){
+        this.mDicoButton.setOnClickListener(this);
+        this.mCategorieButton.setOnClickListener(this);
+        this.mSuggestionButton.setOnClickListener(this);
+        this.mBaseButton.setOnClickListener(this);
+        this.mParametreButton.setOnClickListener(this);
+    }
+
 }

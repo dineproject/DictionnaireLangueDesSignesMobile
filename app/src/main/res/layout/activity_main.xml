@@ -8,56 +8,150 @@
     tools:context=".controller.activities.MainActivity">
 
     <!--    Activité    -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <ImageButton
-            android:id="@+id/imageDicoButton"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher"
-            tools:layout_editor_absoluteX="115dp"
-            tools:layout_editor_absoluteY="156dp" />
+            android:orientation="vertical"
+            android:id="@+id/DicoButton"
+            android:paddingRight="@dimen/padding_horizontal_accueil"
+            android:paddingLeft="@dimen/padding_horizontal_accueil"
+            android:paddingTop="@dimen/padding_vertical_accueil"
+            android:paddingBottom="@dimen/padding_vertical_accueil"
+            android:layout_marginTop="55dp">
 
-        <ImageButton
-            android:id="@+id/imageCategorieButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher"
-            tools:layout_editor_absoluteX="154dp"
-            tools:layout_editor_absoluteY="287dp" />
+            <ImageButton
+                android:id="@+id/imageDicoButton"
+                android:layout_width="@dimen/size_image_accueil"
+                android:layout_height="@dimen/size_image_accueil"
+                android:background="@drawable/baseline_local_library_24" />
 
-        <ImageButton
-            android:id="@+id/imageSuggestionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher"
-            tools:layout_editor_absoluteX="120dp"
-            tools:layout_editor_absoluteY="429dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titre_lien_alphabetique"
+                android:gravity="center"
+                android:theme="@style/text_button_accueil"/>
 
-        <ImageButton
-            android:id="@+id/imageBaseButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher"
-            tools:layout_editor_absoluteX="288dp"
-            tools:layout_editor_absoluteY="481dp" />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/imageParametreButton"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher"
-            tools:layout_editor_absoluteX="157dp"
-            tools:layout_editor_absoluteY="577dp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:id="@+id/CategorieButton"
+            android:layout_toRightOf="@id/DicoButton"
+            android:paddingRight="@dimen/padding_horizontal_accueil"
+            android:paddingLeft="@dimen/padding_horizontal_accueil"
+            android:paddingTop="@dimen/padding_vertical_accueil"
+            android:paddingBottom="@dimen/padding_vertical_accueil"
+            android:layout_marginTop="55dp">
+
+            <ImageButton
+                android:id="@+id/imageCategorieButton"
+                android:layout_width="@dimen/size_image_accueil"
+                android:layout_height="@dimen/size_image_accueil"
+                android:background="@drawable/baseline_view_list_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titre_lien_categories"
+                android:gravity="center"
+                android:theme="@style/text_button_accueil"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/SuggestionButton"
+            android:layout_below="@id/DicoButton"
+            android:paddingRight="@dimen/padding_horizontal_accueil"
+            android:paddingLeft="@dimen/padding_horizontal_accueil"
+            android:paddingTop="@dimen/padding_vertical_accueil"
+            android:paddingBottom="@dimen/padding_vertical_accueil">
+
+            <ImageButton
+                android:id="@+id/imageSuggestionButton"
+                android:layout_width="@dimen/size_image_accueil"
+                android:layout_height="@dimen/size_image_accueil"
+                android:background="@drawable/baseline_create_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titre_lien_suggestions"
+                android:gravity="center"
+                android:theme="@style/text_button_accueil"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/BaseButton"
+            android:layout_below="@id/CategorieButton"
+            android:layout_toRightOf="@id/SuggestionButton"
+            android:paddingRight="@dimen/padding_horizontal_accueil"
+            android:paddingLeft="@dimen/padding_horizontal_accueil"
+            android:paddingTop="@dimen/padding_vertical_accueil"
+            android:paddingBottom="@dimen/padding_vertical_accueil">
+
+            <ImageButton
+                android:id="@+id/imageBaseButton"
+                android:layout_width="@dimen/size_image_accueil"
+                android:layout_height="@dimen/size_image_accueil"
+                android:background="@drawable/baseline_school_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titre_lien_bases"
+                android:gravity="center"
+                android:theme="@style/text_button_accueil"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/ParametreButton"
+            android:layout_below="@id/SuggestionButton"
+            android:paddingRight="@dimen/padding_horizontal_accueil"
+            android:paddingLeft="@dimen/padding_horizontal_accueil"
+            android:paddingTop="@dimen/padding_vertical_accueil"
+            android:paddingBottom="@dimen/padding_vertical_accueil">
+
+            <ImageButton
+                android:id="@+id/imageParametreButton"
+                android:layout_width="@dimen/size_image_accueil"
+                android:layout_height="@dimen/size_image_accueil"
+                android:background="@drawable/baseline_settings_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titre_lien_parametres"
+                android:gravity="center"
+                android:theme="@style/text_button_accueil"/>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
 
     <!--    Navigation-->
     <include
