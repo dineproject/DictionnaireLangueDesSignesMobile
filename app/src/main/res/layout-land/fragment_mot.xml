@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.fragments.MotFragment"
+    android:id="@+id/layout_mot"
+    android:orientation="horizontal"
+    android:layout_margin="15dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/titre_mot"
+            android:theme="@style/Word.Title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/definition_mot"
+            android:theme="@style/Word.Description" />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:layout_height="match_parent"
+        android:src="@mipmap/ic_launcher"
+        android:padding="40dp"
+        android:layout_gravity="center"/>
+
+    <ImageButton
+        android:id="@+id/imageButton_play_video"
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:layout_height="170dp"
+        android:background="@android:drawable/ic_media_play"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:padding="15dp"
+        />
+
+    <!-- TODO: Changer les images -->
+
+</LinearLayout>
+
+
