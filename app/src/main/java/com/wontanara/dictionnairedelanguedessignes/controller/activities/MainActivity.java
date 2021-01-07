@@ -29,7 +29,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private ImageButton mBaseButton;
     private ImageButton mParametreButton;
 
-//    TODO: Faire les listeners pour les boutons de l'accueil
 
 //    ------ BASE METHODS ------
 
@@ -113,6 +112,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.navigation_drawer_accueil:
                 break;
             case R.id.navigation_drawer_alphabetique:
+                this.navigationDictionnaire();
                 break;
             case R.id.navigation_drawer_categories:
                 this.navigationCategories();
@@ -141,6 +141,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageDicoButton:
+                this.navigationDictionnaire();
                 break;
             case R.id.imageCategorieButton:
                 navigationCategories();

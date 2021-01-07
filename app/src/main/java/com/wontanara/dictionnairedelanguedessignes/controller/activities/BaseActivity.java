@@ -90,4 +90,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent i = new Intent(getActivity(), CategoriesActivity.class);
         startActivity(i);
     }
+
+    protected void navigationDictionnaire() {
+        Intent i = new Intent(getActivity(), DictionnaireActivity.class);
+        startActivity(i);
+    }
 }
