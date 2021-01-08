@@ -161,7 +161,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // Configure Drawer Layout
     private void configureDrawerLayout(){
-        this.mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout);
+//        this.mDrawerLayout = (DrawerLayout) findViewById(R.id.main_activity_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.description_navigation_drawer_open, R.string.description_navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
