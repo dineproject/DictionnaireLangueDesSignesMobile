@@ -4,6 +4,8 @@
     <dimen name="nav_width">290dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="size_image_accueil">130dp</dimen>
+    <dimen name="size_image_accueil_h2200">100dp</dimen>
+
     <dimen name="padding_horizontal_accueil">35dp</dimen>
     <dimen name="padding_vertical_accueil">17dp</dimen>
 
