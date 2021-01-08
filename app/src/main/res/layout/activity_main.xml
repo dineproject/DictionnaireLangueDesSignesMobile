@@ -17,138 +17,142 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/DicoButton"
-            android:paddingRight="@dimen/padding_horizontal_accueil"
-            android:paddingLeft="@dimen/padding_horizontal_accueil"
-            android:paddingTop="@dimen/padding_vertical_accueil"
-            android:paddingBottom="@dimen/padding_vertical_accueil"
-            android:layout_marginTop="55dp">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/imageDicoButton"
-                android:layout_width="@dimen/size_image_accueil"
-                android:layout_height="@dimen/size_image_accueil"
-                android:background="@drawable/baseline_local_library_24" />
-
-            <TextView
-                android:layout_width="match_parent"
+            <TableLayout
                 android:layout_height="wrap_content"
-                android:text="@string/titre_lien_alphabetique"
-                android:gravity="center"
-                android:theme="@style/text_button_accueil"/>
+                android:layout_width="match_parent">
 
-        </LinearLayout>
+                <TableRow
+                    android:gravity="center"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginBottom="25dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/DicoButton"
+                        android:paddingRight="30dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/CategorieButton"
-            android:layout_toRightOf="@id/DicoButton"
-            android:paddingRight="@dimen/padding_horizontal_accueil"
-            android:paddingLeft="@dimen/padding_horizontal_accueil"
-            android:paddingTop="@dimen/padding_vertical_accueil"
-            android:paddingBottom="@dimen/padding_vertical_accueil"
-            android:layout_marginTop="55dp">
+                        <ImageButton
+                            android:id="@+id/imageDicoButton"
+                            android:layout_width="@dimen/size_image_accueil"
+                            android:layout_height="@dimen/size_image_accueil"
+                            android:background="@drawable/baseline_local_library_24" />
 
-            <ImageButton
-                android:id="@+id/imageCategorieButton"
-                android:layout_width="@dimen/size_image_accueil"
-                android:layout_height="@dimen/size_image_accueil"
-                android:background="@drawable/baseline_view_list_24" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/titre_lien_alphabetique"
+                            android:gravity="center"
+                            android:theme="@style/text_button_accueil"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/titre_lien_categories"
-                android:gravity="center"
-                android:theme="@style/text_button_accueil"/>
+                    </LinearLayout>
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/CategorieButton"
+                        android:layout_gravity="center">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/SuggestionButton"
-            android:layout_below="@id/DicoButton"
-            android:paddingRight="@dimen/padding_horizontal_accueil"
-            android:paddingLeft="@dimen/padding_horizontal_accueil"
-            android:paddingTop="@dimen/padding_vertical_accueil"
-            android:paddingBottom="@dimen/padding_vertical_accueil">
+                        <ImageButton
+                            android:id="@+id/imageCategorieButton"
+                            android:layout_width="@dimen/size_image_accueil"
+                            android:layout_height="@dimen/size_image_accueil"
+                            android:background="@drawable/baseline_view_list_24" />
 
-            <ImageButton
-                android:id="@+id/imageSuggestionButton"
-                android:layout_width="@dimen/size_image_accueil"
-                android:layout_height="@dimen/size_image_accueil"
-                android:background="@drawable/baseline_create_24" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/titre_lien_categories"
+                            android:gravity="center"
+                            android:theme="@style/text_button_accueil"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/titre_lien_suggestions"
-                android:gravity="center"
-                android:theme="@style/text_button_accueil"/>
+                    </LinearLayout>
+                </TableRow>
 
-        </LinearLayout>
+                <TableRow
+                    android:gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="25dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/SuggestionButton"
+                        android:layout_gravity="center"
+                        android:paddingRight="30dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/BaseButton"
-            android:layout_below="@id/CategorieButton"
-            android:layout_toRightOf="@id/SuggestionButton"
-            android:paddingRight="@dimen/padding_horizontal_accueil"
-            android:paddingLeft="@dimen/padding_horizontal_accueil"
-            android:paddingTop="@dimen/padding_vertical_accueil"
-            android:paddingBottom="@dimen/padding_vertical_accueil">
+                        <ImageButton
+                            android:id="@+id/imageSuggestionButton"
+                            android:layout_width="@dimen/size_image_accueil"
+                            android:layout_height="@dimen/size_image_accueil"
+                            android:background="@drawable/baseline_create_24" />
 
-            <ImageButton
-                android:id="@+id/imageBaseButton"
-                android:layout_width="@dimen/size_image_accueil"
-                android:layout_height="@dimen/size_image_accueil"
-                android:background="@drawable/baseline_school_24" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/titre_lien_suggestions"
+                            android:gravity="center"
+                            android:theme="@style/text_button_accueil"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/titre_lien_bases"
-                android:gravity="center"
-                android:theme="@style/text_button_accueil"/>
+                    </LinearLayout>
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/BaseButton"
+                        android:layout_gravity="center">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/ParametreButton"
-            android:layout_below="@id/SuggestionButton"
-            android:paddingRight="@dimen/padding_horizontal_accueil"
-            android:paddingLeft="@dimen/padding_horizontal_accueil"
-            android:paddingTop="@dimen/padding_vertical_accueil"
-            android:paddingBottom="@dimen/padding_vertical_accueil">
+                        <ImageButton
+                            android:id="@+id/imageBaseButton"
+                            android:layout_width="@dimen/size_image_accueil"
+                            android:layout_height="@dimen/size_image_accueil"
+                            android:background="@drawable/baseline_school_24" />
 
-            <ImageButton
-                android:id="@+id/imageParametreButton"
-                android:layout_width="@dimen/size_image_accueil"
-                android:layout_height="@dimen/size_image_accueil"
-                android:background="@drawable/baseline_settings_24" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/titre_lien_bases"
+                            android:gravity="center"
+                            android:theme="@style/text_button_accueil"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/titre_lien_parametres"
-                android:gravity="center"
-                android:theme="@style/text_button_accueil"/>
+                    </LinearLayout>
+                </TableRow>
 
-        </LinearLayout>
+                <TableRow
+                    android:gravity="center"
+                    android:layout_marginTop="25dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/ParametreButton"
+                        android:layout_gravity="center"
+                        android:layout_column="1">
 
+                        <ImageButton
+                            android:id="@+id/imageParametreButton"
+                            android:layout_width="@dimen/size_image_accueil"
+                            android:layout_height="@dimen/size_image_accueil"
+                            android:background="@drawable/baseline_settings_24" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/titre_lien_parametres"
+                            android:gravity="center"
+                            android:theme="@style/text_button_accueil"/>
+
+                    </LinearLayout>
+                </TableRow>
+            </TableLayout>
+
+        </ScrollView>
 
 
     </RelativeLayout>
