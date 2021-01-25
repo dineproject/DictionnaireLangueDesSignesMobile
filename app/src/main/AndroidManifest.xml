@@ -9,7 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DictionnaireDeLangueDesSignes">
-        <activity android:name=".controller.activities.DictionnaireActivity"></activity>
+        <activity android:name=".controller.activities.ChargementActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".controller.activities.DictionnaireActivity" />
         <activity
             android:name=".controller.activities.VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -18,11 +25,7 @@
         <activity android:name=".controller.activities.CategoriesActivity" />
         <activity android:name=".controller.activities.AproposActivity" />
         <activity android:name=".controller.activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
