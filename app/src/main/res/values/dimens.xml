@@ -3,8 +3,25 @@
     <dimen name="nav_header_height">176dip</dimen>
     <dimen name="nav_width">290dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
     <dimen name="size_image_accueil">130dp</dimen>
+    <dimen name="size_image_accueil_land">104dp</dimen>
     <dimen name="size_image_accueil_h2200">100dp</dimen>
+
+    <dimen name="margin_below_toolbar_accueil">80dp</dimen>
+    <dimen name="margin_below_toolbar_accueil_land">54dp</dimen>
+    <dimen name="margin_below_toolbar_accueil_h2200">80dp</dimen>
+
+
+    <!--    moitié en haut et moitié en bas-->
+    <dimen name="margin_vertical_between_button_accueil_land">8dp</dimen>
+    <dimen name="margin_vertical_between_button_accueil">18dp</dimen>
+    <dimen name="margin_vertical_between_button_accueil_h2200">9dp</dimen>
+
+
+    <!--    que d'un coté-->
+    <dimen name="margin_horizontal_between_button_accueil">30dp</dimen>
+    <dimen name="margin_horizontal_between_button_accueil_h2200">10dp</dimen>
 
     <dimen name="padding_horizontal_accueil">35dp</dimen>
     <dimen name="padding_vertical_accueil">17dp</dimen>

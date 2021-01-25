@@ -28,8 +28,8 @@
 
                 <TableRow
                     android:gravity="center"
-                    android:layout_marginTop="@dimen/margin_below_toolbar_accueil"
-                    android:layout_marginBottom="25dp">
+                    android:layout_marginTop="@dimen/margin_below_toolbar_accueil_land"
+                    android:layout_marginBottom="@dimen/margin_vertical_between_button_accueil_land">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -39,15 +39,17 @@
 
                         <ImageButton
                             android:id="@+id/imageDicoButton"
-                            android:layout_width="@dimen/size_image_accueil"
-                            android:layout_height="@dimen/size_image_accueil"
+                            android:layout_width="@dimen/size_image_accueil_land"
+                            android:layout_height="@dimen/size_image_accueil_land"
+                            android:layout_gravity="center"
                             android:background="@drawable/baseline_local_library_24" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/size_image_accueil"
                             android:layout_height="wrap_content"
                             android:text="@string/titre_lien_alphabetique"
                             android:gravity="center"
+                            android:layout_gravity="center"
                             android:theme="@style/text_button_accueil"/>
 
                     </LinearLayout>
@@ -57,51 +59,56 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:id="@+id/CategorieButton"
-                        android:layout_gravity="center">
+                        android:layout_gravity="center"
+                        android:paddingRight="30dp">
 
                         <ImageButton
                             android:id="@+id/imageCategorieButton"
-                            android:layout_width="@dimen/size_image_accueil"
-                            android:layout_height="@dimen/size_image_accueil"
+                            android:layout_width="@dimen/size_image_accueil_land"
+                            android:layout_height="@dimen/size_image_accueil_land"
+                            android:layout_gravity="center"
                             android:background="@drawable/baseline_view_list_24" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/size_image_accueil"
                             android:layout_height="wrap_content"
                             android:text="@string/titre_lien_categories"
                             android:gravity="center"
+                            android:layout_gravity="center"
                             android:theme="@style/text_button_accueil"/>
 
                     </LinearLayout>
-                </TableRow>
 
-                <TableRow
-                    android:gravity="center"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginBottom="25dp">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:id="@+id/SuggestionButton"
-                        android:layout_gravity="center"
-                        android:paddingRight="30dp">
+                        android:layout_gravity="center">
 
                         <ImageButton
                             android:id="@+id/imageSuggestionButton"
-                            android:layout_width="@dimen/size_image_accueil"
-                            android:layout_height="@dimen/size_image_accueil"
+                            android:layout_width="@dimen/size_image_accueil_land"
+                            android:layout_height="@dimen/size_image_accueil_land"
+                            android:layout_gravity="center"
                             android:background="@drawable/baseline_create_24" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/size_image_accueil"
                             android:layout_height="wrap_content"
                             android:text="@string/titre_lien_suggestions"
                             android:gravity="center"
+                            android:layout_gravity="center"
                             android:theme="@style/text_button_accueil"/>
 
                     </LinearLayout>
 
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_vertical_between_button_accueil_land">
+                    
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -111,23 +118,21 @@
 
                         <ImageButton
                             android:id="@+id/imageBaseButton"
-                            android:layout_width="@dimen/size_image_accueil"
-                            android:layout_height="@dimen/size_image_accueil"
+                            android:layout_width="@dimen/size_image_accueil_land"
+                            android:layout_height="@dimen/size_image_accueil_land"
+                            android:layout_gravity="center"
                             android:background="@drawable/baseline_school_24" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/size_image_accueil"
                             android:layout_height="wrap_content"
                             android:text="@string/titre_lien_bases"
                             android:gravity="center"
+                            android:layout_gravity="center"
                             android:theme="@style/text_button_accueil"/>
 
                     </LinearLayout>
-                </TableRow>
 
-                <TableRow
-                    android:gravity="center"
-                    android:layout_marginTop="25dp">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -138,19 +143,23 @@
 
                         <ImageButton
                             android:id="@+id/imageParametreButton"
-                            android:layout_width="@dimen/size_image_accueil"
-                            android:layout_height="@dimen/size_image_accueil"
+                            android:layout_width="@dimen/size_image_accueil_land"
+                            android:layout_height="@dimen/size_image_accueil_land"
+                            android:layout_gravity="center"
                             android:background="@drawable/baseline_settings_24" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/size_image_accueil"
                             android:layout_height="wrap_content"
                             android:text="@string/titre_lien_parametres"
                             android:gravity="center"
+                            android:layout_gravity="center"
                             android:theme="@style/text_button_accueil"/>
 
                     </LinearLayout>
+
                 </TableRow>
+
             </TableLayout>
 
         </ScrollView>

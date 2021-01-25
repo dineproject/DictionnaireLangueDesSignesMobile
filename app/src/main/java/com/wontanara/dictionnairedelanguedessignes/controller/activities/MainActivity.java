@@ -19,6 +19,8 @@ import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+//    TODO: Faire la version petit écran
+
     protected DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
     protected Toolbar mToolbar;
