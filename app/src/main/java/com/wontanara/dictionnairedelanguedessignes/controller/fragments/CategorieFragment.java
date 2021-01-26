@@ -111,12 +111,13 @@ public class CategorieFragment extends BaseFragment {
                         Mot mMot = mAdapter.getMot(position);
                         Toast.makeText(getContext(), "Clic sur le mot : "+ mMot.getNom(), Toast.LENGTH_SHORT).show();
 
-//                        Permet de passer dans le bundle du framgent à lancer l'id du mot à afficher
+//                        Permet de passer dans le bundle du fragment à lancer l'id du mot à afficher
                         mMotFragment = new MotFragment();
                         Bundle bundle = new Bundle();
 //                        bundle.putInt("id-mot", mMot.getId()); // Pour quand les mots auront des ID
                         bundle.putInt("id-mot", position + 1);
                         bundle.putInt("id-categorie", mIdCategorie);
+                        bundle.putBoolean("liste-entiere", false);
                         mMotFragment.setArguments(bundle);
 
                         replaceFragment(mMotFragment, R.id.list_categories_frame_layout);

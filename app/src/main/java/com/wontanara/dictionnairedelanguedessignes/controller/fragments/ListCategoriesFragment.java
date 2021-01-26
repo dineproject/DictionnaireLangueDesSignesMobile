@@ -98,8 +98,7 @@ public class ListCategoriesFragment extends BaseFragment {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         Categorie mCategorie = mAdapter.getCategorie(position);
-                        Toast.makeText(getContext(), "Clic sur la categorie : "+mCategorie.getNom(), Toast.LENGTH_SHORT).show();
-
+                        
 //                        Permet de passer dans le bundle du framgent à lancer l'id de la catégorie à afficher
                         mCategorieFragment = new CategorieFragment();
                         Bundle bundle = new Bundle();

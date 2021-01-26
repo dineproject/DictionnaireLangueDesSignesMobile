@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.CategoriesActivity;
+import com.wontanara.dictionnairedelanguedessignes.controller.activities.DictionnaireActivity;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.VideoPlayerActivity;
 import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoriesListe;
 import com.wontanara.dictionnairedelanguedessignes.model.Mot;
+
+import java.util.List;
 
 
 public class MotFragment extends BaseFragment implements View.OnClickListener{
@@ -25,11 +28,13 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
     private static final String ARG_ID_MOT = "id-mot";
     private static final String ARG_ID_CATEGORIE = "id-categorie";
     public final static String EXTRA_MOT = "nom-mot";
+    public final static String ARG_LISTE = "liste-entiere";
     private int mIdMot;
     private int mIdCategorie;
     private Toolbar mToolbar;
     private Mot mMot;
     private Categorie mCategorie;
+    private boolean mListeEntiere;
 
     private TextView mTextViewTitre;
     private TextView mTextViewDefinition;
@@ -60,12 +65,17 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     protected void findElements(View view) {
-        this.mToolbar = ((CategoriesActivity) getActivity()).getToolbar();
         this.mTextViewTitre = (TextView) view.findViewById(R.id.titre_mot);
         this.mTextViewDefinition = (TextView) view.findViewById(R.id.definition_mot);
 
         // Temporaire
-        this.mMot = (new CategoriesListe()).getListeCategories().get(mIdCategorie - 1).getListeMots().get(mIdMot - 1);
+        if(mListeEntiere){
+            this.mToolbar = ((DictionnaireActivity) getActivity()).getToolbar();
+            this.mMot = (new CategoriesListe()).getAllMot().get(mIdMot - 1);
+        } else {
+            this.mToolbar = ((CategoriesActivity) getActivity()).getToolbar();
+            this.mMot = (new CategoriesListe()).getListeCategories().get(mIdCategorie - 1).getListeMots().get(mIdMot - 1);
+        }
 
     }
 
@@ -76,7 +86,10 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.mIdMot = getArguments().getInt(ARG_ID_MOT);
-            this.mIdCategorie = getArguments().getInt(ARG_ID_CATEGORIE);
+            this.mListeEntiere = getArguments().getBoolean(ARG_LISTE);
+            if(!mListeEntiere) {
+                this.mIdCategorie = getArguments().getInt(ARG_ID_CATEGORIE);
+            }
         }
     }
 
@@ -84,6 +97,7 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putInt(ARG_ID_MOT, this.mIdMot);
+        bundle.putBoolean(ARG_LISTE, this.mListeEntiere);
     }
 
     @Override
