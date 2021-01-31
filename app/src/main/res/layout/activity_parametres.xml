@@ -19,7 +19,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Button here -->
+        <Button
+            android:id="@+id/button_api_call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/api_call" />
+
+        <TextView
+            android:id="@+id/textView_api_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
 
     </LinearLayout>
 

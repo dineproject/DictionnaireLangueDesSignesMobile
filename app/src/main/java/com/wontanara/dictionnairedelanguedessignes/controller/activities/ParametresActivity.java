@@ -8,16 +8,31 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
 
-public class ParametresActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+import org.json.JSONObject;
+
+public class ParametresActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     protected DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
     public Toolbar mToolbar;
+
+    private Button mApiButton;
+    private TextView mText;
 
 //    ------ BASE METHODS ------
 
@@ -38,6 +53,7 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.mNavigationView.getMenu().getItem(4).setChecked(true);
+        this.configureOnClickListener();
 
     }
 
@@ -47,6 +63,8 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.parametres_activity_drawer_layout);
         this.mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+        this.mApiButton = (Button) findViewById(R.id.button_api_call);
+        this.mText = (TextView) findViewById(R.id.textView_api_result);
     }
 
 //    ------ OVERRIDE METHODS ------
@@ -97,6 +115,19 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         return true;
     }
 
+//    ---- Boutons ----
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_api_call:
+                this.testFunction();
+                break;
+            default:
+                break;
+        }
+    }
+
 //    ------ CONFIGURATION ------
 
     // Configure Drawer Layout
@@ -107,5 +138,27 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         toggle.syncState();
     }
 
+    private void configureOnClickListener(){
+        this.mApiButton.setOnClickListener(this);
+    }
+
+    private void testFunction(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://ea-perso.ovh/api/category";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("API Response", response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("API Error", error.toString());
+            }
+        });
+
+        queue.add(jsonObjectRequest);
+    }
 
 }
