@@ -25,11 +25,11 @@
             android:layout_height="wrap_content"
             android:text="@string/api_call" />
 
-        <TextView
-            android:id="@+id/textView_api_result"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="0px"
+            android:id="@+id/parameters_frame_layout"
+            android:layout_weight="80"/>
 
     </LinearLayout>
 

@@ -1,38 +1,37 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.activities;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.controller.fragments.DownloadableCategoryFragment;
 
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 public class ParametresActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     protected DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
     public Toolbar mToolbar;
+    protected DownloadableCategoryFragment mDownloadableCategoryFragment;
 
     private Button mApiButton;
-    private TextView mText;
 
 //    ------ BASE METHODS ------
 
@@ -53,6 +52,7 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.mNavigationView.getMenu().getItem(4).setChecked(true);
+        this.configureAndShowListCategoriesFragment();
         this.configureOnClickListener();
 
     }
@@ -64,7 +64,6 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.parametres_activity_drawer_layout);
         this.mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         this.mApiButton = (Button) findViewById(R.id.button_api_call);
-        this.mText = (TextView) findViewById(R.id.textView_api_result);
     }
 
 //    ------ OVERRIDE METHODS ------
@@ -146,19 +145,26 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://ea-perso.ovh/api/category";
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
-                Log.d("API Response", response.toString());
+            public void onResponse(JSONArray response) {
+                // TODO: Create list of downloadable categories
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("API Error", error.toString());
-            }
+            public void onErrorResponse(VolleyError error) {  }
         });
 
-        queue.add(jsonObjectRequest);
+        queue.add(jsonArrayRequest);
     }
 
+//    ---- Fragment ----
+    private void configureAndShowListCategoriesFragment(){
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.parameters_frame_layout);
+
+        if (fragment == null) {
+            mDownloadableCategoryFragment = new DownloadableCategoryFragment();
+            this.showFragment(mDownloadableCategoryFragment, R.id.parameters_frame_layout);
+        }
+    }
 }
