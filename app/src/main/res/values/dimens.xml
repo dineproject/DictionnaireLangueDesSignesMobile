@@ -3,6 +3,7 @@
     <dimen name="nav_header_height">176dip</dimen>
     <dimen name="nav_width">290dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_size">16sp</dimen>
 
     <dimen name="size_image_accueil">130dp</dimen>
     <dimen name="size_image_accueil_land">104dp</dimen>

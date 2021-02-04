@@ -12,6 +12,12 @@
 
     <string name="api_call">Appeler API</string>
 
+    <plurals name="word_count">
+        <item quantity="zero">Pas de mot</item>
+        <item quantity="one">1 mot</item>
+        <item quantity="other">%1$d mots</item>
+    </plurals>
+
     <string name="description_navigation_drawer_open">Open Navigation drawer</string>
     <string name="description_navigation_drawer_close">Close navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->

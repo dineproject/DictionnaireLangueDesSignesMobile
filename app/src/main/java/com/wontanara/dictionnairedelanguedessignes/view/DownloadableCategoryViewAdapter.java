@@ -33,7 +33,8 @@ public class DownloadableCategoryViewAdapter extends RecyclerView.Adapter<Downlo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Update RecyclerView with data from the list
         holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position).name);
+        holder.mCategoryName.setText(mValues.get(position).name);
+        holder.mCategoryWordCount.setText(holder.mView.getContext().getResources().getQuantityString(R.plurals.word_count, mValues.get(position).word_count, mValues.get(position).word_count));
     }
 
     @Override
@@ -44,18 +45,20 @@ public class DownloadableCategoryViewAdapter extends RecyclerView.Adapter<Downlo
     //    Visually represents each elements
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mContentView;
+        public final TextView mCategoryName;
+        public final TextView mCategoryWordCount;
         public DownloadableCategory mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.downloadable_category_name);
+            mCategoryName = (TextView) view.findViewById(R.id.downloadable_category_name);
+            mCategoryWordCount = (TextView) view.findViewById(R.id.downloadable_category_word_count);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mCategoryName.getText() + "'";
         }
     }
 }
