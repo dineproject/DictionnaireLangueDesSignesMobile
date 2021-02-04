@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -133,7 +134,9 @@ public class DownloadableCategoryFragment extends BaseFragment {
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {  }
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Impossible de récupérer les catégories", Toast.LENGTH_LONG).show();
+            }
         });
 
         queue.add(jsonArrayRequest);
