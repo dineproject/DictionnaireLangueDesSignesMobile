@@ -7,22 +7,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.fragments.DownloadableCategoryFragment;
-
-import org.json.JSONArray;
 
 public class ParametresActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -31,7 +21,6 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
     public Toolbar mToolbar;
     protected DownloadableCategoryFragment mDownloadableCategoryFragment;
 
-    private Button mApiButton;
 
 //    ------ BASE METHODS ------
 
@@ -53,7 +42,6 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         this.configureNavigationView();
         this.mNavigationView.getMenu().getItem(4).setChecked(true);
         this.configureAndShowListCategoriesFragment();
-        this.configureOnClickListener();
 
     }
 
@@ -63,7 +51,6 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.parametres_activity_drawer_layout);
         this.mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        this.mApiButton = (Button) findViewById(R.id.button_api_call);
     }
 
 //    ------ OVERRIDE METHODS ------
@@ -118,13 +105,7 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_api_call:
-                this.testFunction();
-                break;
-            default:
-                break;
-        }
+
     }
 
 //    ------ CONFIGURATION ------
@@ -137,26 +118,6 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         toggle.syncState();
     }
 
-    private void configureOnClickListener(){
-        this.mApiButton.setOnClickListener(this);
-    }
-
-    private void testFunction(){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://ea-perso.ovh/api/category";
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                // TODO: Create list of downloadable categories
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {  }
-        });
-
-        queue.add(jsonArrayRequest);
-    }
 
 //    ---- Fragment ----
     private void configureAndShowListCategoriesFragment(){
