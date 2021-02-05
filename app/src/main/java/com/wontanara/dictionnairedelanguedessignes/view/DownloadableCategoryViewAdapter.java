@@ -42,6 +42,8 @@ public class DownloadableCategoryViewAdapter extends RecyclerView.Adapter<Downlo
         return mValues.size();
     }
 
+    public DownloadableCategory getDownloadableCategory(int position) { return this.mValues.get(position); }
+
     //    Visually represents each elements
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;

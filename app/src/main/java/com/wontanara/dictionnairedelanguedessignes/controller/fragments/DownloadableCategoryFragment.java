@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,7 +104,10 @@ public class DownloadableCategoryFragment extends BaseFragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
+                        // TODO: Show Dialog
+                        FragmentManager fm = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                        DownloadCategoryDialogFragment dialog = new DownloadCategoryDialogFragment(mAdapter.getDownloadableCategory(position));
+                        dialog.show(fm, "downloadDialog");
                     }
                 });
     }

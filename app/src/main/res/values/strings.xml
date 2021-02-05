@@ -10,7 +10,9 @@
     <string name="titre_lien_parametres">Paramètres</string>
     <string name="titre_lien_apropos">A propos</string>
 
-    <string name="api_call">Appeler API</string>
+    <string name="download_category">Télécharger la catégorie %1$s ?</string>
+    <string name="download">Télécharger</string>
+    <string name="cancel">Annuler</string>
 
     <plurals name="word_count">
         <item quantity="zero">Pas de mot</item>
