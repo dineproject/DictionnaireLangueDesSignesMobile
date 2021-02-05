@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +19,14 @@ import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.CategoriesActivity;
 import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoriesListe;
+import com.wontanara.dictionnairedelanguedessignes.model.Category;
+import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.model.Mot;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
 import com.wontanara.dictionnairedelanguedessignes.view.MyCategorieRecyclerViewAdapter;
 import com.wontanara.dictionnairedelanguedessignes.view.MyListCategoriesRecyclerViewAdapter;
+
+import java.util.Objects;
 
 
 public class CategorieFragment extends BaseFragment {
@@ -34,6 +39,8 @@ public class CategorieFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private MyCategorieRecyclerViewAdapter mAdapter;
     private MotFragment mMotFragment;
+
+    private CategoryViewModel mCategoryViewModel;
 
 
     public CategorieFragment() {
@@ -63,8 +70,8 @@ public class CategorieFragment extends BaseFragment {
     protected void findElements(View view) {
         this.mToolbar = ((CategoriesActivity) getActivity()).getToolbar();
 
-        // Temporaire
-        this.mCategorie = (new CategoriesListe()).getListeCategories().get(mIdCategorie - 1);
+        Category cat = Objects.requireNonNull(mCategoryViewModel.getAllCategories().getValue()).get(mIdCategorie);
+        mCategorie = new Categorie(cat.getName());
 
     }
 
@@ -76,6 +83,7 @@ public class CategorieFragment extends BaseFragment {
         if (getArguments() != null) {
             this.mIdCategorie = getArguments().getInt(ARG_ID_CATEGORIE);
         }
+        mCategoryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(CategoryViewModel.class);
     }
 
     @Override

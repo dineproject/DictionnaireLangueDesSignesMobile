@@ -3,6 +3,7 @@ package com.wontanara.dictionnairedelanguedessignes.controller.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +15,13 @@ import android.widget.Toast;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoriesListe;
+import com.wontanara.dictionnairedelanguedessignes.model.Category;
+import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
+import com.wontanara.dictionnairedelanguedessignes.view.CategoryViewAdapter;
 import com.wontanara.dictionnairedelanguedessignes.view.MyListCategoriesRecyclerViewAdapter;
+
+import java.util.Objects;
 
 
 public class ListCategoriesFragment extends BaseFragment {
@@ -24,8 +30,11 @@ public class ListCategoriesFragment extends BaseFragment {
     private int mColumnCount = 1;
 
     protected RecyclerView mRecyclerView;
-    protected MyListCategoriesRecyclerViewAdapter mAdapter;
+//    protected MyListCategoriesRecyclerViewAdapter mAdapter;
+    protected CategoryViewAdapter mAdapter;
     protected CategorieFragment mCategorieFragment;
+
+    private CategoryViewModel mCategoryViewModel;
 
     public ListCategoriesFragment() {
     }
@@ -65,6 +74,7 @@ public class ListCategoriesFragment extends BaseFragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        mCategoryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(CategoryViewModel.class);
     }
 
 //    @Override
@@ -86,9 +96,13 @@ public class ListCategoriesFragment extends BaseFragment {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            CategoriesListe listeDeCategories = new CategoriesListe();
-            mAdapter = new MyListCategoriesRecyclerViewAdapter(listeDeCategories.getListeCategories());
+//            CategoriesListe listeDeCategories = new CategoriesListe();
+//            mAdapter = new MyListCategoriesRecyclerViewAdapter(listeDeCategories.getListeCategories());
+            mAdapter = new CategoryViewAdapter(new CategoryViewAdapter.CategoryDiff());
             mRecyclerView.setAdapter(this.mAdapter);
+            mCategoryViewModel.getAllCategories().observe(this, categories -> {
+                mAdapter.submitList(categories);
+            });
         }
     }
 
@@ -97,12 +111,20 @@ public class ListCategoriesFragment extends BaseFragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Categorie mCategorie = mAdapter.getCategorie(position);
-                        
+//                        Categorie mCategorie = mAdapter.getCategorie(position);
+//
+////                        Permet de passer dans le bundle du framgent à lancer l'id de la catégorie à afficher
+//                        mCategorieFragment = new CategorieFragment();
+//                        Bundle bundle = new Bundle();
+//                        bundle.putInt("id-categorie", mCategorie.getId());
+//                        mCategorieFragment.setArguments(bundle);
+//
+//                        replaceFragment(mCategorieFragment, R.id.list_categories_frame_layout);
+
 //                        Permet de passer dans le bundle du framgent à lancer l'id de la catégorie à afficher
                         mCategorieFragment = new CategorieFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putInt("id-categorie", mCategorie.getId());
+                        bundle.putInt("id-categorie", position);
                         mCategorieFragment.setArguments(bundle);
 
                         replaceFragment(mCategorieFragment, R.id.list_categories_frame_layout);
