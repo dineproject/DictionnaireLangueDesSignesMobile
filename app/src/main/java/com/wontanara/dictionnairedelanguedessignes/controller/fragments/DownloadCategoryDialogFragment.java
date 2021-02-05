@@ -11,20 +11,23 @@ import androidx.fragment.app.DialogFragment;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.model.DownloadableCategory;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DownloadCategoryDialogFragment extends DialogFragment {
 
-    private DownloadableCategory mCategory;
+    private final DownloadableCategory mCategory;
 
     public DownloadCategoryDialogFragment(DownloadableCategory category) {
         super();
         this.mCategory = category;
     }
 
+    @NotNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(getString(R.string.download_category, mCategory.name))
+        builder.setTitle(getString(R.string.download_category, mCategory.name))
+                .setMessage(getString(R.string.download_category_approcimated_size, mCategory.word_count * 0.7))
                 .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getContext(), "Catégorie doit être téléchargée", Toast.LENGTH_LONG).show();

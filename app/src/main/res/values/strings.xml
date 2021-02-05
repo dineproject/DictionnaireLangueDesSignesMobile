@@ -11,6 +11,7 @@
     <string name="titre_lien_apropos">A propos</string>
 
     <string name="download_category">Télécharger la catégorie %1$s ?</string>
+    <string name="download_category_approcimated_size">Le téléchargement est d\'environ %1$.1f Mo.</string>
     <string name="download">Télécharger</string>
     <string name="cancel">Annuler</string>
 
