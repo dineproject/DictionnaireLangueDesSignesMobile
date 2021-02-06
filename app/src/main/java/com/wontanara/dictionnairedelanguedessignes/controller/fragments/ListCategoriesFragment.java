@@ -8,18 +8,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
-import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
-import com.wontanara.dictionnairedelanguedessignes.model.CategoriesListe;
-import com.wontanara.dictionnairedelanguedessignes.model.Category;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
 import com.wontanara.dictionnairedelanguedessignes.view.CategoryViewAdapter;
-import com.wontanara.dictionnairedelanguedessignes.view.MyListCategoriesRecyclerViewAdapter;
 
 import java.util.Objects;
 
@@ -30,7 +24,6 @@ public class ListCategoriesFragment extends BaseFragment {
     private int mColumnCount = 1;
 
     protected RecyclerView mRecyclerView;
-//    protected MyListCategoriesRecyclerViewAdapter mAdapter;
     protected CategoryViewAdapter mAdapter;
     protected CategorieFragment mCategorieFragment;
 
@@ -100,36 +93,20 @@ public class ListCategoriesFragment extends BaseFragment {
 //            mAdapter = new MyListCategoriesRecyclerViewAdapter(listeDeCategories.getListeCategories());
             mAdapter = new CategoryViewAdapter(new CategoryViewAdapter.CategoryDiff());
             mRecyclerView.setAdapter(this.mAdapter);
-            mCategoryViewModel.getAllCategories().observe(this, categories -> {
-                mAdapter.submitList(categories);
-            });
+            mCategoryViewModel.getAllCategories().observe(this, categories -> mAdapter.submitList(categories));
         }
     }
 
     protected void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_categories_in_list)
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-//                        Categorie mCategorie = mAdapter.getCategorie(position);
-//
-////                        Permet de passer dans le bundle du framgent à lancer l'id de la catégorie à afficher
-//                        mCategorieFragment = new CategorieFragment();
-//                        Bundle bundle = new Bundle();
-//                        bundle.putInt("id-categorie", mCategorie.getId());
-//                        mCategorieFragment.setArguments(bundle);
-//
-//                        replaceFragment(mCategorieFragment, R.id.list_categories_frame_layout);
-
+                .setOnItemClickListener((recyclerView, position, v) -> {
 //                        Permet de passer dans le bundle du framgent à lancer l'id de la catégorie à afficher
-                        mCategorieFragment = new CategorieFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("id-categorie", position);
-                        mCategorieFragment.setArguments(bundle);
+                    mCategorieFragment = new CategorieFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id-categorie", position);
+                    mCategorieFragment.setArguments(bundle);
 
-                        replaceFragment(mCategorieFragment, R.id.list_categories_frame_layout);
-
-                    }
+                    replaceFragment(mCategorieFragment, R.id.list_categories_frame_layout);
                 });
     }
 }
