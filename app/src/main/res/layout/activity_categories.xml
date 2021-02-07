@@ -19,14 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:text="Joli test !"
-            android:layout_weight="10"/>
-
         <FrameLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:id="@+id/list_categories_frame_layout"

@@ -7,7 +7,5 @@
     android:layout_height="match_parent"
     tools:context=".controller.fragments.CategoryFragment"
     android:name="com.wontanara.dictionnairedelanguedessignes.controller.fragments.CategorieFragment"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:listitem="@layout/fragment_categorie_in_list" />
