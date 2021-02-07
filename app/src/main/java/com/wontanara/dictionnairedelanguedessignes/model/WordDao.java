@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface WordDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Word word);
 
     @Query("SELECT * FROM word_table ORDER BY name ASC")

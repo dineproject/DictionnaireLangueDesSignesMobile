@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface CategoryDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Category category);
 
     @Query("SELECT * FROM category_table ORDER BY name ASC")

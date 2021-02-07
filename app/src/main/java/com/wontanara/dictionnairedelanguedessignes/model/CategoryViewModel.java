@@ -24,4 +24,6 @@ public class CategoryViewModel extends AndroidViewModel {
     public LiveData<CategoryWithWords> getCategoryWithWords(int id) { return mRepository.getCategoryWithWords(id); }
 
     public void insert(Category category) { mRepository.insert(category); }
+
+    public void insert(CategoryWithWords categoryWithWords) { mRepository.insert(categoryWithWords); }
 }

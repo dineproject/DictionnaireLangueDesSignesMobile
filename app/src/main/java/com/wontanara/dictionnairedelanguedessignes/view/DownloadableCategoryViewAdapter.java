@@ -1,66 +1,48 @@
 package com.wontanara.dictionnairedelanguedessignes.view;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 
-import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.model.DownloadableCategory;
 
-import java.util.List;
+public class DownloadableCategoryViewAdapter extends ListAdapter<DownloadableCategory, DownloadableCategoryViewHolder> {
 
-public class DownloadableCategoryViewAdapter extends RecyclerView.Adapter<DownloadableCategoryViewAdapter.ViewHolder> {
-
-    private final List<DownloadableCategory> mValues;
-
-    public DownloadableCategoryViewAdapter(List<DownloadableCategory> items) {
-        mValues = items;
+    public DownloadableCategoryViewAdapter(@NonNull DiffUtil.ItemCallback<DownloadableCategory> diffCallback) {
+        super(diffCallback);
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_downloadable_category_item, parent, false);
-        return new DownloadableCategoryViewAdapter.ViewHolder(view);
+    public DownloadableCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return DownloadableCategoryViewHolder.create(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Update RecyclerView with data from the list
-        holder.mItem = mValues.get(position);
-        holder.mCategoryName.setText(mValues.get(position).name);
-        holder.mCategoryWordCount.setText(holder.mView.getContext().getResources().getQuantityString(R.plurals.word_count, mValues.get(position).word_count, mValues.get(position).word_count));
+    public void onBindViewHolder(@NonNull DownloadableCategoryViewHolder holder, int position) {
+        DownloadableCategory current = getItem(position);
+        holder.bind(current);
     }
 
-    @Override
-    public int getItemCount() {
-        return mValues.size();
-    }
+    public static class DownloadableCategoryDiff extends DiffUtil.ItemCallback<DownloadableCategory> {
 
-    public DownloadableCategory getDownloadableCategory(int position) { return this.mValues.get(position); }
-
-    //    Visually represents each elements
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mCategoryName;
-        public final TextView mCategoryWordCount;
-        public DownloadableCategory mItem;
-
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-            mCategoryName = (TextView) view.findViewById(R.id.downloadable_category_name);
-            mCategoryWordCount = (TextView) view.findViewById(R.id.downloadable_category_word_count);
+        @Override
+        public boolean areItemsTheSame(@NonNull DownloadableCategory oldItem, @NonNull DownloadableCategory newItem) {
+            return oldItem == newItem;
         }
 
         @Override
-        public String toString() {
-            return super.toString() + " '" + mCategoryName.getText() + "'";
+        public boolean areContentsTheSame(@NonNull DownloadableCategory oldItem, @NonNull DownloadableCategory newItem) {
+            return oldItem.getId() == newItem.getId()
+                    && oldItem.getName().equals(newItem.getName())
+                    && oldItem.getUpdated_at().equals(newItem.getUpdated_at())
+                    && oldItem.getWord_count() == newItem.getWord_count();
         }
+    }
+
+    public DownloadableCategory getDownloadableCategory(int position) {
+        return this.getItem(position);
     }
 }

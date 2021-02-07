@@ -12,41 +12,25 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.wontanara.dictionnairedelanguedessignes.R;
-import com.wontanara.dictionnairedelanguedessignes.model.Category;
+import com.wontanara.dictionnairedelanguedessignes.model.ApiViewModel;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.model.DownloadableCategory;
-import com.wontanara.dictionnairedelanguedessignes.model.Word;
-import com.wontanara.dictionnairedelanguedessignes.model.WordViewModel;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
 import com.wontanara.dictionnairedelanguedessignes.view.DownloadableCategoryViewAdapter;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Objects;
 
 public class DownloadableCategoryFragment extends BaseFragment implements DownloadCategoryDialogFragment.DownloadCategoryDialogListener {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
-    private ArrayList<DownloadableCategory> mDownloadableCategoryList;
 
     protected RecyclerView mRecyclerView;
     protected DownloadableCategoryViewAdapter mAdapter;
 
     private CategoryViewModel mCategoryViewModel;
-    private WordViewModel mWordViewModel;
+    private ApiViewModel mApiViewModel;
 
     public DownloadableCategoryFragment() {
     }
@@ -68,7 +52,6 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
     protected void configureDesign(View view) {
         this.configureRecyclerView(view);
         this.configureOnClickRecyclerView();
-        this.getCategories();
     }
 
     @Override
@@ -84,7 +67,7 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
         mCategoryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(CategoryViewModel.class);
-        mWordViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(WordViewModel.class);
+        mApiViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(ApiViewModel.class);
     }
 
 //    ------ CONFIGURATION ------
@@ -100,9 +83,21 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            this.mDownloadableCategoryList = new ArrayList<>();
-            mAdapter = new DownloadableCategoryViewAdapter(this.mDownloadableCategoryList);
+            mAdapter = new DownloadableCategoryViewAdapter(new DownloadableCategoryViewAdapter.DownloadableCategoryDiff());
             mRecyclerView.setAdapter(this.mAdapter);
+
+            mApiViewModel.getAllDownloadableCategories().observe(this, downloadableCategories -> {
+                switch (downloadableCategories.status) {
+                    case SUCCESS:
+                        mAdapter.submitList(downloadableCategories.data);
+                        break;
+                    case LOADING:
+                        break;
+                    case ERROR:
+                        Toast.makeText(getContext(), "Impossible de récupérer les catégories", Toast.LENGTH_LONG).show();
+                }
+
+            });
         }
     }
 
@@ -116,62 +111,21 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
                 });
     }
 
-    private void getCategories(){
-        RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()).getApplicationContext());
-        String url = "http://ea-perso.ovh/api/category";
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
-            for (int i = 0 ; i < response.length() ; i++) {
-                JSONObject obj;
-                try {
-                    obj = response.getJSONObject(i);int id = obj.getInt("id");
-                    String name = obj.getString("name");
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'", Locale.FRANCE);
-                    GregorianCalendar updated_at = new GregorianCalendar();
-                    updated_at.setTime(Objects.requireNonNull(dateFormat.parse(obj.getString("updated_at"))));
-                    int word_count = obj.getInt("word_count");
-                    DownloadableCategory category = new DownloadableCategory(id, name, updated_at, word_count);
-                    mDownloadableCategoryList.add(category);
-                } catch (JSONException | ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            mAdapter.notifyDataSetChanged();
-        }, error -> Toast.makeText(getContext(), "Impossible de récupérer les catégories", Toast.LENGTH_LONG).show());
-
-        queue.add(jsonArrayRequest);
-    }
-
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, DownloadableCategory downloadableCategory) {
-        Category category = new Category(downloadableCategory.getId(), downloadableCategory.getName(), downloadableCategory.getUpdated_at());
-
-        RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()).getApplicationContext());
-        String url = "http://ea-perso.ovh/api/category/" + category.getId() + "/word";
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
-            for (int i = 0 ; i < response.length() ; i++) {
-                JSONObject obj;
-                try {
-                    obj = response.getJSONObject(i);
-                    int id = obj.getInt("id");
-                    String name = obj.getString("name");
-                    String description = obj.getString("description");
-                    int category_id = obj.getInt("category_id");
-                    Word word = new Word(id, name, description, category_id);
-                    mWordViewModel.insert(word);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        mApiViewModel.downloadCategory(downloadableCategory).observe(this, categoryWithWords -> {
+            switch (categoryWithWords.status) {
+                case SUCCESS:
+                    mCategoryViewModel.insert(categoryWithWords.data);
+                    Toast.makeText(getContext(), "Catégorie téléchargée", Toast.LENGTH_LONG).show();
+                    break;
+                case LOADING:
+                    break;
+                case ERROR:
+                    Toast.makeText(getContext(), "Impossible de récupérer la catégorie", Toast.LENGTH_LONG).show();
             }
-            mCategoryViewModel.insert(category);
-            Toast.makeText(getContext(), "Catégorie téléchargée", Toast.LENGTH_LONG).show();
-        }, error -> {
-            error.printStackTrace();
-            Toast.makeText(getContext(), "Impossible de récupérer la catégorie", Toast.LENGTH_LONG).show();
-        });
 
-        queue.add(jsonArrayRequest);
+        });
     }
 
     @Override

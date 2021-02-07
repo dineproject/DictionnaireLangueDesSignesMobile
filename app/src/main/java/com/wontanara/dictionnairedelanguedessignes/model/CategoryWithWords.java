@@ -12,4 +12,9 @@ public class CategoryWithWords {
             entityColumn = "category_id"
     )
     public List<Word> words;
+
+    public CategoryWithWords(Category category, List<Word> words) {
+        this.category = category;
+        this.words = words;
+    }
 }
