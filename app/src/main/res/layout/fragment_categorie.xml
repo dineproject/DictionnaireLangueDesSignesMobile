@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.fragments.CategorieFragment"
+    tools:context=".controller.fragments.CategoryFragment"
     android:name="com.wontanara.dictionnairedelanguedessignes.controller.fragments.CategorieFragment"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"

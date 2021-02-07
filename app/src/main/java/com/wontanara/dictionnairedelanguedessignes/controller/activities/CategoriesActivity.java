@@ -1,32 +1,24 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.activities;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
-import com.wontanara.dictionnairedelanguedessignes.controller.fragments.CategorieFragment;
-import com.wontanara.dictionnairedelanguedessignes.controller.fragments.ListCategoriesFragment;
-import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
-import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
+import com.wontanara.dictionnairedelanguedessignes.controller.fragments.CategoriesFragment;
 
 public class CategoriesActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     protected DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
     public Toolbar mToolbar;
-    protected ListCategoriesFragment mListCategoriesFragment;
+    protected CategoriesFragment mCategoriesFragment;
 
 //    ------ BASE METHODS ------
 
@@ -131,8 +123,8 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.list_categories_frame_layout);
 
         if (fragment == null) {
-            mListCategoriesFragment = new ListCategoriesFragment();
-            this.showFragment(mListCategoriesFragment, R.id.list_categories_frame_layout);
+            mCategoriesFragment = new CategoriesFragment();
+            this.showFragment(mCategoriesFragment, R.id.list_categories_frame_layout);
         }
     }
 

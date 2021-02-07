@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CategoryViewModel extends AndroidViewModel {
 
-    private CategoryRepository mRepository;
+    private final CategoryRepository mRepository;
 
     private final LiveData<List<Category>> mAllCategories;
 
@@ -20,6 +20,8 @@ public class CategoryViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Category>> getAllCategories() { return mAllCategories; }
+
+    public LiveData<CategoryWithWords> getCategoryWithWords(int id) { return mRepository.getCategoryWithWords(id); }
 
     public void insert(Category category) { mRepository.insert(category); }
 }

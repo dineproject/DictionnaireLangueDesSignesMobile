@@ -20,6 +20,8 @@ import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.model.Category;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.model.DownloadableCategory;
+import com.wontanara.dictionnairedelanguedessignes.model.Word;
+import com.wontanara.dictionnairedelanguedessignes.model.WordViewModel;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
 import com.wontanara.dictionnairedelanguedessignes.view.DownloadableCategoryViewAdapter;
 
@@ -44,6 +46,7 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
     protected DownloadableCategoryViewAdapter mAdapter;
 
     private CategoryViewModel mCategoryViewModel;
+    private WordViewModel mWordViewModel;
 
     public DownloadableCategoryFragment() {
     }
@@ -81,6 +84,7 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
         mCategoryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(CategoryViewModel.class);
+        mWordViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(WordViewModel.class);
     }
 
 //    ------ CONFIGURATION ------
@@ -141,7 +145,33 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, DownloadableCategory downloadableCategory) {
         Category category = new Category(downloadableCategory.getId(), downloadableCategory.getName(), downloadableCategory.getUpdated_at());
-        mCategoryViewModel.insert(category);
+
+        RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()).getApplicationContext());
+        String url = "http://ea-perso.ovh/api/category/" + category.getId() + "/word";
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
+            for (int i = 0 ; i < response.length() ; i++) {
+                JSONObject obj;
+                try {
+                    obj = response.getJSONObject(i);
+                    int id = obj.getInt("id");
+                    String name = obj.getString("name");
+                    String description = obj.getString("description");
+                    int category_id = obj.getInt("category_id");
+                    Word word = new Word(id, name, description, category_id);
+                    mWordViewModel.insert(word);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            mCategoryViewModel.insert(category);
+            Toast.makeText(getContext(), "Catégorie téléchargée", Toast.LENGTH_LONG).show();
+        }, error -> {
+            error.printStackTrace();
+            Toast.makeText(getContext(), "Impossible de récupérer la catégorie", Toast.LENGTH_LONG).show();
+        });
+
+        queue.add(jsonArrayRequest);
     }
 
     @Override

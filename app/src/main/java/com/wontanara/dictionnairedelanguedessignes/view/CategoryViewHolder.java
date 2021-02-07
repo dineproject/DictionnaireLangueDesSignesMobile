@@ -12,9 +12,9 @@ import com.wontanara.dictionnairedelanguedessignes.R;
 public class CategoryViewHolder extends RecyclerView.ViewHolder {
     private final TextView categoryTextView;
 
-    private CategoryViewHolder(View itemVew) {
-        super(itemVew);
-        categoryTextView = itemVew.findViewById(R.id.content);
+    private CategoryViewHolder(View itemView) {
+        super(itemView);
+        categoryTextView = itemView.findViewById(R.id.content);
     }
 
     public void bind(String text) {

@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
@@ -14,9 +15,10 @@ public interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Category category);
 
-    @Query("DELETE FROM category_table")
-    void deleteAll();
-
     @Query("SELECT * FROM category_table ORDER BY name ASC")
     LiveData<List<Category>> getAlphabetizedCategories();
+
+    @Transaction
+    @Query("SELECT * FROM category_table WHERE id = :id")
+    LiveData<CategoryWithWords> getCategoryWithWords(int id);
 }

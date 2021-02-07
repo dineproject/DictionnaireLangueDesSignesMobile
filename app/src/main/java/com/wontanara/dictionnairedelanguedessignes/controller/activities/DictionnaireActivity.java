@@ -1,20 +1,17 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.activities;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.fragments.DictionnaireFragment;
-import com.wontanara.dictionnairedelanguedessignes.controller.fragments.ListCategoriesFragment;
 
 public class DictionnaireActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 

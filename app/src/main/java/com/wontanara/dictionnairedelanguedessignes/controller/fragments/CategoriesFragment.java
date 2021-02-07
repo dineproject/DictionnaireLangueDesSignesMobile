@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.model.Category;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
 import com.wontanara.dictionnairedelanguedessignes.view.CategoryViewAdapter;
@@ -18,18 +19,18 @@ import com.wontanara.dictionnairedelanguedessignes.view.CategoryViewAdapter;
 import java.util.Objects;
 
 
-public class ListCategoriesFragment extends BaseFragment {
+public class CategoriesFragment extends BaseFragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
 
     protected RecyclerView mRecyclerView;
     protected CategoryViewAdapter mAdapter;
-    protected CategorieFragment mCategorieFragment;
+    protected CategoryFragment mCategoryFragment;
 
     private CategoryViewModel mCategoryViewModel;
 
-    public ListCategoriesFragment() {
+    public CategoriesFragment() {
     }
 
 
@@ -37,7 +38,7 @@ public class ListCategoriesFragment extends BaseFragment {
 
     @Override
     protected BaseFragment newInstance() {
-        ListCategoriesFragment fragment = new ListCategoriesFragment();
+        CategoriesFragment fragment = new CategoriesFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, mColumnCount);
         fragment.setArguments(args);
@@ -89,8 +90,6 @@ public class ListCategoriesFragment extends BaseFragment {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-//            CategoriesListe listeDeCategories = new CategoriesListe();
-//            mAdapter = new MyListCategoriesRecyclerViewAdapter(listeDeCategories.getListeCategories());
             mAdapter = new CategoryViewAdapter(new CategoryViewAdapter.CategoryDiff());
             mRecyclerView.setAdapter(this.mAdapter);
             mCategoryViewModel.getAllCategories().observe(this, categories -> mAdapter.submitList(categories));
@@ -101,12 +100,13 @@ public class ListCategoriesFragment extends BaseFragment {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_categories_in_list)
                 .setOnItemClickListener((recyclerView, position, v) -> {
 //                        Permet de passer dans le bundle du framgent à lancer l'id de la catégorie à afficher
-                    mCategorieFragment = new CategorieFragment();
+                    Category category = mAdapter.getCategory(position);
+                    mCategoryFragment = new CategoryFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("id-categorie", position);
-                    mCategorieFragment.setArguments(bundle);
+                    bundle.putInt("id-category", category.getId());
+                    mCategoryFragment.setArguments(bundle);
 
-                    replaceFragment(mCategorieFragment, R.id.list_categories_frame_layout);
+                    replaceFragment(mCategoryFragment, R.id.list_categories_frame_layout);
                 });
     }
 }
