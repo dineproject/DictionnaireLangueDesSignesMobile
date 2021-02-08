@@ -3,7 +3,6 @@ package com.wontanara.dictionnairedelanguedessignes.controller.activities;
 import android.annotation.SuppressLint;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
@@ -13,17 +12,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowInsetsAnimation;
-import android.view.WindowInsetsController;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
-import com.wontanara.dictionnairedelanguedessignes.controller.fragments.MotFragment;
+import com.wontanara.dictionnairedelanguedessignes.controller.fragments.WordFragment;
 import com.wontanara.dictionnairedelanguedessignes.controller.fragments.VideoPlayerFragment;
 
-import static androidx.core.view.WindowInsetsCompat.Type.captionBar;
 import static androidx.core.view.WindowInsetsCompat.Type.navigationBars;
 import static androidx.core.view.WindowInsetsCompat.Type.systemBars;
 
@@ -171,7 +165,7 @@ public class VideoPlayerActivity extends BaseActivity {
     }
 
     private void configureTitle() {
-        String mot = getIntent().getStringExtra(MotFragment.EXTRA_MOT);
+        String mot = getIntent().getStringExtra(WordFragment.EXTRA_MOT);
         mTextView.setText(mot);
     }
 

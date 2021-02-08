@@ -4,7 +4,6 @@ import android.app.Application;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -109,14 +108,14 @@ public class ApiRepository {
         return categoryWithWords;
     }
 
-    private long downloadFile(String path) {
+    private void downloadFile(String path) {
         Uri uri = Uri.parse(application.getString(R.string.base_url) + "/file/" + path);
         DownloadManager downloadManager = (DownloadManager) application.getSystemService(Context.DOWNLOAD_SERVICE);
 
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-        request.setDestinationInExternalFilesDir(application, "/files", path);
+        request.setDestinationInExternalFilesDir(application, "", path);
 
-        return downloadManager.enqueue(request);
+        downloadManager.enqueue(request);
     }
 }

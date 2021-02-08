@@ -19,6 +19,8 @@ public class WordRepository {
 
     LiveData<List<Word>> getAllWords() { return mAllWords; }
 
+    LiveData<Word> getWord(int id) { return mWordDao.getWord(id); }
+
     void insert(Word word) {
         RoomDatabase.databaseWriteExecutor.execute(() -> mWordDao.insert(word));
     }

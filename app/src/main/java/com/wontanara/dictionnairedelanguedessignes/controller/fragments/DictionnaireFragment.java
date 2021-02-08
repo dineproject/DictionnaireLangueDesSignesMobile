@@ -4,28 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.DictionnaireActivity;
-import com.wontanara.dictionnairedelanguedessignes.model.CategoriesListe;
-import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
-import com.wontanara.dictionnairedelanguedessignes.model.Mot;
 import com.wontanara.dictionnairedelanguedessignes.model.Word;
 import com.wontanara.dictionnairedelanguedessignes.model.WordViewModel;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
-import com.wontanara.dictionnairedelanguedessignes.view.MyCategorieRecyclerViewAdapter;
 import com.wontanara.dictionnairedelanguedessignes.view.WordViewAdapter;
 
-import java.util.List;
 import java.util.Objects;
 
 
@@ -34,7 +25,7 @@ public class DictionnaireFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private WordViewAdapter mAdapter;
-    private MotFragment mMotFragment;
+    private WordFragment mWordFragment;
     private Toolbar mToolbar;
 
     private WordViewModel mWordViewModel;
@@ -96,18 +87,16 @@ public class DictionnaireFragment extends BaseFragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-//                        Mot mMot = mAdapter.getMot(position);
-//                        Toast.makeText(getContext(), "Clic sur le mot : "+ mMot.getNom(), Toast.LENGTH_SHORT).show();
-//
-////                        Permet de passer dans le bundle du framgent à lancer l'id du mot à afficher
-//                        mMotFragment = new MotFragment();
-//                        Bundle bundle = new Bundle();
-////                        bundle.putInt("id-mot", mMot.getId()); // Pour quand les mots auront des ID
-//                        bundle.putInt("id-mot", position + 1);
-//                        bundle.putBoolean("liste-entiere", true);
-//                        mMotFragment.setArguments(bundle);
-//
-//                        replaceFragment(mMotFragment, R.id.list_mot_frame_layout);
+                        Word mWord = mAdapter.getWord(position);
+
+//                        Permet de passer dans le bundle du framgent à lancer l'id du mot à afficher
+                        mWordFragment = new WordFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id-mot", mWord.getId());
+                        bundle.putBoolean("liste-entiere", true);
+                        mWordFragment.setArguments(bundle);
+
+                        replaceFragment(mWordFragment, R.id.list_mot_frame_layout);
 
                     }
                 });

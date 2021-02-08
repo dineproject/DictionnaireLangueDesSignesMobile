@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.CategoriesActivity;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
+import com.wontanara.dictionnairedelanguedessignes.model.Word;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
 import com.wontanara.dictionnairedelanguedessignes.view.WordViewAdapter;
 
@@ -31,6 +32,7 @@ public class CategoryFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private WordViewAdapter mAdapter;
+    private WordFragment mWordFragment;
 
     private CategoryViewModel mCategoryViewModel;
 
@@ -106,19 +108,16 @@ public class CategoryFragment extends BaseFragment {
     protected void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_categorie_in_list)
                 .setOnItemClickListener((recyclerView, position, v) -> {
-//                        Mot mMot = mAdapter.getMot(position);
-//                        Toast.makeText(getContext(), "Clic sur le mot : "+ mMot.getNom(), Toast.LENGTH_SHORT).show();
-//
-////                        Permet de passer dans le bundle du fragment à lancer l'id du mot à afficher
-//                        mMotFragment = new MotFragment();
-//                        Bundle bundle = new Bundle();
-////                        bundle.putInt("id-mot", mMot.getId()); // Pour quand les mots auront des ID
-//                        bundle.putInt("id-mot", position + 1);
-//                        bundle.putInt("id-categorie", mIdCategory);
-//                        bundle.putBoolean("liste-entiere", false);
-//                        mMotFragment.setArguments(bundle);
-//
-//                        replaceFragment(mMotFragment, R.id.list_categories_frame_layout);
+                        Word mWord = mAdapter.getWord(position);
+
+//                        Permet de passer dans le bundle du fragment à lancer l'id du mot à afficher
+                        mWordFragment = new WordFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id-mot", mWord.getId());
+                        bundle.putBoolean("liste-entiere", false);
+                        mWordFragment.setArguments(bundle);
+
+                        replaceFragment(mWordFragment, R.id.list_categories_frame_layout);
 
                 });
     }

@@ -1,46 +1,51 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Environment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.CategoriesActivity;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.DictionnaireActivity;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.VideoPlayerActivity;
-import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
-import com.wontanara.dictionnairedelanguedessignes.model.CategoriesListe;
-import com.wontanara.dictionnairedelanguedessignes.model.Mot;
+import com.wontanara.dictionnairedelanguedessignes.model.Word;
+import com.wontanara.dictionnairedelanguedessignes.model.WordViewModel;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.util.Objects;
 
 
-public class MotFragment extends BaseFragment implements View.OnClickListener{
+public class WordFragment extends BaseFragment implements View.OnClickListener{
 
     private static final String ARG_ID_MOT = "id-mot";
-    private static final String ARG_ID_CATEGORIE = "id-categorie";
     public final static String EXTRA_MOT = "nom-mot";
     public final static String ARG_LISTE = "liste-entiere";
-    private int mIdMot;
-    private int mIdCategorie;
+    private int mIdWord;
     private Toolbar mToolbar;
-    private Mot mMot;
-    private Categorie mCategorie;
+    private Word mWord;
     private boolean mListeEntiere;
 
-    private TextView mTextViewTitre;
+    private TextView mTextViewTitle;
     private TextView mTextViewDefinition;
+    private ImageView mImageView;
+
+    private WordViewModel mWordViewModel;
 
 
-    public MotFragment() {
+    public WordFragment() {
         // Required empty public constructor
     }
 
@@ -48,7 +53,7 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     protected BaseFragment newInstance() {
-        return new MotFragment();
+        return new WordFragment();
     }
 
     @Override
@@ -58,23 +63,27 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     protected void configureDesign(View view) {
-        this.mToolbar.setTitle(this.mMot.getNom());
-        view.findViewById(R.id.imageButton_play_video).setOnClickListener(this);
-        this.configureTextView();
+        mWordViewModel.getWord(mIdWord).observe(this, word -> {
+            this.mWord = word;
+            this.mToolbar.setTitle(this.mWord.getName());
+            view.findViewById(R.id.imageButton_play_video).setOnClickListener(this);
+            this.configureTextView();
+            Bitmap bmp = BitmapFactory.decodeFile(getActivity().getExternalFilesDir("") + "/" + mWord.getImage_path());
+            this.mImageView.setImageBitmap(bmp);
+        });
     }
 
     @Override
     protected void findElements(View view) {
-        this.mTextViewTitre = (TextView) view.findViewById(R.id.titre_mot);
+        this.mTextViewTitle = (TextView) view.findViewById(R.id.titre_mot);
         this.mTextViewDefinition = (TextView) view.findViewById(R.id.definition_mot);
+        this.mImageView = (ImageView) view.findViewById(R.id.imageView);
 
         // Temporaire
         if(mListeEntiere){
             this.mToolbar = ((DictionnaireActivity) getActivity()).getToolbar();
-            this.mMot = (new CategoriesListe()).getAllMot().get(mIdMot - 1);
         } else {
             this.mToolbar = ((CategoriesActivity) getActivity()).getToolbar();
-            this.mMot = (new CategoriesListe()).getListeCategories().get(mIdCategorie - 1).getListeMots().get(mIdMot - 1);
         }
 
     }
@@ -85,25 +94,22 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.mIdMot = getArguments().getInt(ARG_ID_MOT);
+            this.mIdWord = getArguments().getInt(ARG_ID_MOT);
             this.mListeEntiere = getArguments().getBoolean(ARG_LISTE);
-            if(!mListeEntiere) {
-                this.mIdCategorie = getArguments().getInt(ARG_ID_CATEGORIE);
-            }
         }
+        mWordViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(WordViewModel.class);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(@NotNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        bundle.putInt(ARG_ID_MOT, this.mIdMot);
+        bundle.putInt(ARG_ID_MOT, this.mIdWord);
         bundle.putBoolean(ARG_LISTE, this.mListeEntiere);
     }
 
     @Override
     public void onClick(View v) {
         Intent i = new Intent(getActivity(), VideoPlayerActivity.class);
-        i.putExtra(EXTRA_MOT, mMot.getNom());
         startActivityForResult(i, 0);
 
     }
@@ -113,7 +119,7 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
 //    private void createCallbackToParentActivity(){
 //        try {
 //            //Parent activity will automatically subscribe to callback
-//            mCallback = (MotFragment.OnButtonClickedListener) getActivity();
+//            mCallback = (WordFragment.OnButtonClickedListener) getActivity();
 //        } catch (ClassCastException e) {
 //            throw new ClassCastException(e.toString()+ " must implement OnButtonClickedListener");
 //        }
@@ -124,8 +130,8 @@ public class MotFragment extends BaseFragment implements View.OnClickListener{
 //    ------ CONFIGURATION ------
 
     public void configureTextView() {
-        mTextViewTitre.setText(mMot.getNom());
-        mTextViewDefinition.setText(mMot.getDefinition());
+        mTextViewTitle.setText(mWord.getName());
+        mTextViewDefinition.setText(mWord.getDescription());
     }
 
 

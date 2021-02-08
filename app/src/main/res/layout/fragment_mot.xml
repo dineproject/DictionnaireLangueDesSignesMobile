@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.fragments.MotFragment"
+    tools:context=".controller.fragments.WordFragment"
     android:id="@+id/layout_mot"
     android:orientation="vertical"
     android:layout_margin="15dp">
@@ -25,8 +25,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_height="200dp" />
 
     <ImageButton
         android:id="@+id/imageButton_play_video"

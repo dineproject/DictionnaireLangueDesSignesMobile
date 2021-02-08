@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.fragments.MotFragment"
+    tools:context=".controller.fragments.WordFragment"
     android:id="@+id/layout_mot"
     android:orientation="horizontal"
     android:layout_margin="15dp">
@@ -35,7 +35,6 @@
         android:layout_width="0dp"
         android:layout_weight="8"
         android:layout_height="match_parent"
-        android:src="@mipmap/ic_launcher"
         android:padding="40dp"
         android:layout_gravity="center"/>
 
