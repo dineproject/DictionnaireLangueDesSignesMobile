@@ -23,11 +23,21 @@ public class Word {
     @ColumnInfo(name = "category_id")
     private int mCategory_id;
 
-    public Word(int mId, @NonNull String mName, @NonNull String mDescription, int mCategory_id) {
+    @NonNull
+    @ColumnInfo(name = "video_path")
+    private String mVideo_path;
+
+    @NonNull
+    @ColumnInfo(name = "image_path")
+    private String mImage_path;
+
+    public Word(int mId, @NonNull String mName, @NonNull String mDescription, int mCategory_id, @NonNull String mVideo_path, @NonNull String mImage_path) {
         this.mId = mId;
         this.mName = mName;
         this.mDescription = mDescription;
         this.mCategory_id = mCategory_id;
+        this.mVideo_path = mVideo_path;
+        this.mImage_path = mImage_path;
     }
 
     public int getId() {
@@ -47,4 +57,10 @@ public class Word {
     public int getCategory_id() {
         return mCategory_id;
     }
+
+    @NonNull
+    public String getVideo_path() { return mVideo_path; }
+
+    @NonNull
+    public String getImage_path() { return mImage_path; }
 }

@@ -1,6 +1,9 @@
 package com.wontanara.dictionnairedelanguedessignes.model;
 
 import android.app.Application;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
@@ -85,7 +88,11 @@ public class ApiRepository {
                     String name = obj.getString("name");
                     String description = obj.getString("description");
                     int category_id = obj.getInt("category_id");
-                    Word word = new Word(id, name, description, category_id);
+                    String video_path = obj.getString("video_path");
+                    String image_path = obj.getString("image_path");
+                    Word word = new Word(id, name, description, category_id, video_path, image_path);
+                    downloadFile(video_path);
+                    downloadFile(image_path);
                     list.add(word);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -100,5 +107,16 @@ public class ApiRepository {
         queue.add(jsonArrayRequest);
 
         return categoryWithWords;
+    }
+
+    private long downloadFile(String path) {
+        Uri uri = Uri.parse(application.getString(R.string.base_url) + "/file/" + path);
+        DownloadManager downloadManager = (DownloadManager) application.getSystemService(Context.DOWNLOAD_SERVICE);
+
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+        request.setDestinationInExternalFilesDir(application, "/files", path);
+
+        return downloadManager.enqueue(request);
     }
 }
