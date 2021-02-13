@@ -45,10 +45,9 @@
                             android:background="@drawable/baseline_local_library_24" />
 
                         <TextView
-                            android:layout_width="@dimen/size_image_accueil"
+                            android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:text="@string/titre_lien_alphabetique"
-                            android:layout_gravity="center"
                             android:gravity="center"
                             android:theme="@style/text_button_accueil"/>
 
