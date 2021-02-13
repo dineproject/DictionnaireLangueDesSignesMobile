@@ -4,19 +4,22 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.model.Word;
+import com.wontanara.dictionnairedelanguedessignes.model.WordViewModel;
+
+import java.util.Objects;
 
 public class VideoPlayerFragment extends BaseFragment {
 
-    private static final String VIDEO_SAMPLE = "gentil_bien";
+    private int mWordId;
+    private Word mWord;
     private VideoView mVideoView;
 
 
@@ -41,7 +44,6 @@ public class VideoPlayerFragment extends BaseFragment {
         controller.setMediaPlayer(mVideoView);
 //        controller.setAnchorView(mVideoView);
         mVideoView.setMediaController(controller);
-
     }
 
     @Override
@@ -51,6 +53,19 @@ public class VideoPlayerFragment extends BaseFragment {
 
 
 //    ------ OVERRIDE METHODS ------
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.mWordId = getArguments().getInt("id-word");
+        }
+        WordViewModel mWordViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(WordViewModel.class);
+        mWordViewModel.getWord(mWordId).observe(this, word -> {
+            this.mWord = word;
+            mVideoView.setVideoPath(getActivity().getExternalFilesDir("") + "/" + mWord.getVideo_path());
+        });
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -74,17 +89,9 @@ public class VideoPlayerFragment extends BaseFragment {
         }
     }
 
-
-
-    private Uri getMedia(String mediaName) {
-//        TODO: changer quand mise en place de la bdd SQLite
-        return Uri.parse("android.resource://" + getActivity().getPackageName() + "/raw/"
-                + mediaName);
-    }
-
     private void initializePlayer() {
-        Uri videoUri = getMedia(VIDEO_SAMPLE);
-        mVideoView.setVideoURI(videoUri);
+//        Uri videoUri = getMedia(VIDEO_SAMPLE);
+//        mVideoView.setVideoURI(videoUri);
 
         mVideoView.start();
     }

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,23 +27,10 @@ import static androidx.core.view.WindowInsetsCompat.Type.systemBars;
  */
 public class VideoPlayerActivity extends BaseActivity {
 
-    private VideoPlayerFragment mVideoPlayerFragment;
-    private WindowInsetsControllerCompat controler;
+    private WindowInsetsControllerCompat controller;
+    private int mWordId;
 
     private TextView mTextView;
-
-
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static final boolean AUTO_HIDE = true;
-
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
 
     /**
      * Some older devices needs a small delay between UI widget updates
@@ -60,55 +46,19 @@ public class VideoPlayerActivity extends BaseActivity {
             // Delayed removal of status and navigation bar
 
 //            TODO: ICCCCCCCCCCCCIII !
-            controler.hide(systemBars());
-
-            mTextView.setTextColor(getResources().getColor(R.color.black));
+            controller.hide(systemBars());
 
         }
     };
-    private View mControlsView;
-    private final Runnable mShowPart2Runnable = new Runnable() {
-        @Override
-        public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.show();
-            }
-//            mControlsView.setVisibility(View.VISIBLE);
-            mTextView.setTextColor(getResources().getColor(R.color.white));
+    private final Runnable mShowPart2Runnable = () -> {
+        // Delayed display of UI elements
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
         }
     };
     private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if (AUTO_HIDE) {
-                        delayedHide(AUTO_HIDE_DELAY_MILLIS);
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    view.performClick();
-                    break;
-                default:
-                    break;
-            }
-            return false;
-        }
-    };
+    private final Runnable mHideRunnable = this::hide;
 
     @Override
     protected int getLayout() {
@@ -122,18 +72,13 @@ public class VideoPlayerActivity extends BaseActivity {
 
     @Override
     protected void configureDesign() {
-        this.configureAndShowListCategoriesFragment();
+//
         this.configureTitle();
 
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
+        mContentView.setOnClickListener(view -> toggle());
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
@@ -146,20 +91,31 @@ public class VideoPlayerActivity extends BaseActivity {
         mVisible = true;
 //        mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-        controler = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
         mTextView = findViewById(R.id.title_fullscreen);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            this.mWordId = b.getInt("id-word");
+        }
+        this.configureAndShowListCategoriesFragment();
+    }
 
-
-//    ------ CONFIGURATION ------
+    //    ------ CONFIGURATION ------
 
     //    ---- Fragment ----
     private void configureAndShowListCategoriesFragment(){
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.list_categories_frame_layout);
 
         if (fragment == null) {
-            mVideoPlayerFragment = new VideoPlayerFragment();
+            VideoPlayerFragment mVideoPlayerFragment = new VideoPlayerFragment();
+            Bundle args = new Bundle();
+            args.putInt("id-word", mWordId);
+            mVideoPlayerFragment.setArguments(args);
             this.showFragment(mVideoPlayerFragment, R.id.fullscreen_content);
         }
     }
@@ -177,7 +133,7 @@ public class VideoPlayerActivity extends BaseActivity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+        delayedHide();
     }
 
     private void toggle() {
@@ -207,7 +163,7 @@ public class VideoPlayerActivity extends BaseActivity {
     private void show() {
         // Show the system bar
 //        TODO: ICCCCCCCI
-        controler.show(navigationBars());
+        controller.show(navigationBars());
 
 //        mTextView.setTextColor(getResources().getColor(R.color.white));
 
@@ -222,8 +178,8 @@ public class VideoPlayerActivity extends BaseActivity {
      * Schedules a call to hide() in delay milliseconds, canceling any
      * previously scheduled calls.
      */
-    private void delayedHide(int delayMillis) {
+    private void delayedHide() {
         mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+        mHideHandler.postDelayed(mHideRunnable, 100);
     }
 }

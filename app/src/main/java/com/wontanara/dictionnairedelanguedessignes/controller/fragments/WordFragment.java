@@ -3,14 +3,11 @@ package com.wontanara.dictionnairedelanguedessignes.controller.fragments;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +21,6 @@ import com.wontanara.dictionnairedelanguedessignes.model.WordViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.Objects;
 
 
@@ -75,11 +71,10 @@ public class WordFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     protected void findElements(View view) {
-        this.mTextViewTitle = (TextView) view.findViewById(R.id.titre_mot);
-        this.mTextViewDefinition = (TextView) view.findViewById(R.id.definition_mot);
-        this.mImageView = (ImageView) view.findViewById(R.id.imageView);
+        this.mTextViewTitle = view.findViewById(R.id.titre_mot);
+        this.mTextViewDefinition = view.findViewById(R.id.definition_mot);
+        this.mImageView = view.findViewById(R.id.imageView);
 
-        // Temporaire
         if(mListeEntiere){
             this.mToolbar = ((DictionnaireActivity) getActivity()).getToolbar();
         } else {
@@ -110,6 +105,7 @@ public class WordFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         Intent i = new Intent(getActivity(), VideoPlayerActivity.class);
+        i.putExtra("id-word", mWord.getId());
         startActivityForResult(i, 0);
 
     }
