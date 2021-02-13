@@ -52,11 +52,7 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
 
 
 //    ------ OVERRIDE METHODS ------
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        Categorie.lastId = 0;
-//    }
+
 
 //    ---- Menu ----
 

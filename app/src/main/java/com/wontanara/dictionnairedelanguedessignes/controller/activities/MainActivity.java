@@ -7,7 +7,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.ImageButton;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
-import com.wontanara.dictionnairedelanguedessignes.model.Categorie;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 

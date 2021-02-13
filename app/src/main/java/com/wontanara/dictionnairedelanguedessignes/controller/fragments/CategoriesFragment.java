@@ -71,12 +71,6 @@ public class CategoriesFragment extends BaseFragment {
         mCategoryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(CategoryViewModel.class);
     }
 
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        Categorie.lastId = 0;
-//    }
-
 //    ------ CONFIGURATION ------
     protected void configureRecyclerView(View view) {
         if (view instanceof RecyclerView) {

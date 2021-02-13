@@ -2,17 +2,15 @@ package com.wontanara.dictionnairedelanguedessignes.model;
 
 import android.app.Application;
 
-import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
 class CategoryRepository {
 
-    private CategoryDao mCategoryDao;
-    private WordDao mWordDao;
-    private LiveData<List<Category>> mAllCategories;
-    private Category mCategory;
+    private final CategoryDao mCategoryDao;
+    private final WordDao mWordDao;
+    private final LiveData<List<Category>> mAllCategories;
 
     CategoryRepository(Application application) {
         RoomDatabase db = RoomDatabase.getDatabase(application);

@@ -1,7 +1,5 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.activities;
 
-import android.annotation.SuppressLint;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -40,12 +38,10 @@ public class VideoPlayerActivity extends BaseActivity {
     private final Handler mHideHandler = new Handler();
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
         @Override
         public void run() {
             // Delayed removal of status and navigation bar
 
-//            TODO: ICCCCCCCCCCCCIII !
             controller.hide(systemBars());
 
         }
