@@ -1,6 +1,5 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.fragments;
 
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 

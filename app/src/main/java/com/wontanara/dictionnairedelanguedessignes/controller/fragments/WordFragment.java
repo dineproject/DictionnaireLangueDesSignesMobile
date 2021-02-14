@@ -65,7 +65,7 @@ public class WordFragment extends BaseFragment implements View.OnClickListener{
             this.mToolbar.setTitle(this.mWord.getName());
             view.findViewById(R.id.imageButton_play_video).setOnClickListener(this);
             this.configureTextView();
-            Bitmap bmp = BitmapFactory.decodeFile(getActivity().getExternalFilesDir("") + File.separator + mWord.getCategory_id() + File.separator + mWord.getImage_path());
+            Bitmap bmp = BitmapFactory.decodeFile(Objects.requireNonNull(getActivity()).getExternalFilesDir("") + File.separator + mWord.getCategory_id() + File.separator + mWord.getImage_path());
             this.mImageView.setImageBitmap(bmp);
         });
     }
@@ -77,9 +77,9 @@ public class WordFragment extends BaseFragment implements View.OnClickListener{
         this.mImageView = view.findViewById(R.id.imageView);
 
         if(mListeEntiere){
-            this.mToolbar = ((DictionnaireActivity) getActivity()).getToolbar();
+            this.mToolbar = ((DictionnaireActivity) Objects.requireNonNull(getActivity())).getToolbar();
         } else {
-            this.mToolbar = ((CategoriesActivity) getActivity()).getToolbar();
+            this.mToolbar = ((CategoriesActivity) Objects.requireNonNull(getActivity())).getToolbar();
         }
 
     }
