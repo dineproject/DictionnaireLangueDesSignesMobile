@@ -10,6 +10,14 @@
     <string name="titre_lien_parametres">Paramètres</string>
     <string name="titre_lien_apropos">A propos</string>
 
+    <string name="apropos1">Cette application est destinée à l’apprentissage de la Langue des Signes Guinéenne.
+Elle est accessible gratuitement à tous ceux qui souhaitent s’initier ou se perfectionner …
+Sourds, entendants, parents, amis, enseignants ou simplement intéressés … cet outil est fait pour vous.</string>
+    <string name="apropos2">Cette appli est le résultat de plusieurs mois de collaboration entre l’association Wontanara avec les enfants sourds de Guinée basée en France (wontanara.sourds.guinee@gmail.com), l’association ASCULSGUI basée en Guinée à Conakry (mettre l’adresse mail) et l’école d’ingénieurs Polytech Nancy.</string>
+    <string name="apropos3">Elle se veut participative, vous pouvez donc nous suggérer des mots/signes à ajouter dans la rubrique « suggestion ».</string>
+    <string name="apropos4">Nos remerciements sincères à Enzo d’Andréa et Deborah Fache, qui l’ont développée gracieusement dans le cadre de leurs études d’ingénieurs à Polytech Nancy.</string>
+    <string name="apropos5">… à la mémoire de Karou KABA, initiateur du projet</string>
+
     <string name="download_category">Télécharger la catégorie %1$s ?</string>
     <string name="download_category_approcimated_size">Le téléchargement est d\'environ %1$.1f Mo.</string>
     <string name="download">Télécharger</string>
