@@ -14,6 +14,7 @@ import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.model.Word;
 import com.wontanara.dictionnairedelanguedessignes.model.WordViewModel;
 
+import java.io.File;
 import java.util.Objects;
 
 public class VideoPlayerFragment extends BaseFragment {
@@ -62,7 +63,7 @@ public class VideoPlayerFragment extends BaseFragment {
         WordViewModel mWordViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(WordViewModel.class);
         mWordViewModel.getWord(mWordId).observe(this, word -> {
             this.mWord = word;
-            mVideoView.setVideoPath(getActivity().getExternalFilesDir("") + "/" + mWord.getVideo_path());
+            mVideoView.setVideoPath(getActivity().getExternalFilesDir("") + File.separator + mWord.getCategory_id() + File.separator + mWord.getVideo_path());
         });
     }
 

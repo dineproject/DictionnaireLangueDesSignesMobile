@@ -21,6 +21,7 @@ import com.wontanara.dictionnairedelanguedessignes.model.WordViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Objects;
 
 
@@ -64,7 +65,7 @@ public class WordFragment extends BaseFragment implements View.OnClickListener{
             this.mToolbar.setTitle(this.mWord.getName());
             view.findViewById(R.id.imageButton_play_video).setOnClickListener(this);
             this.configureTextView();
-            Bitmap bmp = BitmapFactory.decodeFile(getActivity().getExternalFilesDir("") + "/" + mWord.getImage_path());
+            Bitmap bmp = BitmapFactory.decodeFile(getActivity().getExternalFilesDir("") + File.separator + mWord.getCategory_id() + File.separator + mWord.getImage_path());
             this.mImageView.setImageBitmap(bmp);
         });
     }

@@ -15,11 +15,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.utils.RequestQueueSingleton;
+import com.wontanara.dictionnairedelanguedessignes.utils.ZipManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -111,7 +113,7 @@ public class ApiRepository {
     }
 
     private void downloadZip(int id) {
-        File file = new File(application.getExternalFilesDir("") + "/" + id + ".zip");
+        File file = new File(application.getExternalFilesDir("") + File.separator + id + ".zip");
         if (!file.exists()) {
             Uri uri = Uri.parse(application.getString(R.string.base_url) + "/api/category/" + id + "/file");
             DownloadManager downloadManager = (DownloadManager) application.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -121,6 +123,16 @@ public class ApiRepository {
             request.setDestinationInExternalFilesDir(application, "", id + ".zip");
 
             downloadManager.enqueue(request);
+        } else {
+            try {
+                ZipManager.unzip(application.getExternalFilesDir("") + File.separator + id + ".zip", application.getExternalFilesDir("") + File.separator + id);
+                if (!file.delete()) {
+                    throw new IOException("Unable to delete file " + file.getPath());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
