@@ -4,6 +4,8 @@ import android.app.Application;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -17,6 +19,7 @@ import com.wontanara.dictionnairedelanguedessignes.utils.RequestQueueSingleton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -90,13 +93,12 @@ public class ApiRepository {
                     String video_path = obj.getString("video_path");
                     String image_path = obj.getString("image_path");
                     Word word = new Word(id, name, description, category_id, video_path, image_path);
-                    downloadFile(video_path);
-                    downloadFile(image_path);
                     list.add(word);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+            downloadZip(downloadableCategory.getId());
             categoryWithWords.setValue(Resource.success(new CategoryWithWords(category, list)));
         }, error -> {
             error.printStackTrace();
@@ -108,14 +110,17 @@ public class ApiRepository {
         return categoryWithWords;
     }
 
-    private void downloadFile(String path) {
-        Uri uri = Uri.parse(application.getString(R.string.base_url) + "/file/" + path);
-        DownloadManager downloadManager = (DownloadManager) application.getSystemService(Context.DOWNLOAD_SERVICE);
+    private void downloadZip(int id) {
+        File file = new File(application.getExternalFilesDir("") + "/" + id + ".zip");
+        if (!file.exists()) {
+            Uri uri = Uri.parse(application.getString(R.string.base_url) + "/api/category/" + id + "/file");
+            DownloadManager downloadManager = (DownloadManager) application.getSystemService(Context.DOWNLOAD_SERVICE);
 
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-        request.setDestinationInExternalFilesDir(application, "", path);
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+            request.setDestinationInExternalFilesDir(application, "", id + ".zip");
 
-        downloadManager.enqueue(request);
+            downloadManager.enqueue(request);
+        }
     }
 }
