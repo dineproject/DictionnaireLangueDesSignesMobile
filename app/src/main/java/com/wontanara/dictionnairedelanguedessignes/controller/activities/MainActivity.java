@@ -118,6 +118,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 this.navigationCategories();
                 break;
             case R.id.navigation_drawer_suggestions:
+                this.navigationSuggestions();
                 break;
             case R.id.navigation_drawer_bases:
                 break;
@@ -148,6 +149,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 this.navigationCategories();
                 break;
             case R.id.imageSuggestionButton:
+                this.navigationSuggestions();
                 break;
             case R.id.imageBaseButton:
                 break;

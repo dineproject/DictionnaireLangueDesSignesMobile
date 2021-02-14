@@ -84,6 +84,7 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
             case R.id.navigation_drawer_categories:
                 break;
             case R.id.navigation_drawer_suggestions:
+                this.navigationSuggestions();
                 break;
             case R.id.navigation_drawer_bases:
                 break;

@@ -23,11 +23,12 @@
 
     <string name="description_navigation_drawer_open">Open Navigation drawer</string>
     <string name="description_navigation_drawer_close">Close navigation drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_video_player">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="explication_suggestions">Cette page vous permet de soumettre des suggestions aux administrateur. Ils pourront s\'en inspirer pour ajouter un mot à la liste.</string>
 
     <string name="base_url">http://ea-perso.ovh</string>
 
