@@ -117,7 +117,6 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
             switch (categoryWithWords.status) {
                 case SUCCESS:
                     mCategoryViewModel.insert(categoryWithWords.data);
-                    Toast.makeText(getContext(), "Catégorie téléchargée", Toast.LENGTH_LONG).show();
                     break;
                 case LOADING:
                     break;

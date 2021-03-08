@@ -2,8 +2,12 @@ package com.wontanara.dictionnairedelanguedessignes.model;
 
 import android.app.Application;
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -121,12 +125,32 @@ public class ApiRepository {
             request.setDestinationInExternalFilesDir(application, "", id + ".zip");
 
             downloadManager.enqueue(request);
+
+            BroadcastReceiver onComplete = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    try {
+                        ZipManager.unzip(application.getExternalFilesDir("") + File.separator + id + ".zip", application.getExternalFilesDir("") + File.separator + id);
+                        if (!file.delete()) {
+                            throw new IOException("Unable to delete file " + file.getPath());
+                        }
+                        Toast.makeText(application, "Catégorie installée", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    application.unregisterReceiver(this);
+                }
+            };
+
+            application.registerReceiver(onComplete, new IntentFilter(
+                    DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         } else {
             try {
                 ZipManager.unzip(application.getExternalFilesDir("") + File.separator + id + ".zip", application.getExternalFilesDir("") + File.separator + id);
                 if (!file.delete()) {
                     throw new IOException("Unable to delete file " + file.getPath());
                 }
+                Toast.makeText(application, "Catégorie installée", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
