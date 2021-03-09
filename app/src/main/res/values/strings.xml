@@ -29,6 +29,10 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
         <item quantity="other">%1$d mots</item>
     </plurals>
 
+    <string name="no_downloadable_categories_available">Pas de catégories disponibles</string>
+    <string name="loading">Chargement...</string>
+    <string name="error">Une erreur est survenue.</string>
+
     <string name="description_navigation_drawer_open">Open Navigation drawer</string>
     <string name="description_navigation_drawer_close">Close navigation drawer</string>
 

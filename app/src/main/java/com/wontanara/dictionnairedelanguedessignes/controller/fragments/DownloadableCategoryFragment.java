@@ -3,6 +3,7 @@ package com.wontanara.dictionnairedelanguedessignes.controller.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
@@ -27,6 +28,8 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
     private int mColumnCount = 1;
 
     protected RecyclerView mRecyclerView;
+    protected TextView mEmptyView;
+    protected TextView mLoadingView;
     protected DownloadableCategoryViewAdapter mAdapter;
 
     private CategoryViewModel mCategoryViewModel;
@@ -50,7 +53,9 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
 
     @Override
     protected void configureDesign(View view) {
-        this.configureRecyclerView(view);
+        mEmptyView = view.findViewById(R.id.empty_view);
+        mLoadingView = view.findViewById(R.id.loading_view);
+        this.configureRecyclerView(view.findViewById(R.id.recycler_view));
         this.configureOnClickRecyclerView();
     }
 
@@ -89,12 +94,21 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
             mApiViewModel.getAllDownloadableCategories().observe(this, downloadableCategories -> {
                 switch (downloadableCategories.status) {
                     case SUCCESS:
-                        mAdapter.submitList(downloadableCategories.data);
+                        mLoadingView.setVisibility(View.GONE);
+                        if (!downloadableCategories.data.isEmpty()){
+                            mAdapter.submitList(downloadableCategories.data);
+                        } else {
+                            mEmptyView.setVisibility(View.VISIBLE);
+                            view.setVisibility(View.GONE);
+                        }
                         break;
                     case LOADING:
+                        mLoadingView.setVisibility(View.VISIBLE);
                         break;
                     case ERROR:
+                        mLoadingView.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "Impossible de récupérer les catégories", Toast.LENGTH_LONG).show();
+                        break;
                 }
 
             });

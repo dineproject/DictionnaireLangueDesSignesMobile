@@ -72,6 +72,8 @@ public class ApiRepository {
             downloadableCategories.setValue(Resource.error(error.getMessage(), null));
         });
 
+        downloadableCategories.setValue(Resource.loading(null));
+
         queue.add(jsonArrayRequest);
 
         return downloadableCategories;
