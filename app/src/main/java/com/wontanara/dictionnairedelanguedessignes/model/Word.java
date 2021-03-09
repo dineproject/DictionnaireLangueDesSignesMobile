@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "word_table")
-public class Word {
+public class Word implements Comparable<Word> {
 
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -63,4 +63,9 @@ public class Word {
 
     @NonNull
     public String getImage_path() { return mImage_path; }
+
+    @Override
+    public int compareTo(@NonNull Word word) {
+        return this.mName.compareTo(word.mName);
+    }
 }

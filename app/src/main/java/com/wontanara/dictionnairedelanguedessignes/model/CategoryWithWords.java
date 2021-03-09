@@ -3,6 +3,7 @@ package com.wontanara.dictionnairedelanguedessignes.model;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CategoryWithWords {
@@ -16,5 +17,6 @@ public class CategoryWithWords {
     public CategoryWithWords(Category category, List<Word> words) {
         this.category = category;
         this.words = words;
+        Collections.sort(words);
     }
 }
