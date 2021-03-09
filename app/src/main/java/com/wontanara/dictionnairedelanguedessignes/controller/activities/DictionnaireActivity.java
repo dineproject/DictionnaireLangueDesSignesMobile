@@ -51,7 +51,7 @@ public class DictionnaireActivity extends BaseActivity implements NavigationView
         this.mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
     }
 
-
+//    ------ OVERRIDE METHODS ------
 //    ---- Menu ----
 
     @Override
@@ -82,6 +82,7 @@ public class DictionnaireActivity extends BaseActivity implements NavigationView
                 this.navigationCategories();
                 break;
             case R.id.navigation_drawer_suggestions:
+                this.navigationSuggestions();
                 break;
             case R.id.navigation_drawer_bases:
                 break;
