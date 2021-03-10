@@ -2,6 +2,7 @@ package com.wontanara.dictionnairedelanguedessignes.controller.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.model.ApiViewModel;
+import com.wontanara.dictionnairedelanguedessignes.model.Category;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.model.DownloadableCategory;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
@@ -96,7 +98,20 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
                     case SUCCESS:
                         mLoadingView.setVisibility(View.GONE);
                         if (!downloadableCategories.data.isEmpty()){
-                            mAdapter.submitList(downloadableCategories.data);
+                            mCategoryViewModel.getAllCategories().observe(this, categories -> {
+                                for (Category category : categories) {
+                                    for (DownloadableCategory downloadableCategory : downloadableCategories.data) {
+                                        if (category.getId() == downloadableCategory.getId()) {
+                                            if (category.getUpdated_at().equals(downloadableCategory.getUpdated_at())) {
+                                                downloadableCategory.setStatus("Installée");
+                                            } else {
+                                                downloadableCategory.setStatus("Mise à jour");
+                                            }
+                                        }
+                                    }
+                                }
+                                mAdapter.submitList(downloadableCategories.data);
+                            });
                         } else {
                             mEmptyView.setVisibility(View.VISIBLE);
                             view.setVisibility(View.GONE);

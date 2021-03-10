@@ -8,6 +8,7 @@ public class DownloadableCategory {
     public String name;
     public GregorianCalendar updated_at;
     public int word_count;
+    public String status = "";
 
     public DownloadableCategory(int id, String name, GregorianCalendar updated_at, int word_count) {
         this.id = id;
@@ -31,4 +32,8 @@ public class DownloadableCategory {
     public int getWord_count() { return word_count; }
 
     public void setWord_count(int word_count) { this.word_count = word_count; }
+
+    public String getStatus() { return status; }
+
+    public void setStatus(String status) { this.status = status; }
 }

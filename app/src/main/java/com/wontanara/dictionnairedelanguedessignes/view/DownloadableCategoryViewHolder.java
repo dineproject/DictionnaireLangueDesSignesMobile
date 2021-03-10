@@ -13,17 +13,20 @@ import com.wontanara.dictionnairedelanguedessignes.model.DownloadableCategory;
 public class DownloadableCategoryViewHolder extends RecyclerView.ViewHolder {
     private final View view;
     private final TextView downloadableCategoryTextView;
+    private final TextView downloadableCategoryTextStatus;
     public final TextView downloadableCategoryWordCount;
 
     private DownloadableCategoryViewHolder(View itemView) {
         super(itemView);
         view = itemView;
         downloadableCategoryTextView = itemView.findViewById(R.id.downloadable_category_name);
+        downloadableCategoryTextStatus = itemView.findViewById(R.id.downloadable_category_status);
         downloadableCategoryWordCount = itemView.findViewById(R.id.downloadable_category_word_count);
     }
 
     public void bind(DownloadableCategory category) {
         downloadableCategoryTextView.setText(category.getName());
+        downloadableCategoryTextStatus.setText(category.getStatus());
         downloadableCategoryWordCount.setText(view.getContext().getResources().getQuantityString(R.plurals.word_count, category.getWord_count(), category.getWord_count()));
     }
 

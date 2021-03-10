@@ -22,6 +22,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true" />
 
+    <TextView
+        android:id="@+id/downloadable_category_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textSize="@dimen/text_size"
+        android:layout_toStartOf="@id/downloadable_category_word_count" />
+
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
