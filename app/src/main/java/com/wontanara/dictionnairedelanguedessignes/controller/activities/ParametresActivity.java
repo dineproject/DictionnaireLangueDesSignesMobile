@@ -5,21 +5,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.fragments.DownloadableCategoryFragment;
+import com.wontanara.dictionnairedelanguedessignes.controller.fragments.SettingsFragment;
 
-public class ParametresActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class ParametresActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     protected DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
     public Toolbar mToolbar;
-    protected DownloadableCategoryFragment mDownloadableCategoryFragment;
+    protected Fragment mDownloadableCategoryFragment;
 
 
 //    ------ BASE METHODS ------
@@ -41,7 +45,11 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.mNavigationView.getMenu().getItem(4).setChecked(true);
-        this.configureAndShowListCategoriesFragment();
+//        this.configureAndShowListCategoriesFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.parameters_frame_layout, new SettingsFragment())
+                .commit();
 
     }
 
@@ -106,6 +114,25 @@ public class ParametresActivity extends BaseActivity implements NavigationView.O
     @Override
     public void onClick(View v) {
 
+    }
+
+//    ---- Fragment ----
+
+    @Override
+    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+        // Instantiate the new Fragment
+        final Bundle args = pref.getExtras();
+        final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(
+                getClassLoader(),
+                pref.getFragment());
+        fragment.setArguments(args);
+        fragment.setTargetFragment(caller, 0);
+        // Replace the existing Fragment with the new Fragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.parameters_frame_layout, fragment)
+                .addToBackStack(null)
+                .commit();
+        return true;
     }
 
 //    ------ CONFIGURATION ------
