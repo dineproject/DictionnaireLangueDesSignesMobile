@@ -21,4 +21,7 @@ public interface CategoryDao {
     @Transaction
     @Query("SELECT * FROM category_table WHERE id = :id")
     LiveData<CategoryWithWords> getCategoryWithWords(int id);
+
+    @Query("DELETE FROM category_table WHERE id = :id")
+    void deleteCategory(int id);
 }

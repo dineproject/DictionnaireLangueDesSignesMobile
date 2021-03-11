@@ -37,4 +37,11 @@ class CategoryRepository {
             }
         });
     }
+
+    void delete(int id) {
+        RoomDatabase.databaseWriteExecutor.execute(() -> {
+            mCategoryDao.deleteCategory(id);
+            mWordDao.deleteWordsFromCategory(id);
+        });
+    }
 }

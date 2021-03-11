@@ -14,17 +14,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class DownloadCategoryDialogFragment extends DialogFragment {
+public class UpdateCategoryDialogFragment extends DialogFragment {
 
     private final DownloadableCategory mCategory;
-    DownloadCategoryDialogListener listener;
+    UpdateCategoryDialogListener listener;
 
-    public DownloadCategoryDialogFragment(DownloadableCategory category) {
+    public UpdateCategoryDialogFragment(DownloadableCategory category) {
         super();
         this.mCategory = category;
     }
 
-    public interface DownloadCategoryDialogListener {
+    public interface UpdateCategoryDialogListener {
         void onDialogPositiveClick(DialogFragment dialog, DownloadableCategory downloadableCategory);
         void onDialogNegativeClick(DialogFragment dialog, DownloadableCategory downloadableCategory);
     }
@@ -35,8 +35,8 @@ public class DownloadCategoryDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.download_category, mCategory.name))
                 .setMessage(getString(R.string.download_category_approximated_size, mCategory.word_count * 0.7))
-                .setPositiveButton(R.string.download, (dialog, id) -> listener.onDialogPositiveClick(DownloadCategoryDialogFragment.this, mCategory))
-                .setNegativeButton(R.string.cancel, (dialog, id) -> listener.onDialogNegativeClick(DownloadCategoryDialogFragment.this, mCategory));
+                .setPositiveButton(R.string.update, (dialog, id) -> listener.onDialogPositiveClick(UpdateCategoryDialogFragment.this, mCategory))
+                .setNegativeButton(R.string.cancel, (dialog, id) -> listener.onDialogNegativeClick(UpdateCategoryDialogFragment.this, mCategory));
         // Create the AlertDialog object and return it
         return builder.create();
     }
@@ -45,7 +45,7 @@ public class DownloadCategoryDialogFragment extends DialogFragment {
     public void onAttach(@NotNull Context context) {
         super.onAttach(context);
         try {
-            listener = (DownloadCategoryDialogListener) Objects.requireNonNull(getTargetFragment());
+            listener = (UpdateCategoryDialogListener) Objects.requireNonNull(getTargetFragment());
         } catch (ClassCastException e) {
             throw new ClassCastException(Objects.requireNonNull(getTargetFragment()).toString() + " must implement DownloadCategoryListener");
         }

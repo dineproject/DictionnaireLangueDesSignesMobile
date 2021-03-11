@@ -19,4 +19,7 @@ public interface WordDao {
 
     @Query("SELECT * FROM word_table WHERE id = :id")
     LiveData<Word> getWord(int id);
+
+    @Query("DELETE FROM word_table WHERE category_id = :id")
+    void deleteWordsFromCategory(int id);
 }

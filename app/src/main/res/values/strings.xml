@@ -19,8 +19,10 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
     <string name="apropos5">… à la mémoire de Karou KABA, initiateur du projet</string>
 
     <string name="download_category">Télécharger la catégorie %1$s ?</string>
-    <string name="download_category_approcimated_size">Le téléchargement est d\'environ %1$.1f Mo.</string>
+    <string name="update_category">Mettre à jour la catégorie %1$s ?</string>
+    <string name="download_category_approximated_size">Le téléchargement ne dépassera pas %1$.1f Mo.</string>
     <string name="download">Télécharger</string>
+    <string name="update">Mettre à jour</string>
     <string name="cancel">Annuler</string>
 
     <plurals name="word_count">

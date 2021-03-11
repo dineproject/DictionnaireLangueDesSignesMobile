@@ -22,9 +22,10 @@ import com.wontanara.dictionnairedelanguedessignes.model.DownloadableCategory;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
 import com.wontanara.dictionnairedelanguedessignes.view.DownloadableCategoryViewAdapter;
 
+import java.io.File;
 import java.util.Objects;
 
-public class DownloadableCategoryFragment extends BaseFragment implements DownloadCategoryDialogFragment.DownloadCategoryDialogListener {
+public class DownloadableCategoryFragment extends BaseFragment implements DownloadCategoryDialogFragment.DownloadCategoryDialogListener, UpdateCategoryDialogFragment.UpdateCategoryDialogListener {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
@@ -97,6 +98,7 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
                 switch (downloadableCategories.status) {
                     case SUCCESS:
                         mLoadingView.setVisibility(View.GONE);
+                        assert downloadableCategories.data != null;
                         if (!downloadableCategories.data.isEmpty()){
                             mCategoryViewModel.getAllCategories().observe(this, categories -> {
                                 for (Category category : categories) {
@@ -134,26 +136,68 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_categories_in_list)
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     FragmentManager fm = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                    DownloadCategoryDialogFragment dialog = new DownloadCategoryDialogFragment(mAdapter.getDownloadableCategory(position));
-                    dialog.setTargetFragment(this, 0);
-                    dialog.show(fm, "downloadDialog");
+                    if (mAdapter.getDownloadableCategory(position).getStatus().equals("")) {
+                        DownloadCategoryDialogFragment dialog = new DownloadCategoryDialogFragment(mAdapter.getDownloadableCategory(position));
+                        dialog.setTargetFragment(this, 0);
+                        dialog.show(fm, "downloadDialog");
+                    } else if (mAdapter.getDownloadableCategory(position).getStatus().equals("Mise à jour")) {
+                        UpdateCategoryDialogFragment dialog = new UpdateCategoryDialogFragment(mAdapter.getDownloadableCategory(position));
+                        dialog.setTargetFragment(this, 0);
+                        dialog.show(fm, "updateDialog");
+                    }
                 });
+    }
+
+    void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : Objects.requireNonNull(fileOrDirectory.listFiles()))
+                deleteRecursive(child);
+
+        boolean deleted = fileOrDirectory.delete();
+        if (!deleted) Log.e("deleteRecursive", "Could not delete file or directory" + fileOrDirectory.getName());
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, DownloadableCategory downloadableCategory) {
-        mApiViewModel.downloadCategory(downloadableCategory).observe(this, categoryWithWords -> {
-            switch (categoryWithWords.status) {
-                case SUCCESS:
-                    mCategoryViewModel.insert(categoryWithWords.data);
-                    break;
-                case LOADING:
-                    break;
-                case ERROR:
-                    Toast.makeText(getContext(), "Impossible de récupérer la catégorie", Toast.LENGTH_LONG).show();
-            }
+        if (dialog instanceof DownloadCategoryDialogFragment) {
+            mApiViewModel.downloadCategory(downloadableCategory).observe(this, categoryWithWords -> {
+                switch (categoryWithWords.status) {
+                    case SUCCESS:
+                        mCategoryViewModel.insert(categoryWithWords.data);
+                        downloadableCategory.setStatus("Installée");
+                        break;
+                    case LOADING:
+                        break;
+                    case ERROR:
+                        Toast.makeText(getContext(), "Impossible de récupérer la catégorie", Toast.LENGTH_LONG).show();
+                }
 
-        });
+            });
+        } else if (dialog instanceof UpdateCategoryDialogFragment) {
+            // Delete category
+            deleteRecursive(new File(Objects.requireNonNull(getActivity()).getExternalFilesDir("") + File.separator + downloadableCategory.getId()));
+            File zip = new File(getActivity().getExternalFilesDir("") + File.separator + downloadableCategory.getId() + ".zip");
+            if (zip.exists()) {
+                boolean deleted = zip.delete();
+                if (!deleted) Log.e("updateCategory", "Could not delete file or directory" + zip.getName());
+            }
+            mCategoryViewModel.delete(downloadableCategory.getId());
+
+            // Download updated version
+            mApiViewModel.downloadCategory(downloadableCategory).observe(this, categoryWithWords -> {
+                switch (categoryWithWords.status) {
+                    case SUCCESS:
+                        mCategoryViewModel.insert(categoryWithWords.data);
+                        downloadableCategory.setStatus("Installée");
+                        break;
+                    case LOADING:
+                        break;
+                    case ERROR:
+                        Toast.makeText(getContext(), "Impossible de récupérer la catégorie", Toast.LENGTH_LONG).show();
+                }
+
+            });
+        }
     }
 
     @Override
