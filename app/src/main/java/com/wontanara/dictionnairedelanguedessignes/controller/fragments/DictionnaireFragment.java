@@ -43,7 +43,7 @@ public class DictionnaireFragment extends BaseFragment {
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_dictionnaire;
+        return R.layout.fragment_categorie;
     }
 
     @Override
