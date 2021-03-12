@@ -13,7 +13,6 @@
         android:usesCleartextTraffic="true">
 
         <activity android:name=".controller.activities.SuggestionsActivity" />
-        <activity android:name=".controller.activities.ParametresActivity" />
         <activity android:name=".controller.activities.ChargementActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

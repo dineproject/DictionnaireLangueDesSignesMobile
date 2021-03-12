@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="?android:attr/selectableItemBackground"
     android:gravity="start">
 
     <TextView
@@ -15,14 +16,17 @@
 
 
     <ImageButton
+        android:id="@+id/chevron_mot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chevron_mot"
-        android:src="@drawable/baseline_chevron_right_24"
-        android:background="@color/white"
-        android:layout_margin="@dimen/text_margin"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:background="#00FFFFFF"
+        android:src="@drawable/baseline_chevron_right_24" />
 
     <View
         android:id="@+id/divider"

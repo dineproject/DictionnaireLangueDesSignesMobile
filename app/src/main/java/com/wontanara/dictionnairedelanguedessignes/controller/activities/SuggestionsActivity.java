@@ -116,8 +116,6 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                 break;
             case R.id.navigation_drawer_bases:
                 break;
-            case R.id.navigation_drawer_parametres:
-                break;
             case R.id.navigation_drawer_apropos:
                 this.navigationAPropos();
                 break;

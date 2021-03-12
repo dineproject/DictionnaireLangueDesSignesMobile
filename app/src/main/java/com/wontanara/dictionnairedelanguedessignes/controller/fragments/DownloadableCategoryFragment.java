@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.controller.activities.CategoriesActivity;
 import com.wontanara.dictionnairedelanguedessignes.model.ApiViewModel;
 import com.wontanara.dictionnairedelanguedessignes.model.Category;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
@@ -56,6 +57,7 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
 
     @Override
     protected void configureDesign(View view) {
+        ((CategoriesActivity) Objects.requireNonNull(getActivity())).getToolbar().setTitle(R.string.download_categories_title);
         mEmptyView = view.findViewById(R.id.empty_view);
         mLoadingView = view.findViewById(R.id.loading_view);
         this.configureRecyclerView(view.findViewById(R.id.recycler_view));

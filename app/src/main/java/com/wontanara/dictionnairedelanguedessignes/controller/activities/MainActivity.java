@@ -27,7 +27,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private ImageButton mCategorieButton;
     private ImageButton mSuggestionButton;
     private ImageButton mBaseButton;
-    private ImageButton mParametreButton;
 
 
 //    ------ BASE METHODS ------
@@ -63,7 +62,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.mCategorieButton = findViewById(R.id.imageCategorieButton);
         this.mSuggestionButton = findViewById(R.id.imageSuggestionButton);
         this.mBaseButton = findViewById(R.id.imageBaseButton);
-        this.mParametreButton = findViewById(R.id.imageParametreButton);
 
     }
 
@@ -122,9 +120,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.navigation_drawer_bases:
                 break;
-            case R.id.navigation_drawer_parametres:
-                this.navigationParametres();
-                break;
             case R.id.navigation_drawer_apropos:
                 this.navigationAPropos();
                 break;
@@ -153,9 +148,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.imageBaseButton:
                 break;
-            case R.id.imageParametreButton:
-                this.navigationParametres();
-                break;
             default:
                 break;
         }
@@ -176,7 +168,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.mCategorieButton.setOnClickListener(this);
         this.mSuggestionButton.setOnClickListener(this);
         this.mBaseButton.setOnClickListener(this);
-        this.mParametreButton.setOnClickListener(this);
     }
 
 }

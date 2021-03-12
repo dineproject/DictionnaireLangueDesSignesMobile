@@ -7,7 +7,6 @@
     <string name="titre_lien_categories">Catégories</string>
     <string name="titre_lien_suggestions">Suggestions</string>
     <string name="titre_lien_bases">Apprendre les bases</string>
-    <string name="titre_lien_parametres">Paramètres</string>
     <string name="titre_lien_apropos">A propos</string>
 
     <string name="apropos1">Cette application est destinée à l’apprentissage de la Langue des Signes Guinéenne.
@@ -18,6 +17,7 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
     <string name="apropos4">Nos remerciements sincères à Enzo d’Andréa et Deborah Fache, qui l’ont développée gracieusement dans le cadre de leurs études d’ingénieurs à Polytech Nancy.</string>
     <string name="apropos5">… à la mémoire de Karou KABA, initiateur du projet</string>
 
+    <string name="download_categories_title">Ajouter une catégorie</string>
     <string name="download_category">Télécharger la catégorie %1$s ?</string>
     <string name="update_category">Mettre à jour la catégorie %1$s ?</string>
     <string name="download_category_approximated_size">Le téléchargement ne dépassera pas %1$.1f Mo.</string>
@@ -32,7 +32,7 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
     </plurals>
 
     <string name="no_downloadable_categories_available">Pas de catégories disponibles</string>
-    <string name="loading">Chargement...</string>
+    <string name="loading">Chargement…</string>
     <string name="error">Une erreur est survenue.</string>
 
     <string name="description_navigation_drawer_open">Open Navigation drawer</string>
@@ -42,7 +42,7 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
     <string name="title_activity_video_player">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="explication_suggestions">Cette page vous permet de soumettre des suggestions aux administrateur. Ils pourront s\'en inspirer pour ajouter un mot à la liste.</string>
+    <string name="explication_suggestions">Cette page vous permet de soumettre des suggestions aux administrateurs. Ils pourront s\'en inspirer pour ajouter un mot à la liste.</string>
 
     <string name="base_url">http://ea-perso.ovh</string>
 

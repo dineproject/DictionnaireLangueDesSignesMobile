@@ -86,9 +86,6 @@ public class DictionnaireActivity extends BaseActivity implements NavigationView
                 break;
             case R.id.navigation_drawer_bases:
                 break;
-            case R.id.navigation_drawer_parametres:
-                this.navigationParametres();
-                break;
             case R.id.navigation_drawer_apropos:
                 this.navigationAPropos();
                 break;

@@ -33,7 +33,7 @@ public class UpdateCategoryDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getString(R.string.download_category, mCategory.name))
+        builder.setTitle(getString(R.string.update_category, mCategory.name))
                 .setMessage(getString(R.string.download_category_approximated_size, mCategory.word_count * 0.7))
                 .setPositiveButton(R.string.update, (dialog, id) -> listener.onDialogPositiveClick(UpdateCategoryDialogFragment.this, mCategory))
                 .setNegativeButton(R.string.cancel, (dialog, id) -> listener.onDialogNegativeClick(UpdateCategoryDialogFragment.this, mCategory));

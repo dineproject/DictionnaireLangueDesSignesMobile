@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.controller.activities.CategoriesActivity;
 import com.wontanara.dictionnairedelanguedessignes.model.Category;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.utils.ItemClickSupport;
@@ -27,6 +29,8 @@ public class CategoriesFragment extends BaseFragment {
     protected RecyclerView mRecyclerView;
     protected CategoryViewAdapter mAdapter;
     protected CategoryFragment mCategoryFragment;
+    protected DownloadableCategoryFragment mDownloadableCategoryFragment;
+    protected FloatingActionButton mFloatingActionButton;
 
     private CategoryViewModel mCategoryViewModel;
 
@@ -52,12 +56,22 @@ public class CategoriesFragment extends BaseFragment {
 
     @Override
     protected void configureDesign(View view) {
-        this.configureRecyclerView(view);
+        ((CategoriesActivity) Objects.requireNonNull(getActivity())).getToolbar().setTitle(R.string.titre_lien_categories);
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDownloadableCategoryFragment = new DownloadableCategoryFragment();
+                replaceFragment(mDownloadableCategoryFragment, R.id.list_categories_frame_layout);
+            }
+        });
+        this.configureRecyclerView(view.findViewById(R.id.list));
         this.configureOnClickRecyclerView();
     }
 
     @Override
-    protected void findElements(View view) { }
+    protected void findElements(View view) {
+        mFloatingActionButton = view.findViewById(R.id.floatingActionButton);
+    }
 
 //    ------ OVERRIDE METHODS ------
 
