@@ -47,7 +47,7 @@ public class UpdateCategoryDialogFragment extends DialogFragment {
         try {
             listener = (UpdateCategoryDialogListener) Objects.requireNonNull(getTargetFragment());
         } catch (ClassCastException e) {
-            throw new ClassCastException(Objects.requireNonNull(getTargetFragment()).toString() + " must implement DownloadCategoryListener");
+            throw new ClassCastException(Objects.requireNonNull(getTargetFragment()).toString() + " must implement UpdateCategoryListener");
         }
     }
 }

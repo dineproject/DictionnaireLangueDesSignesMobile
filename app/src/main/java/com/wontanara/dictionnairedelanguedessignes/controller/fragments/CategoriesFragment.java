@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wontanara.dictionnairedelanguedessignes.R;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class CategoriesFragment extends BaseFragment {
+public class CategoriesFragment extends BaseFragment implements DeleteCategoryDialogFragment.DeleteCategoryDialogListener {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
@@ -144,6 +145,28 @@ public class CategoriesFragment extends BaseFragment {
 //                });
     }
 
+    public void showDeleteFragment(ActionMode mode) {
+        FragmentManager fm = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+        DeleteCategoryDialogFragment dialog = new DeleteCategoryDialogFragment(mode);
+        dialog.setTargetFragment(this, 0);
+        dialog.show(fm, "deleteDialog");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, ActionMode mode) {
+        List<Category> selectedItems = mAdapter.getSelectedItems();
+        for (int i = selectedItems.size() - 1; i >= 0; i--) {
+            mCategoryViewModel.delete(selectedItems.get(i).getId());
+        }
+        mAdapter.notifyDataSetChanged();
+        mode.finish();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog, ActionMode mode) {
+        mode.finish();
+    }
+
     private class ActionCallback implements ActionMode.Callback {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -157,12 +180,7 @@ public class CategoriesFragment extends BaseFragment {
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             if (item.getItemId() == R.id.deleteItems) {
-                List<Category> selectedItems = mAdapter.getSelectedItems();
-                for (int i = selectedItems.size() - 1; i >= 0; i--) {
-                    mCategoryViewModel.delete(selectedItems.get(i).getId());
-                }
-                mAdapter.notifyDataSetChanged();
-                mode.finish();
+                showDeleteFragment(mode);
                 return true;
             }
             return false;
