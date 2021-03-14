@@ -150,15 +150,6 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
                 });
     }
 
-    void deleteRecursive(File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory())
-            for (File child : Objects.requireNonNull(fileOrDirectory.listFiles()))
-                deleteRecursive(child);
-
-        boolean deleted = fileOrDirectory.delete();
-        if (!deleted) Log.e("deleteRecursive", "Could not delete file or directory" + fileOrDirectory.getName());
-    }
-
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, DownloadableCategory downloadableCategory) {
         if (dialog instanceof DownloadCategoryDialogFragment) {
@@ -167,6 +158,7 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
                     case SUCCESS:
                         mCategoryViewModel.insert(categoryWithWords.data);
                         downloadableCategory.setStatus("Installée");
+                        mAdapter.notifyDataSetChanged();
                         break;
                     case LOADING:
                         break;
@@ -177,12 +169,6 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
             });
         } else if (dialog instanceof UpdateCategoryDialogFragment) {
             // Delete category
-            deleteRecursive(new File(Objects.requireNonNull(getActivity()).getExternalFilesDir("") + File.separator + downloadableCategory.getId()));
-            File zip = new File(getActivity().getExternalFilesDir("") + File.separator + downloadableCategory.getId() + ".zip");
-            if (zip.exists()) {
-                boolean deleted = zip.delete();
-                if (!deleted) Log.e("updateCategory", "Could not delete file or directory" + zip.getName());
-            }
             mCategoryViewModel.delete(downloadableCategory.getId());
 
             // Download updated version

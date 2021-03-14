@@ -97,10 +97,10 @@ public class CategoryViewAdapter extends ListAdapter<Category, CategoryViewHolde
         }
     }
 
-    public List<Integer> getSelectedItems() {
-        List<Integer> items = new ArrayList<>(selectedItems.size());
+    public List<Category> getSelectedItems() {
+        List<Category> items = new ArrayList<>(selectedItems.size());
         for (int i = 0; i < selectedItems.size(); i++) {
-            items.add(selectedItems.keyAt(i));
+            items.add(getCategory(selectedItems.keyAt(i)));
         }
         return items;
     }

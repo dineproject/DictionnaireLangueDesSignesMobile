@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wontanara.dictionnairedelanguedessignes.R;
@@ -21,6 +22,7 @@ import com.wontanara.dictionnairedelanguedessignes.model.Category;
 import com.wontanara.dictionnairedelanguedessignes.model.CategoryViewModel;
 import com.wontanara.dictionnairedelanguedessignes.view.CategoryViewAdapter;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -154,9 +156,14 @@ public class CategoriesFragment extends BaseFragment {
         }
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.deleteItems:
-                    return true;
+            if (item.getItemId() == R.id.deleteItems) {
+                List<Category> selectedItems = mAdapter.getSelectedItems();
+                for (int i = selectedItems.size() - 1; i >= 0; i--) {
+                    mCategoryViewModel.delete(selectedItems.get(i).getId());
+                }
+                mAdapter.notifyDataSetChanged();
+                mode.finish();
+                return true;
             }
             return false;
         }
