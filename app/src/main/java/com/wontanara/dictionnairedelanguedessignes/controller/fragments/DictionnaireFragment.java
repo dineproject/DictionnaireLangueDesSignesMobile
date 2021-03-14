@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.controller.activities.DictionnaireActivity;
@@ -27,6 +28,7 @@ public class DictionnaireFragment extends BaseFragment {
     private WordViewAdapter mAdapter;
     private WordFragment mWordFragment;
     private Toolbar mToolbar;
+    protected TextView mEmptyView;
 
     private WordViewModel mWordViewModel;
 
@@ -48,7 +50,7 @@ public class DictionnaireFragment extends BaseFragment {
 
     @Override
     protected void configureDesign(View view) {
-        this.configureRecyclerView(view);
+        this.configureRecyclerView(view.findViewById(R.id.word_list));
         this.configureOnClickRecyclerView();
         this.mToolbar.setTitle(R.string.titre_lien_alphabetique);
     }
@@ -56,6 +58,7 @@ public class DictionnaireFragment extends BaseFragment {
     @Override
     protected void findElements(View view) {
         this.mToolbar = ((DictionnaireActivity) getActivity()).getToolbar();
+        mEmptyView = view.findViewById(R.id.empty_view);
     }
 
 //    ------ OVERRIDE METHODS ------
@@ -78,7 +81,13 @@ public class DictionnaireFragment extends BaseFragment {
 
             mAdapter = new WordViewAdapter(new WordViewAdapter.WordDiff());
             mRecyclerView.setAdapter(this.mAdapter);
-            mWordViewModel.getAllWords().observe(this, words -> mAdapter.submitList(words));
+            mWordViewModel.getAllWords().observe(this, words -> {
+                mAdapter.submitList(words);
+                if (words.isEmpty()) {
+                    mEmptyView.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.GONE);
+                }
+            });
         }
     }
 

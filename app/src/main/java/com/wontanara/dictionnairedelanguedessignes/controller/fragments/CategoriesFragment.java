@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wontanara.dictionnairedelanguedessignes.R;
@@ -35,6 +36,7 @@ public class CategoriesFragment extends BaseFragment implements DeleteCategoryDi
     protected RecyclerView mRecyclerView;
     protected CategoryViewAdapter mAdapter;
     protected CategoryFragment mCategoryFragment;
+    protected TextView mEmptyView;
     protected DownloadableCategoryFragment mDownloadableCategoryFragment;
     protected FloatingActionButton mFloatingActionButton;
 
@@ -78,6 +80,7 @@ public class CategoriesFragment extends BaseFragment implements DeleteCategoryDi
     @Override
     protected void findElements(View view) {
         mFloatingActionButton = view.findViewById(R.id.floatingActionButton);
+        mEmptyView = view.findViewById(R.id.empty_view);
     }
 
 //    ------ OVERRIDE METHODS ------
@@ -107,7 +110,13 @@ public class CategoriesFragment extends BaseFragment implements DeleteCategoryDi
 
             mAdapter = new CategoryViewAdapter(new CategoryViewAdapter.CategoryDiff());
             mRecyclerView.setAdapter(this.mAdapter);
-            mCategoryViewModel.getAllCategories().observe(this, categories -> mAdapter.submitList(categories));
+            mCategoryViewModel.getAllCategories().observe(this, categories -> {
+                mAdapter.submitList(categories);
+                if (categories.isEmpty()) {
+                    mEmptyView.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.GONE);
+                }
+            });
         }
     }
 

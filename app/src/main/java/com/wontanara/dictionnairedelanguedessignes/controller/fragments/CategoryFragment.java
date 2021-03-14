@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,6 +34,7 @@ public class CategoryFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private WordViewAdapter mAdapter;
     private WordFragment mWordFragment;
+    protected TextView mEmptyView;
 
     private CategoryViewModel mCategoryViewModel;
 
@@ -55,13 +57,14 @@ public class CategoryFragment extends BaseFragment {
 
     @Override
     protected void configureDesign(View view) {
-        this.configureRecyclerView(view);
+        this.configureRecyclerView(view.findViewById(R.id.word_list));
         this.configureOnClickRecyclerView();
     }
 
     @Override
     protected void findElements(View view) {
         this.mToolbar = ((CategoriesActivity) Objects.requireNonNull(getActivity())).getToolbar();
+        mEmptyView = view.findViewById(R.id.empty_view);
     }
 
 //    ------ OVERRIDE METHODS ------
@@ -101,6 +104,10 @@ public class CategoryFragment extends BaseFragment {
             mCategoryViewModel.getCategoryWithWords(mIdCategory).observe(this, categoryWithWords -> {
                 this.mToolbar.setTitle(categoryWithWords.category.getName());
                 mAdapter.submitList(categoryWithWords.words);
+                if (categoryWithWords.words.isEmpty()) {
+                    mEmptyView.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.GONE);
+                }
             });
         }
     }
