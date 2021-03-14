@@ -31,11 +31,12 @@
 
     <style name="Widget.Theme.DictionnaireDeLangueDesSignes.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/colorPrimary</item>
     </style>
 
     <style name="Widget.Theme.DictionnaireDeLangueDesSignes.ButtonBar.Fullscreen" parent="">
         <item name="android:background">@color/black_overlay</item>
-        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 
     <style name="text_button_accueil" parent="Widget.AppCompat.TextView">
