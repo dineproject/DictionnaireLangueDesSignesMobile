@@ -11,18 +11,18 @@
 
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:id="@+id/logo_imageView"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
         android:src="@mipmap/ic_launcher"
         android:layout_margin="20dp" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@mipmap/ic_launcher"
-        android:layout_margin="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dictionnaire de la Langue des Signes Guinéenne"
+        android:textSize="30sp"
+        android:gravity="center"/>
 
 
 </LinearLayout>

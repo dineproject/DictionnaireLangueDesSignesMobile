@@ -47,6 +47,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
     implementation "androidx.preference:preference:1.1.0"
     implementation 'androidx.room:room-runtime:2.2.6'
+    implementation 'org.apache.commons:commons-text:1.9'
     annotationProcessor 'androidx.room:room-compiler:2.2.6'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
