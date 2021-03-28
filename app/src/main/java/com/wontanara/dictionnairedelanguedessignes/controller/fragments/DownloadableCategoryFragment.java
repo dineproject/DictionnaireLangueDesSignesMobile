@@ -156,7 +156,6 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
             mApiViewModel.downloadCategory(downloadableCategory).observe(this, categoryWithWords -> {
                 switch (categoryWithWords.status) {
                     case SUCCESS:
-                        mCategoryViewModel.insert(categoryWithWords.data);
                         downloadableCategory.setStatus("Installée");
                         mAdapter.notifyDataSetChanged();
                         break;
@@ -175,8 +174,8 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
             mApiViewModel.downloadCategory(downloadableCategory).observe(this, categoryWithWords -> {
                 switch (categoryWithWords.status) {
                     case SUCCESS:
-                        mCategoryViewModel.insert(categoryWithWords.data);
                         downloadableCategory.setStatus("Installée");
+                        mAdapter.notifyDataSetChanged();
                         break;
                     case LOADING:
                         break;

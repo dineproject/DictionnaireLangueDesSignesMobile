@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,11 +37,15 @@ import java.util.Objects;
 public class ApiRepository {
 
     private final Application application;
+
+    private final CategoryRepository categoryRepository;
+
     private final MutableLiveData<Resource<List<DownloadableCategory>>> downloadableCategories = new MutableLiveData<>();
     private final MutableLiveData<Resource<CategoryWithWords>> categoryWithWords = new MutableLiveData<>();
 
     ApiRepository(Application application) {
         this.application = application;
+        categoryRepository = new CategoryRepository(application);
     }
 
     LiveData<Resource<List<DownloadableCategory>>> getDownloadableCategories () {
@@ -104,8 +109,8 @@ public class ApiRepository {
                     e.printStackTrace();
                 }
             }
-            downloadZip(downloadableCategory.getId());
-            categoryWithWords.setValue(Resource.success(new CategoryWithWords(category, list)));
+            downloadZip(downloadableCategory, new CategoryWithWords(category, list));
+//            categoryWithWords.setValue(Resource.success(new CategoryWithWords(category, list)));
         }, error -> {
             error.printStackTrace();
             categoryWithWords.setValue(Resource.error(error.getMessage(), null));
@@ -116,15 +121,15 @@ public class ApiRepository {
         return categoryWithWords;
     }
 
-    private void downloadZip(int id) {
-        File file = new File(application.getExternalFilesDir("") + File.separator + id + ".zip");
+    private void downloadZip(DownloadableCategory downloadableCategory, CategoryWithWords data) {
+        File file = new File(application.getExternalFilesDir("") + File.separator + downloadableCategory.getId() + ".zip");
         if (!file.exists()) {
-            Uri uri = Uri.parse(application.getString(R.string.base_url) + "/api/category/" + id + "/file");
+            Uri uri = Uri.parse(application.getString(R.string.base_url) + "/api/category/" + downloadableCategory.getId() + "/file");
             DownloadManager downloadManager = (DownloadManager) application.getSystemService(Context.DOWNLOAD_SERVICE);
 
             DownloadManager.Request request = new DownloadManager.Request(uri);
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-            request.setDestinationInExternalFilesDir(application, "", id + ".zip");
+            request.setDestinationInExternalFilesDir(application, "", downloadableCategory.getId() + ".zip");
 
             downloadManager.enqueue(request);
 
@@ -132,10 +137,14 @@ public class ApiRepository {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     try {
-                        ZipManager.unzip(application.getExternalFilesDir("") + File.separator + id + ".zip", application.getExternalFilesDir("") + File.separator + id);
+                        ZipManager.unzip(application.getExternalFilesDir("") + File.separator + downloadableCategory.getId() + ".zip", application.getExternalFilesDir("") + File.separator + downloadableCategory.getId());
                         if (!file.delete()) {
                             throw new IOException("Unable to delete file " + file.getPath());
                         }
+
+                        categoryWithWords.setValue(Resource.success(data));
+                        categoryRepository.insert(data);
+
                         Toast.makeText(application, "Catégorie installée", Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -148,10 +157,14 @@ public class ApiRepository {
                     DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         } else {
             try {
-                ZipManager.unzip(application.getExternalFilesDir("") + File.separator + id + ".zip", application.getExternalFilesDir("") + File.separator + id);
+                ZipManager.unzip(application.getExternalFilesDir("") + File.separator + downloadableCategory.getId() + ".zip", application.getExternalFilesDir("") + File.separator + downloadableCategory.getId());
                 if (!file.delete()) {
                     throw new IOException("Unable to delete file " + file.getPath());
                 }
+
+                categoryWithWords.setValue(Resource.success(data));
+                categoryRepository.insert(data);
+
                 Toast.makeText(application, "Catégorie installée", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();
