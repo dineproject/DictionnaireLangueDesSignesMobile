@@ -27,4 +27,20 @@
     <dimen name="padding_horizontal_accueil">35dp</dimen>
     <dimen name="padding_vertical_accueil">17dp</dimen>
 
+
+    <!--  weight for element of each item recyclerview -->
+    <dimen name="weight_name_3elements">60</dimen>
+    <dimen name="weight_download_3elements">20</dimen>
+    <dimen name="weight_icon_3elements">20</dimen>
+
+    <dimen name="weight_icon1_2icons">8</dimen>
+    <dimen name="weight_name_2icons">88</dimen>
+    <dimen name="weight_icon2_2icons">4</dimen>
+
+    <dimen name="weight_name_2elements">96</dimen>
+    <dimen name="weight_icon_2elements">4</dimen>
+
+
+
+
 </resources>

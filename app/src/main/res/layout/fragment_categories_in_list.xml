@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="?android:attr/selectableItemBackground"
         android:gravity="start">
 
-        <ImageButton
-            android:id="@+id/icon_categorie"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginTop="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:layout_marginBottom="@dimen/text_margin"
-            android:background="#00FFFFFF"
-            android:src="@drawable/baseline_info_24" />
-
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:layout_toEndOf="@id/icon_categorie"
-            android:layout_toRightOf="@id/icon_categorie" />
+            android:orientation="horizontal"
+            android:gravity="center">
 
 
-        <ImageButton
-            android:id="@+id/chevron_categorie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginTop="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:layout_marginBottom="@dimen/text_margin"
-            android:background="#00FFFFFF"
-            android:src="@drawable/baseline_chevron_right_24" />
+    <!--        TODO: inutile ?-->
+            <ImageButton
+                android:id="@+id/icon_categorie"
+                android:layout_width="0dp"
+                android:layout_weight="@dimen/weight_icon1_2icons"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginTop="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:background="#00FFFFFF"
+                android:src="@drawable/baseline_info_24" />
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="0dp"
+                android:layout_weight="@dimen/weight_name_2icons"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+
+            <ImageButton
+                android:id="@+id/chevron_categorie"
+                android:layout_width="0dp"
+                android:layout_weight="@dimen/weight_icon2_2icons"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginTop="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:background="#00FFFFFF"
+                android:src="@drawable/baseline_chevron_right_24" />
+
+        </LinearLayout>
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:layout_alignParentBottom="true"/>
+            android:background="?android:attr/listDivider" />
 
-
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

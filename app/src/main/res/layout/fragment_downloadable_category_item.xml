@@ -1,40 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:background="?android:attr/selectableItemBackground"
     android:gravity="start">
 
-    <TextView
-        android:id="@+id/downloadable_category_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:orientation="horizontal"
+        android:gravity="start">
 
-    <TextView
-        android:id="@+id/downloadable_category_word_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textSize="@dimen/text_size"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:id="@+id/downloadable_category_name"
+            android:layout_width="0dp"
+            android:layout_weight="@dimen/weight_name_3elements"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem" />
 
-    <TextView
-        android:id="@+id/downloadable_category_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textSize="@dimen/text_size"
-        android:layout_toStartOf="@id/downloadable_category_word_count" />
+        <TextView
+            android:id="@+id/downloadable_category_word_count"
+            android:layout_width="0dp"
+            android:layout_weight="@dimen/weight_download_3elements"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/downloadable_category_status"
+            android:layout_width="0dp"
+            android:layout_weight="@dimen/weight_icon_3elements"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textSize="@dimen/text_size" />
+
+    </LinearLayout>
+
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        android:layout_alignParentBottom="true"/>
+        android:background="?android:attr/listDivider" />
 
-</RelativeLayout>
+</LinearLayout>
