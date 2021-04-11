@@ -28,6 +28,8 @@ import java.util.Objects;
 
 public class DownloadableCategoryFragment extends BaseFragment implements DownloadCategoryDialogFragment.DownloadCategoryDialogListener, UpdateCategoryDialogFragment.UpdateCategoryDialogListener {
 
+//    TODO: Ajouter le bouton retour en haut à gauche ?
+
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
 

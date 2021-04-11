@@ -14,60 +14,92 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content" >
 
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src=""/>-->
-<!--        TODO: a faire les images-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="0dp">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="18"
+                    android:layout_height="150dp"
+                    android:src="@drawable/logo_wontanara"
+                    android:contentDescription="Wontanara Logo" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:justificationMode="inter_word"
-        android:gravity="left"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/apropos1" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="22"
+                    android:layout_height="120dp"
+                    android:src="@drawable/logo_asculsgui"
+                    android:contentDescription="Asculsgui Logo" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:justificationMode="inter_word"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/apropos2" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:justificationMode="inter_word"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/apropos3" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/polytech_nancy_quadri_hd"
+                android:contentDescription="Polytech Logo" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:justificationMode="inter_word"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/apropos4" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/apropos1" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/apropos5" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/apropos2" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/apropos3" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/apropos4" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/apropos5" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>
