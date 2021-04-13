@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
+import android.view.MenuItem;
 
 import com.wontanara.dictionnairedelanguedessignes.R;
 
@@ -38,4 +39,13 @@ public class AproposActivity extends BaseActivity {
     protected void findElements() {
         this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
     }
+
+
+//    ----- OVERRIDE METHODS -----
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        this.onBackPressed();
+        return true;
+    }
+
 }
