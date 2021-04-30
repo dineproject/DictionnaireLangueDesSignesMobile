@@ -32,8 +32,8 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
         <item quantity="other">%1$d mots</item>
     </plurals>
 
-    <string name="no_words">Pas de mots</string>
-    <string name="no_categories_available">Pas de catégories installées</string>
+    <string name="no_words">Pas de mots. Ajoutez-en depuis les catégories.</string>
+    <string name="no_categories_available">Pas de catégories installées. Utilisez le bouton ci-dessous pour en ajouter.</string>
     <string name="no_downloadable_categories_available">Pas de catégories disponibles</string>
     <string name="loading">Chargement…</string>
     <string name="error">Une erreur est survenue.</string>
