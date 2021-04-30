@@ -158,7 +158,6 @@ public class VideoPlayerActivity extends BaseActivity {
 
     private void show() {
         // Show the system bar
-//        TODO: ICCCCCCCI
         controller.show(navigationBars());
 
 //        mTextView.setTextColor(getResources().getColor(R.color.white));

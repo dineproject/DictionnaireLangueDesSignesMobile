@@ -39,7 +39,7 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.configureAndShowListCategoriesFragment();
-        this.mNavigationView.getMenu().getItem(1).getSubMenu().getItem(1).setChecked(true);
+//        this.mNavigationView.getMenu().getItem(1).getSubMenu().getItem(1).setChecked(true);
     }
 
     @Override
