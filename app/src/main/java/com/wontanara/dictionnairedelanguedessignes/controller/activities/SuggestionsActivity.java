@@ -246,15 +246,20 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
             case R.id.video_button_suggestion:
                 pickVideo();
                 break;
-            case R.id.validation_button_suggestion:
-                Log.e("TEST", "VALIDATION");
-                val.WordValidation(mMotInput);
-//                TODO: appel de ApiViewModel
-
             case R.id.delete_image_button:
                 deleteImage();
+                break;
             case R.id.delete_video_button:
                 deleteVideo();
+                break;
+
+            case R.id.validation_button_suggestion:
+                if (val.WordValidation(mMotInput)) {
+                    Log.e("TEST", "VALIDATION");
+                    break;
+                }
+                break;
+//                TODO: appel de ApiViewModel
         }
 
 

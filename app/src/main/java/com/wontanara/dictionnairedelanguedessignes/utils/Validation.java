@@ -5,7 +5,6 @@ import android.view.View;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.apache.commons.text.StringEscapeUtils;
 
 public abstract class Validation {
 
@@ -20,11 +19,13 @@ public abstract class Validation {
         return String.valueOf(input.getEditText().getText());
     }
 
-    public void WordValidation (TextInputLayout wordInput) {
+    public boolean WordValidation (TextInputLayout wordInput) {
         if (isEmpty(wordInput)) {
             wordInput.setError("Le mot est requis");
+            return false;
         } else {
             wordInput.setError(null);
+            return true;
         }
     }
 
