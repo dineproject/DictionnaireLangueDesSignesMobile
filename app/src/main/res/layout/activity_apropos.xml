@@ -9,7 +9,6 @@
     android:layout_gravity="center">
 
 
-<!--    TODO: Voir comment ajouter le bouton retour-->
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"

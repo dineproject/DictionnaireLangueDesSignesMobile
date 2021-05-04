@@ -6,28 +6,79 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.ColorSpace;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.utils.Validation;
+
+import java.io.InputStream;
+import java.net.URI;
 
 // TODO: faire un bouton (?) dans la barre pour expliquer ce que sont les suggestions ?
 
-public class SuggestionsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class SuggestionsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    private static final String ARG_MOT_INPUT = "mot-input";
+    private static final String ARG_MOT_INPUT = "word-input";
+    private static final String ARG_DEFINITION_INPUT = "definition-input";
+    private static final String ARG_URI_IMAGE = "image-uri";
+    private static final String ARG_URI_VIDEO = "video-uri";
+    private static final String ARG_LARGE_IMAGE = "large-image";
+    private static final String ARG_LARGE_VIDEO = "large-video";
+
+    private static final int PICK_IMAGE = 1;
+    private static final int PICK_VIDEO = 2;
+
+    private int sizeImage = 0;
+    private int sizeVideo = 0;
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private NavigationView mNavigationView;
     private TextInputLayout mMotInput;
     private TextInputLayout mDefinitionInput;
+    private Button mImageButton;
+    private Button mVideoButton;
+    private Button mButton;
+    private TextView mImageSizeTextView;
+    private TextView mVideoSizeTextView;
 
+    private ImageButton mDeleteImageButton;
+    private ImageButton mDeleteVideoButton;
+//    private TextView mImageTextView;
+
+    private ImageView mPreviewImageView;
+    private VideoView mPreviewVideoView;
+
+    private Uri selectedImageUri;
+    private Uri selectedVideoUri;
+
+    private boolean largeImage = false;
+    private boolean largeVideo = false;
+
+    private Validation val = new Validation() {};
+
+
+//    TODO: Taille max video et photo à la validation
+
+//    TODO: Faire le back dans ApiRepository, la requete post grace à Jsonarrayrequest ?
 
 //    ------ BASE METHODS ------
 
@@ -48,7 +99,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.configureWordInput();
-        this.configureDefinitionInput();
+        this.configureOnClickListener();
     }
 
     @Override
@@ -60,26 +111,160 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
 
         this.mMotInput = (TextInputLayout) findViewById(R.id.word_input_suggestions);
         this.mDefinitionInput = (TextInputLayout) findViewById(R.id.definition_input_suggestion);
-    }
 
-//    @Override
-//    protected void configureBundle(Bundle savedInstanceState) {
-//        if (getIntent().getExtras() != null) {
-//            mMotInput.getEditText().setText(getIntent().getExtras().getInt(ARG_MOT_INPUT));
-//
-//        }
-//    }
+        this.mImageButton = (Button) findViewById(R.id.image_button_suggestion);
+        this.mVideoButton = (Button) findViewById(R.id.video_button_suggestion);
+
+        this.mDeleteImageButton = (ImageButton) findViewById(R.id.delete_image_button);
+        this.mDeleteVideoButton = (ImageButton) findViewById(R.id.delete_video_button);
+
+//        this.mImageTextView = (TextView) findViewById(R.id.nom_image_suggestion);
+
+        this.mPreviewImageView = (ImageView) findViewById(R.id.preview_image_suggestion);
+        this.mPreviewVideoView = (VideoView) findViewById(R.id.preview_video_suggestion);
+
+        this.mImageSizeTextView = (TextView) findViewById(R.id.max_size_image_textview_suggestion);
+        this.mVideoSizeTextView = (TextView) findViewById(R.id.max_size_video_textview_suggestion);
+
+        this.mButton = (Button) findViewById(R.id.validation_button_suggestion);
+
+    }
 
 
 //    ------ OVERRIDE METHODS ------
 
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-        Editable inputmot = this.mMotInput.getEditText().getText();
-        bundle.putString(ARG_MOT_INPUT, "a");
-//        TODO: pq ca marche pas ...
+    public void onPause() {
+        super.onPause();
+        getIntent().putExtra(ARG_MOT_INPUT, this.mMotInput.getEditText().getText().toString());
+        getIntent().putExtra(ARG_DEFINITION_INPUT, this.mDefinitionInput.getEditText().getText().toString());
+        if (this.selectedImageUri != null) {
+            getIntent().putExtra(ARG_URI_IMAGE, this.selectedImageUri.toString());
+            if (this.largeImage) {
+                getIntent().putExtra(ARG_LARGE_IMAGE, this.largeImage);
+            }
+        }
+        if (this.selectedVideoUri != null) {
+            getIntent().putExtra(ARG_URI_VIDEO, this.selectedVideoUri.toString());
+            if (this.largeVideo) {
+                getIntent().putExtra(ARG_LARGE_VIDEO, this.largeVideo);
+            }
+        }
+    }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String word = getIntent().getStringExtra(ARG_MOT_INPUT);
+        String definition = getIntent().getStringExtra(ARG_DEFINITION_INPUT);
+        String imageUri = getIntent().getStringExtra(ARG_URI_IMAGE);
+        String videoUri = getIntent().getStringExtra(ARG_URI_VIDEO);
+
+        if (word != null && !word.equals("")) {
+            this.mMotInput.getEditText().setText(word);
+        }
+
+        this.mDefinitionInput.getEditText().setText(definition);
+
+        if (null != imageUri) {
+            this.selectedImageUri = Uri.parse(imageUri);
+            showPreviewImage();
+            if (getIntent().getBooleanExtra(ARG_LARGE_IMAGE, false)) {
+                messageImageTooLarge();
+            }
+        }
+        if (null != videoUri) {
+            this.selectedVideoUri = Uri.parse(videoUri);
+            showPreviewVideo();
+            if (getIntent().getBooleanExtra(ARG_LARGE_VIDEO, false)) {
+                messageVideoTooLarge();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_IMAGE) {
+                this.selectedImageUri = data.getData();
+
+                if (null != this.selectedImageUri) {
+                    String scheme = this.selectedImageUri.getScheme();
+                    if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
+                        try {
+                            InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(this.selectedImageUri);
+                            this.sizeImage = fileInputStream.available()/1000;
+                            fileInputStream.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (!val.ImageSizeValidation(this.sizeImage)) {
+                        this.largeImage = true;
+                        messageImageTooLarge();
+                    }
+
+                    showPreviewImage();
+                }
+            } else if (requestCode == PICK_VIDEO) {
+                this.selectedVideoUri = data.getData();
+
+                if (null != this.selectedVideoUri) {
+                    String scheme = this.selectedVideoUri.getScheme();
+                    if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
+                        try {
+                            InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(this.selectedVideoUri);
+                            this.sizeVideo = fileInputStream.available()/1000;
+                            fileInputStream.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (!val.VideoSizeValidation(this.sizeVideo)) {
+                        this.largeVideo = true;
+                        messageVideoTooLarge();
+                    }
+
+                    showPreviewVideo();
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.image_button_suggestion:
+                pickImage();
+                break;
+            case R.id.video_button_suggestion:
+                pickVideo();
+                break;
+            case R.id.delete_image_button:
+                deleteImage();
+                break;
+            case R.id.delete_video_button:
+                deleteVideo();
+                break;
+
+            case R.id.validation_button_suggestion:
+                if (val.WordValidation(mMotInput)) {
+                    Log.e("TEST", "VALIDATION");
+                    break;
+                }
+                break;
+//                TODO: appel de ApiViewModel
+        }
+
+
+
+//        TODO: faire un fichier pour la validation
     }
 
     //    ---- Menu ----
@@ -89,8 +274,6 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         // Handle back click to close menu
         if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.mDrawerLayout.closeDrawer(GravityCompat.START);
-//        } else if (getSupportFragmentManager().findFragmentById(R.id.layout_mot).isInLayout()) {
-//            getIntent().removeExtra("id-mot");
         } else {
             super.onBackPressed();
         }
@@ -141,15 +324,16 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
     }
 
     private void configureWordInput() {
+        mMotInput.setHint(mMotInput.getHint() + " *");
+        mMotInput.setHelperText("* Champs requis");
+
         mMotInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence text, int start, int count, int after) {
                 if (text.length() == 0 ) {
                     mMotInput.setError("Le mot est requis");
-                    mMotInput.setErrorEnabled(true);
                 } else {
-                    mMotInput.setErrorEnabled(false);
-//                    TODO: voir pourquoi le compteur va à gauche à ce moment là
+                    mMotInput.setError(null);
                 }
             }
             @Override
@@ -164,28 +348,82 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         });
     }
 
-    private void configureDefinitionInput() {
-        mDefinitionInput.getEditText().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence text, int start, int count, int after) {
-                if (text.length() == 0 ) {
-                    mDefinitionInput.setError("La definition est requise");
-                    mDefinitionInput.setErrorEnabled(true);
-                } else {
-                    mDefinitionInput.setErrorEnabled(false);
-                }
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
 
-            }
-        });
+    private void configureOnClickListener(){
+        this.mImageButton.setOnClickListener(this);
+        this.mVideoButton.setOnClickListener(this);
+        this.mButton.setOnClickListener(this);
+        this.mDeleteImageButton.setOnClickListener(this);
+        this.mDeleteVideoButton.setOnClickListener(this);
+    }
 
+    private void pickImage() {
+        Intent i = new Intent();
+        i.setType("image/*");
+        String[] mimeTypes = {
+                "image/jpeg",
+                "image/jpg",
+                "image/png",
+                "image/gif"
+        };
+        i.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), PICK_IMAGE);
+    }
+
+    private void pickVideo() {
+        Intent i = new Intent();
+        i.setType("video/mp4");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Video"), PICK_VIDEO);
+    }
+
+    private void deleteImage() {
+        mImageButton.setText("Choisir une image...");
+        mPreviewImageView.setImageURI(null);
+        mPreviewImageView.setVisibility(View.GONE);
+        mDeleteImageButton.setVisibility(View.GONE);
+        mImageSizeTextView.setText(R.string.size_image_max);
+        mImageSizeTextView.setTextColor(-1979711488);
+        getIntent().removeExtra(ARG_URI_IMAGE);
+        this.selectedImageUri = null;
+    }
+
+    private void deleteVideo() {
+        mVideoButton.setText("Choisir une vidéo...");
+        mPreviewVideoView.setVideoURI(null);
+        mPreviewVideoView.setVisibility(View.GONE);
+        mDeleteVideoButton.setVisibility(View.GONE);
+        mVideoSizeTextView.setText(R.string.size_video_max);
+        mVideoSizeTextView.setTextColor(-1979711488);
+        getIntent().removeExtra(ARG_URI_VIDEO);
+        this.selectedVideoUri = null;
+    }
+
+    private void showPreviewImage() {
+        mImageButton.setText("Image selectionnée");
+        mPreviewImageView.setImageURI(this.selectedImageUri);
+        mPreviewImageView.setVisibility(View.VISIBLE);
+        mDeleteImageButton.setVisibility(View.VISIBLE);
+    }
+
+    private void showPreviewVideo() {
+        mVideoButton.setText("Vidéo selectionnée");
+        mPreviewVideoView.setVideoURI(this.selectedVideoUri);
+        mPreviewVideoView.setVisibility(View.VISIBLE);
+        mPreviewVideoView.seekTo(1);
+        mDeleteVideoButton.setVisibility(View.VISIBLE);
+    }
+
+    private void messageImageTooLarge() {
+        this.mImageSizeTextView.setText(R.string.size_image_too_large);
+        this.mImageSizeTextView.setTextColor(getColor(R.color.design_default_color_error));
+    }
+
+    private void messageVideoTooLarge() {
+        this.mVideoSizeTextView.setText(R.string.size_video_too_large);
+        this.mVideoSizeTextView.setTextColor(getColor(R.color.design_default_color_error));
     }
 
 }
