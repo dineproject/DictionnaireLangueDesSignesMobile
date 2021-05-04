@@ -1,5 +1,6 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -9,10 +10,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -29,6 +33,7 @@ import java.util.Objects;
 
 public class DictionnaireFragment extends BaseFragment {
 
+    private SearchView searchView;
 
     private RecyclerView mRecyclerView;
     private WordViewAdapter mAdapter;
@@ -63,7 +68,7 @@ public class DictionnaireFragment extends BaseFragment {
 
     @Override
     protected void findElements(View view) {
-        this.mToolbar = ((DictionnaireActivity) getActivity()).getToolbar();
+        this.mToolbar = ((DictionnaireActivity) Objects.requireNonNull(getActivity())).getToolbar();
         mEmptyView = view.findViewById(R.id.empty_view);
     }
 
@@ -71,8 +76,8 @@ public class DictionnaireFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
 
         mWordViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(WordViewModel.class);
     }
@@ -83,16 +88,18 @@ public class DictionnaireFragment extends BaseFragment {
         menu.clear();
         inflater.inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = new SearchView(((BaseActivity) getActivity()).getSupportActionBar().getThemedContext());
+        searchView = new SearchView(Objects.requireNonNull(((BaseActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         item.setActionView(searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mWordViewModel.searchStringChanged(query);
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                mWordViewModel.searchStringChanged(newText);
                 return false;
             }
         });
@@ -100,6 +107,11 @@ public class DictionnaireFragment extends BaseFragment {
 
         }
         );
+        if (!TextUtils.isEmpty(mWordViewModel.getSearchString())) {
+            searchView.setQuery(mWordViewModel.getSearchString(), false);
+            searchView.setIconified(false);
+            searchView.clearFocus();
+        }
     }
 
 
@@ -118,6 +130,9 @@ public class DictionnaireFragment extends BaseFragment {
                 if (words.isEmpty()) {
                     mEmptyView.setVisibility(View.VISIBLE);
                     view.setVisibility(View.GONE);
+                } else {
+                    mEmptyView.setVisibility(View.GONE);
+                    view.setVisibility(View.VISIBLE);
                 }
             });
         }
@@ -126,6 +141,7 @@ public class DictionnaireFragment extends BaseFragment {
     protected void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_categorie_in_list)
                 .setOnItemClickListener((recyclerView, position, v) -> {
+                    searchView.clearFocus();
                     Word mWord = mAdapter.getWord(position);
 
 //                        Permet de passer dans le bundle du framgent à lancer l'id du mot à afficher

@@ -19,6 +19,8 @@ public class WordRepository {
 
     LiveData<List<Word>> getAllWords() { return mAllWords; }
 
+    LiveData<List<Word>> getWordsByName(String string) { return mWordDao.getAlphabetizedWordsByName(string); }
+
     LiveData<Word> getWord(int id) { return mWordDao.getWord(id); }
 
     void insert(Word word) {

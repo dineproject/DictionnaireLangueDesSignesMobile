@@ -17,6 +17,9 @@ public interface WordDao {
     @Query("SELECT * FROM word_table ORDER BY name ASC")
     LiveData<List<Word>> getAlphabetizedWords();
 
+    @Query("SELECT * FROM word_table where name LIKE '%' || :name || '%' OR LOWER(name) LIKE '%' || LOWER(:name) || '%'")
+    LiveData<List<Word>> getAlphabetizedWordsByName(String name);
+
     @Query("SELECT * FROM word_table WHERE id = :id")
     LiveData<Word> getWord(int id);
 
