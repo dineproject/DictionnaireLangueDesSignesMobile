@@ -7,15 +7,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Build;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.request.JsonArrayRequest;
+import com.android.volley.request.MultiPartRequest;
+import com.android.volley.request.SimpleMultiPartRequest;
+//import com.android.volley.toolbox.JsonArrayRequest;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.utils.RequestQueueSingleton;
 import com.wontanara.dictionnairedelanguedessignes.utils.ZipManager;
@@ -25,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +40,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 public class ApiRepository {
@@ -42,6 +51,8 @@ public class ApiRepository {
 
     private final MutableLiveData<Resource<List<DownloadableCategory>>> downloadableCategories = new MutableLiveData<>();
     private final MutableLiveData<Resource<CategoryWithWords>> categoryWithWords = new MutableLiveData<>();
+    private final MutableLiveData<Resource<Boolean>> successSuggestion = new MutableLiveData<>();
+
 
     ApiRepository(Application application) {
         this.application = application;
@@ -171,5 +182,40 @@ public class ApiRepository {
             }
 
         }
+    }
+
+    LiveData<Resource<Boolean>> postSuggestion (String word, String definition, String imageUri, Uri videoUri) {
+        RequestQueue queue = RequestQueueSingleton.getInstance(application).getRequestQueue();
+        String url = application.getResources().getString(R.string.base_url) + "/api/suggestion";
+
+        SimpleMultiPartRequest smRequest = new SimpleMultiPartRequest(Request.Method.POST, url,
+                response -> {
+                    Log.d("Response", response);
+                    successSuggestion.setValue(Resource.success(true));
+                }, error -> {
+                    Toast.makeText(application.getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    successSuggestion.setValue(Resource.error(error.getMessage(), false));
+        });
+
+        smRequest.addStringParam("name", word);
+        if (definition != null && !definition.equals("")) {
+            smRequest.addStringParam("description", definition);
+        }
+
+        if (imageUri != null) {
+            smRequest.addFile("image", imageUri);
+        }
+        if (videoUri != null) {
+            smRequest.addFile("video", String.valueOf(videoUri));
+        }
+
+        Map<String, String> a = smRequest.getFilesToUpload();
+        Map<String, MultiPartRequest.MultiPartParam> b = smRequest.getMultipartParams();
+
+        successSuggestion.setValue(Resource.loading(null));
+
+        queue.add(smRequest);
+
+        return successSuggestion;
     }
 }

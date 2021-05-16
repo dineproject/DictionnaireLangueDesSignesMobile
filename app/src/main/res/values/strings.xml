@@ -46,6 +46,7 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
     <string name="explication_suggestions">Cette page vous permet de soumettre des suggestions aux administrateurs. Ils pourront s\'en inspirer pour ajouter un mot à la liste.</string>
 
     <string name="base_url">http://ea-perso.ovh</string>
+<!--    <string name="base_url">http://www.wesg.ovh</string>-->
     <string name="size_image_max">Taille max autorisée : 200ko</string>
     <string name="size_video_max">Taille max autorisée : 500ko</string>
     <string name="size_image_too_large">"Attention, l'image est trop volumineuse\nTaille max autorisée : 200ko"</string>

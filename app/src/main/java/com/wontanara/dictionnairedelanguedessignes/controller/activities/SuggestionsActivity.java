@@ -4,6 +4,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.loader.content.CursorLoader;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -12,6 +14,7 @@ import android.database.Cursor;
 import android.graphics.ColorSpace;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,10 +30,17 @@ import android.widget.VideoView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.wontanara.dictionnairedelanguedessignes.R;
+import com.wontanara.dictionnairedelanguedessignes.model.ApiViewModel;
+import com.wontanara.dictionnairedelanguedessignes.model.Resource;
 import com.wontanara.dictionnairedelanguedessignes.utils.Validation;
 
+import org.json.JSONException;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Objects;
 
 // TODO: faire un bouton (?) dans la barre pour expliquer ce que sont les suggestions ?
 
@@ -74,9 +84,9 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
     private boolean largeVideo = false;
 
     private Validation val = new Validation() {};
+    private ApiViewModel mApiViewModel;
 
 
-//    TODO: Taille max video et photo à la validation
 
 //    TODO: Faire le back dans ApiRepository, la requete post grace à Jsonarrayrequest ?
 
@@ -104,6 +114,8 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
 
     @Override
     protected void findElements() {
+        this.mApiViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(ApiViewModel.class);
+
         // Enregistre les éléments dont on a besoin au démarrage
         this.mToolbar = (Toolbar) findViewById(R.id.toolbar);
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.dictionnaire_activity_drawer_layout);
@@ -256,15 +268,17 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
             case R.id.validation_button_suggestion:
                 if (val.WordValidation(mMotInput)) {
                     Log.e("TEST", "VALIDATION");
+
+                    mApiViewModel.postSuggestion(val.valInput(this.mMotInput), val.valInput(this.mDefinitionInput), getPath(this.selectedImageUri), this.selectedVideoUri).observe(this, ressource -> {
+//                            ressource.data
+//                            ressource.status -> statut de la reponse,
+//                            Resource.Status.ERROR -> voir discord
+                    });
                     break;
                 }
                 break;
 //                TODO: appel de ApiViewModel
         }
-
-
-
-//        TODO: faire un fichier pour la validation
     }
 
     //    ---- Menu ----
@@ -325,7 +339,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
 
     private void configureWordInput() {
         mMotInput.setHint(mMotInput.getHint() + " *");
-        mMotInput.setHelperText("* Champs requis");
+        mMotInput.setHelperText("* Champ requis");
 
         mMotInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -426,4 +440,15 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         this.mVideoSizeTextView.setTextColor(getColor(R.color.design_default_color_error));
     }
 
+
+    private String getPath(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        CursorLoader loader = new CursorLoader(getApplicationContext(),    contentUri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
+    }
 }
