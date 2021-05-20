@@ -29,7 +29,7 @@ public class ApiViewModel extends AndroidViewModel {
         return mRepository.downloadCategory(category);
     }
 
-    public LiveData<Resource<Boolean>> postSuggestion(String word, String definition, String imageUri, Uri videoUri) {
+    public LiveData<Resource<Boolean>> postSuggestion(String word, String definition, String imageUri, String videoUri) {
         return mRepository.postSuggestion(word, definition, imageUri, videoUri);
     }
 }

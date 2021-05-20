@@ -36,7 +36,9 @@ import com.wontanara.dictionnairedelanguedessignes.utils.Validation;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -268,12 +270,31 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
             case R.id.validation_button_suggestion:
                 if (val.WordValidation(mMotInput)) {
                     Log.e("TEST", "VALIDATION");
+                    String imagePath = null;
+                    String videoPath = null;
+                    if (this.selectedImageUri != null) {
+                        try {
+                            File file = stream2file(getApplicationContext().getContentResolver().openInputStream(this.selectedImageUri));
+                            imagePath = file.getPath();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (this.selectedVideoUri != null) {
+                        try {
+                            File file = stream2file(getApplicationContext().getContentResolver().openInputStream(this.selectedVideoUri));
+                            videoPath = file.getPath();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-                    mApiViewModel.postSuggestion(val.valInput(this.mMotInput), val.valInput(this.mDefinitionInput), getPath(this.selectedImageUri), this.selectedVideoUri).observe(this, ressource -> {
-//                            ressource.data
-//                            ressource.status -> statut de la reponse,
-//                            Resource.Status.ERROR -> voir discord
+                    mApiViewModel.postSuggestion(val.valInput(this.mMotInput), val.valInput(this.mDefinitionInput), imagePath, videoPath).observe(this, ressource -> {
+//                        ressource.data
+//                        ressource.status -> statut de la reponse,
+//                        Resource.Status.ERROR -> voir discord
                     });
+
                     break;
                 }
                 break;
@@ -363,6 +384,19 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
     }
 
 
+
+    public static File stream2file (InputStream in) throws IOException {
+        final File tempFile = File.createTempFile("PREFIX", "SUFFIX");
+        tempFile.deleteOnExit();
+        try (FileOutputStream out = new FileOutputStream(tempFile)) {
+            int read;
+            byte[] bytes = new byte[1024];
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+        }
+        return tempFile;
+    }
 
     private void configureOnClickListener(){
         this.mImageButton.setOnClickListener(this);

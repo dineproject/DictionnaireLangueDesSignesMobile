@@ -17,8 +17,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.misc.IOUtils;
 import com.android.volley.request.JsonArrayRequest;
 import com.android.volley.request.MultiPartRequest;
 import com.android.volley.request.SimpleMultiPartRequest;
@@ -31,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -42,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class ApiRepository {
 
@@ -184,7 +189,7 @@ public class ApiRepository {
         }
     }
 
-    LiveData<Resource<Boolean>> postSuggestion (String word, String definition, String imageUri, Uri videoUri) {
+    LiveData<Resource<Boolean>> postSuggestion (String word, String definition, String imagePath, String videoPath) {
         RequestQueue queue = RequestQueueSingleton.getInstance(application).getRequestQueue();
         String url = application.getResources().getString(R.string.base_url) + "/api/suggestion";
 
@@ -202,15 +207,12 @@ public class ApiRepository {
             smRequest.addStringParam("description", definition);
         }
 
-        if (imageUri != null) {
-            smRequest.addFile("image", imageUri);
+        if (imagePath != null) {
+            smRequest.addFile("image", imagePath);
         }
-        if (videoUri != null) {
-            smRequest.addFile("video", String.valueOf(videoUri));
+        if (videoPath != null) {
+            smRequest.addFile("video", videoPath);
         }
-
-        Map<String, String> a = smRequest.getFilesToUpload();
-        Map<String, MultiPartRequest.MultiPartParam> b = smRequest.getMultipartParams();
 
         successSuggestion.setValue(Resource.loading(null));
 
