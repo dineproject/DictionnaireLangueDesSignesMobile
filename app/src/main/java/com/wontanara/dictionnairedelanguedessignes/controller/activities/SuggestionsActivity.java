@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -90,7 +91,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
 
 
 
-//    TODO: Faire le back dans ApiRepository, la requete post grace à Jsonarrayrequest ?
+//    TODO: Faire le back dans ApiRepository
 
 //    ------ BASE METHODS ------
 
@@ -111,6 +112,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.configureWordInput();
+        this.configureDefinitionInput();
         this.configureOnClickListener();
     }
 
@@ -185,6 +187,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
             this.selectedImageUri = Uri.parse(imageUri);
             showPreviewImage();
             if (getIntent().getBooleanExtra(ARG_LARGE_IMAGE, false)) {
+                this.largeImage = true;
                 messageImageTooLarge();
             }
         }
@@ -192,6 +195,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
             this.selectedVideoUri = Uri.parse(videoUri);
             showPreviewVideo();
             if (getIntent().getBooleanExtra(ARG_LARGE_VIDEO, false)) {
+                this.largeVideo = true;
                 messageVideoTooLarge();
             }
         }
@@ -209,7 +213,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                     if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
                         try {
                             InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(this.selectedImageUri);
-                            this.sizeImage = fileInputStream.available()/1000;
+                            this.sizeImage = fileInputStream.available()/1024;
                             fileInputStream.close();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -231,7 +235,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                     if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
                         try {
                             InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(this.selectedVideoUri);
-                            this.sizeVideo = fileInputStream.available()/1000;
+                            this.sizeVideo = fileInputStream.available()/1024;
                             fileInputStream.close();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -268,11 +272,11 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                 break;
 
             case R.id.validation_button_suggestion:
-                if (val.WordValidation(mMotInput)) {
+                if (val.WordValidation(mMotInput) && !this.largeImage && !this.largeVideo) {
                     Log.e("TEST", "VALIDATION");
                     String imagePath = null;
                     String videoPath = null;
-                    if (this.selectedImageUri != null) {
+                    if (this.selectedImageUri != null && !this.largeImage) {
                         try {
                             File file = stream2file(getApplicationContext().getContentResolver().openInputStream(this.selectedImageUri));
                             imagePath = file.getPath();
@@ -280,7 +284,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                             e.printStackTrace();
                         }
                     }
-                    if (this.selectedVideoUri != null) {
+                    if (this.selectedVideoUri != null && !this.largeVideo) {
                         try {
                             File file = stream2file(getApplicationContext().getContentResolver().openInputStream(this.selectedVideoUri));
                             videoPath = file.getPath();
@@ -290,15 +294,37 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                     }
 
                     mApiViewModel.postSuggestion(val.valInput(this.mMotInput), val.valInput(this.mDefinitionInput), imagePath, videoPath).observe(this, ressource -> {
-//                        ressource.data
-//                        ressource.status -> statut de la reponse,
-//                        Resource.Status.ERROR -> voir discord
+//                        TODO: Je recois plusieurs fois le Toast... pourquoi ?
+                        switch (ressource.status) {
+                            case SUCCESS:
+                                Toast.makeText(this, "Suggestion envoyée avec succès", Toast.LENGTH_LONG).show();
+                                this.mMotInput.getEditText().setText(null);
+                                this.mMotInput.setError(null);
+                                this.mMotInput.clearFocus();
+                                this.mDefinitionInput.getEditText().setText(null);
+                                this.deleteImage();
+                                this.deleteVideo();
+                                this.mButton.setClickable(true);
+                                this.mButton.setText(R.string.send_suggestion);
+                                break;
+
+                            case LOADING:
+                                this.mButton.setText(R.string.loading_suggestion);
+                                this.mButton.setClickable(false);
+                                break;
+
+                            case ERROR:
+                                Toast.makeText(SuggestionsActivity.this, "Impossible d'envoyer la suggestion", Toast.LENGTH_LONG).show();
+                                this.mButton.setClickable(true);
+                                this.mButton.setText(R.string.send_suggestion);
+                                break;
+                        }
+
                     });
 
                     break;
                 }
                 break;
-//                TODO: appel de ApiViewModel
         }
     }
 
@@ -378,11 +404,29 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                mMotInput.clearFocus();
             }
         });
     }
 
+    private void configureDefinitionInput() {
+        mDefinitionInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mDefinitionInput.clearFocus();
+            }
+        });
+    }
 
 
     public static File stream2file (InputStream in) throws IOException {

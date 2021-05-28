@@ -51,5 +51,7 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
     <string name="size_video_max">Taille max autorisée : 500ko</string>
     <string name="size_image_too_large">"Attention, l'image est trop volumineuse\nTaille max autorisée : 200ko"</string>
     <string name="size_video_too_large">"Attention, la vidéo est trop volumineuse\nTaille max autorisée : 500ko"</string>
+    <string name="send_suggestion">Envoyer la suggestion</string>
+    <string name="loading_suggestion">Envoi en cours...</string>
 
 </resources>
