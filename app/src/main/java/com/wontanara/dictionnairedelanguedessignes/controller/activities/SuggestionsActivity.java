@@ -157,15 +157,9 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         getIntent().putExtra(ARG_DEFINITION_INPUT, this.mDefinitionInput.getEditText().getText().toString());
         if (this.selectedImageUri != null) {
             getIntent().putExtra(ARG_URI_IMAGE, this.selectedImageUri.toString());
-            if (this.largeImage) {
-                getIntent().putExtra(ARG_LARGE_IMAGE, this.largeImage);
-            }
         }
         if (this.selectedVideoUri != null) {
             getIntent().putExtra(ARG_URI_VIDEO, this.selectedVideoUri.toString());
-            if (this.largeVideo) {
-                getIntent().putExtra(ARG_LARGE_VIDEO, this.largeVideo);
-            }
         }
     }
 
@@ -187,18 +181,10 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         if (null != imageUri) {
             this.selectedImageUri = Uri.parse(imageUri);
             showPreviewImage();
-            if (getIntent().getBooleanExtra(ARG_LARGE_IMAGE, false)) {
-                this.largeImage = true;
-                messageImageTooLarge();
-            }
         }
         if (null != videoUri) {
             this.selectedVideoUri = Uri.parse(videoUri);
             showPreviewVideo();
-            if (getIntent().getBooleanExtra(ARG_LARGE_VIDEO, false)) {
-                this.largeVideo = true;
-                messageVideoTooLarge();
-            }
         }
     }
 
@@ -224,6 +210,8 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                     if (!val.ImageSizeValidation(this.sizeImage)) {
                         this.largeImage = true;
                         messageImageTooLarge();
+                    } else {
+                        this.largeImage = false;
                     }
 
                     showPreviewImage();
@@ -246,6 +234,8 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                     if (!val.VideoSizeValidation(this.sizeVideo)) {
                         this.largeVideo = true;
                         messageVideoTooLarge();
+                    } else {
+                        this.largeVideo = false;
                     }
 
                     showPreviewVideo();
