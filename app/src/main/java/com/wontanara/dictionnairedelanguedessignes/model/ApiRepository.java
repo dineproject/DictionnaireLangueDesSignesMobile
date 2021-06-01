@@ -195,10 +195,8 @@ public class ApiRepository {
 
         SimpleMultiPartRequest smRequest = new SimpleMultiPartRequest(Request.Method.POST, url,
                 response -> {
-                    Log.d("Response", response);
                     successSuggestion.setValue(Resource.success(true));
                 }, error -> {
-                    Toast.makeText(application, "Impossible d'envoyer la suggestion", Toast.LENGTH_LONG).show();
                     successSuggestion.setValue(Resource.error(error.getMessage(), false));
         });
 

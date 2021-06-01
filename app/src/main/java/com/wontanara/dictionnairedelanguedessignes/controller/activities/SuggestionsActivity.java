@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.content.CursorLoader;
 
@@ -293,8 +294,8 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                         }
                     }
 
-                    mApiViewModel.postSuggestion(val.valInput(this.mMotInput), val.valInput(this.mDefinitionInput), imagePath, videoPath).observe(this, ressource -> {
-//                        TODO: Je recois plusieurs fois le Toast... pourquoi ?
+                    LiveData<Resource<Boolean>> liveData = mApiViewModel.postSuggestion(val.valInput(this.mMotInput), val.valInput(this.mDefinitionInput), imagePath, videoPath);
+                    liveData.observe(this, ressource -> {
                         switch (ressource.status) {
                             case SUCCESS:
                                 Toast.makeText(this, "Suggestion envoyée avec succès", Toast.LENGTH_LONG).show();
@@ -306,6 +307,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                                 this.deleteVideo();
                                 this.mButton.setClickable(true);
                                 this.mButton.setText(R.string.send_suggestion);
+                                liveData.removeObservers(this);
                                 break;
 
                             case LOADING:
@@ -317,6 +319,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                                 Toast.makeText(SuggestionsActivity.this, "Impossible d'envoyer la suggestion", Toast.LENGTH_LONG).show();
                                 this.mButton.setClickable(true);
                                 this.mButton.setText(R.string.send_suggestion);
+                                liveData.removeObservers(this);
                                 break;
                         }
 
@@ -518,15 +521,4 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         this.mVideoSizeTextView.setTextColor(getColor(R.color.design_default_color_error));
     }
 
-
-    private String getPath(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        CursorLoader loader = new CursorLoader(getApplicationContext(),    contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
-    }
 }
