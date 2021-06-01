@@ -22,17 +22,15 @@
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
-            android:id="@+id/downloadable_category_word_count"
-            android:layout_width="0dp"
-            android:layout_weight="@dimen/weight_download_3elements"
+            android:id="@+id/downloadable_category_status"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:textSize="@dimen/text_size" />
 
         <TextView
-            android:id="@+id/downloadable_category_status"
-            android:layout_width="0dp"
-            android:layout_weight="@dimen/weight_icon_3elements"
+            android:id="@+id/downloadable_category_word_count"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:textSize="@dimen/text_size" />

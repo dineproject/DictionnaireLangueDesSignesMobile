@@ -54,8 +54,6 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
     private static final String ARG_DEFINITION_INPUT = "definition-input";
     private static final String ARG_URI_IMAGE = "image-uri";
     private static final String ARG_URI_VIDEO = "video-uri";
-    private static final String ARG_LARGE_IMAGE = "large-image";
-    private static final String ARG_LARGE_VIDEO = "large-video";
 
     private static final int PICK_IMAGE = 1;
     private static final int PICK_VIDEO = 2;
