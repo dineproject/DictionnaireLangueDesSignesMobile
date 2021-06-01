@@ -96,4 +96,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent i = new Intent(getActivity(), SuggestionsActivity.class);
         startActivity(i);
     }
+
+    protected void navigationBases() {
+        Intent i = new Intent(getActivity(), BasesActivity.class);
+        startActivity(i);
+    }
 }
