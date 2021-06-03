@@ -1,5 +1,6 @@
 package com.wontanara.dictionnairedelanguedessignes.controller.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -39,7 +40,6 @@ public class CategoriesActivity extends BaseActivity implements NavigationView.O
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.configureAndShowListCategoriesFragment();
-//        this.mNavigationView.getMenu().getItem(1).getSubMenu().getItem(1).setChecked(true);
     }
 
     @Override

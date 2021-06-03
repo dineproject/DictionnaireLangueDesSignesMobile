@@ -11,28 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="start">
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/downloadable_category_name"
             android:layout_width="0dp"
             android:layout_weight="@dimen/weight_name_3elements"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginVertical="@dimen/text_margin"
+            android:layout_marginRight="9dp"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
             android:id="@+id/downloadable_category_status"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="@dimen/weight_icon_3elements"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_marginVertical="@dimen/text_margin"
+            android:layout_marginHorizontal="9dp"
             android:textSize="@dimen/text_size" />
 
         <TextView
             android:id="@+id/downloadable_category_word_count"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="@dimen/weight_icon_3elements"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_marginVertical="@dimen/text_margin"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="@dimen/text_margin"
             android:textSize="@dimen/text_size" />
 
     </LinearLayout>

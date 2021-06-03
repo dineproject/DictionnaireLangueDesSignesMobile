@@ -11,9 +11,7 @@ import com.wontanara.dictionnairedelanguedessignes.R;
 
 public class AproposActivity extends BaseActivity {
 
-    // TODO: Activer le bouton retour (en haut à gauche)
-
-    Toolbar mToolbar;
+    private Toolbar mToolbar;
 
 
 //    ------ BASE METHODS ------

@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,6 +42,9 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
     private CategoryViewModel mCategoryViewModel;
     private ApiViewModel mApiViewModel;
 
+    private Toolbar mToolbar;
+
+
     public DownloadableCategoryFragment() {
     }
 
@@ -58,7 +63,8 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
 
     @Override
     protected void configureDesign(View view) {
-        ((CategoriesActivity) Objects.requireNonNull(getActivity())).getToolbar().setTitle(R.string.download_categories_title);
+        this.mToolbar.setTitle(R.string.download_categories_title);
+
         mEmptyView = view.findViewById(R.id.empty_view);
         mLoadingView = view.findViewById(R.id.loading_view);
         this.configureRecyclerView(view.findViewById(R.id.recycler_view));
@@ -66,14 +72,17 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
     }
 
     @Override
-    protected void findElements(View view) { }
+    protected void findElements(View view) {
+        this.mToolbar = ((CategoriesActivity) Objects.requireNonNull(getActivity())).getToolbar();
+
+    }
 
 //    ------ OVERRIDE METHODS ------
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
