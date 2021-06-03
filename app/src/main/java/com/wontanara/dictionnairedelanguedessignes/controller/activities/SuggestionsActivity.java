@@ -54,6 +54,8 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
     private static final String ARG_DEFINITION_INPUT = "definition-input";
     private static final String ARG_URI_IMAGE = "image-uri";
     private static final String ARG_URI_VIDEO = "video-uri";
+    private static final String ARG_IMAGE_LARGE = "large-image";
+    private static final String ARG_VIDEO_LARGE = "large-video";
 
     private static final int PICK_IMAGE = 1;
     private static final int PICK_VIDEO = 2;
@@ -155,9 +157,15 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         getIntent().putExtra(ARG_DEFINITION_INPUT, this.mDefinitionInput.getEditText().getText().toString());
         if (this.selectedImageUri != null) {
             getIntent().putExtra(ARG_URI_IMAGE, this.selectedImageUri.toString());
+            if (this.largeImage) {
+                getIntent().putExtra(ARG_IMAGE_LARGE, this.largeImage);
+            }
         }
         if (this.selectedVideoUri != null) {
             getIntent().putExtra(ARG_URI_VIDEO, this.selectedVideoUri.toString());
+            if (this.largeVideo) {
+                getIntent().putExtra(ARG_VIDEO_LARGE, this.largeVideo);
+            }
         }
     }
 
@@ -179,10 +187,20 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         if (null != imageUri) {
             this.selectedImageUri = Uri.parse(imageUri);
             showPreviewImage();
+            boolean imageIsLarge = getIntent().getBooleanExtra(ARG_IMAGE_LARGE, false);
+            if (imageIsLarge) {
+                this.largeImage = true;
+                this.messageImageTooLarge();
+            }
         }
         if (null != videoUri) {
             this.selectedVideoUri = Uri.parse(videoUri);
             showPreviewVideo();
+            boolean videoIsLarge = getIntent().getBooleanExtra(ARG_VIDEO_LARGE, false);
+            if (videoIsLarge) {
+                this.largeVideo = true;
+                this.messageVideoTooLarge();
+            }
         }
     }
 
@@ -262,10 +280,9 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
 
             case R.id.validation_button_suggestion:
                 if (val.WordValidation(mMotInput) && !this.largeImage && !this.largeVideo) {
-                    Log.e("TEST", "VALIDATION");
                     String imagePath = null;
                     String videoPath = null;
-                    if (this.selectedImageUri != null && !this.largeImage) {
+                    if (this.selectedImageUri != null) {
                         try {
                             File file = stream2file(getApplicationContext().getContentResolver().openInputStream(this.selectedImageUri));
                             imagePath = file.getPath();
@@ -273,7 +290,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
                             e.printStackTrace();
                         }
                     }
-                    if (this.selectedVideoUri != null && !this.largeVideo) {
+                    if (this.selectedVideoUri != null) {
                         try {
                             File file = stream2file(getApplicationContext().getContentResolver().openInputStream(this.selectedVideoUri));
                             videoPath = file.getPath();
@@ -472,6 +489,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         mImageSizeTextView.setTextColor(-1979711488);
         getIntent().removeExtra(ARG_URI_IMAGE);
         this.selectedImageUri = null;
+        this.largeImage = false;
     }
 
     private void deleteVideo() {
@@ -483,6 +501,7 @@ public class SuggestionsActivity extends BaseActivity implements NavigationView.
         mVideoSizeTextView.setTextColor(-1979711488);
         getIntent().removeExtra(ARG_URI_VIDEO);
         this.selectedVideoUri = null;
+        this.largeVideo = false;
     }
 
     private void showPreviewImage() {
