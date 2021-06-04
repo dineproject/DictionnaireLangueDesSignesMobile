@@ -23,6 +23,7 @@
         android:theme="@style/Word.Description" />
 
     <ImageView
+        android:layout_marginTop="25dp"
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
@@ -31,10 +32,11 @@
         android:id="@+id/imageButton_play_video"
         android:layout_width="170dp"
         android:layout_height="170dp"
-        android:background="@android:drawable/ic_media_play"
+        android:background="@drawable/ic_baseline_play_circle_outline_24"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         />
+
 
     <!-- TODO: Changer les images -->
 
