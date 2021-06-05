@@ -14,10 +14,10 @@ public interface WordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Word word);
 
-    @Query("SELECT * FROM word_table ORDER BY name ASC")
+    @Query("SELECT * FROM word_table ORDER BY name COLLATE LOCALIZED ASC")
     LiveData<List<Word>> getAlphabetizedWords();
 
-    @Query("SELECT * FROM word_table where name LIKE '%' || :name || '%' OR LOWER(name) LIKE '%' || LOWER(:name) || '%'")
+    @Query("SELECT * FROM word_table where name LIKE '%' || :name || '%' OR LOWER(name) LIKE '%' || LOWER(:name) || '%' ORDER BY name COLLATE LOCALIZED ASC")
     LiveData<List<Word>> getAlphabetizedWordsByName(String name);
 
     @Query("SELECT * FROM word_table WHERE id = :id")

@@ -15,7 +15,7 @@ public interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Category category);
 
-    @Query("SELECT * FROM category_table ORDER BY name ASC")
+    @Query("SELECT * FROM category_table ORDER BY name COLLATE LOCALIZED ASC")
     LiveData<List<Category>> getAlphabetizedCategories();
 
     @Transaction
