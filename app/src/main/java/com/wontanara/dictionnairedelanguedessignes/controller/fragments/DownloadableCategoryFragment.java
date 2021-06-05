@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -73,7 +72,7 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
 
     @Override
     protected void findElements(View view) {
-        this.mToolbar = ((CategoriesActivity) Objects.requireNonNull(getActivity())).getToolbar();
+        this.mToolbar = ((CategoriesActivity) requireActivity()).getToolbar();
 
     }
 
@@ -87,8 +86,8 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-        mCategoryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(CategoryViewModel.class);
-        mApiViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity()), ViewModelProvider.AndroidViewModelFactory.getInstance(Objects.requireNonNull(this.getActivity()).getApplication())).get(ApiViewModel.class);
+        mCategoryViewModel = new ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(this.requireActivity().getApplication())).get(CategoryViewModel.class);
+        mApiViewModel = new ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(this.requireActivity().getApplication())).get(ApiViewModel.class);
     }
 
 //    ------ CONFIGURATION ------
@@ -148,7 +147,7 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
     protected void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_categories_in_list)
                 .setOnItemClickListener((recyclerView, position, v) -> {
-                    FragmentManager fm = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                    FragmentManager fm = requireActivity().getSupportFragmentManager();
                     if (mAdapter.getDownloadableCategory(position).getStatus().equals("")) {
                         DownloadCategoryDialogFragment dialog = new DownloadCategoryDialogFragment(mAdapter.getDownloadableCategory(position));
                         dialog.setTargetFragment(this, 0);
@@ -171,6 +170,8 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
                         mAdapter.notifyDataSetChanged();
                         break;
                     case LOADING:
+                        downloadableCategory.setStatus("En cours");
+                        mAdapter.notifyDataSetChanged();
                         break;
                     case ERROR:
                         Toast.makeText(getContext(), "Impossible de récupérer la catégorie", Toast.LENGTH_LONG).show();
@@ -189,8 +190,12 @@ public class DownloadableCategoryFragment extends BaseFragment implements Downlo
                         mAdapter.notifyDataSetChanged();
                         break;
                     case LOADING:
+                        downloadableCategory.setStatus("En cours");
+                        mAdapter.notifyDataSetChanged();
                         break;
                     case ERROR:
+                        downloadableCategory.setStatus("Mise à jour");
+                        mAdapter.notifyDataSetChanged();
                         Toast.makeText(getContext(), "Impossible de récupérer la catégorie", Toast.LENGTH_LONG).show();
                 }
 

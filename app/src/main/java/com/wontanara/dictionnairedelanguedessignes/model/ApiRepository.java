@@ -55,7 +55,7 @@ public class ApiRepository {
     private final CategoryRepository categoryRepository;
 
     private final MutableLiveData<Resource<List<DownloadableCategory>>> downloadableCategories = new MutableLiveData<>();
-    private final MutableLiveData<Resource<CategoryWithWords>> categoryWithWords = new MutableLiveData<>();
+//    private final MutableLiveData<Resource<CategoryWithWords>> categoryWithWords = new MutableLiveData<>();
     private final MutableLiveData<Resource<Boolean>> successSuggestion = new MutableLiveData<>();
 
 
@@ -101,6 +101,8 @@ public class ApiRepository {
     }
 
     LiveData<Resource<CategoryWithWords>> downloadCategory(DownloadableCategory downloadableCategory) {
+        MutableLiveData<Resource<CategoryWithWords>> categoryWithWords = new MutableLiveData<>();
+        categoryWithWords.setValue(Resource.loading(null));
         Category category = new Category(downloadableCategory.getId(), downloadableCategory.getName(), downloadableCategory.getUpdated_at());
         ArrayList<Word> list = new ArrayList<>();
 
@@ -125,7 +127,7 @@ public class ApiRepository {
                     e.printStackTrace();
                 }
             }
-            downloadZip(downloadableCategory, new CategoryWithWords(category, list));
+            downloadZip(downloadableCategory, new CategoryWithWords(category, list), categoryWithWords);
 //            categoryWithWords.setValue(Resource.success(new CategoryWithWords(category, list)));
         }, error -> {
             error.printStackTrace();
@@ -137,7 +139,7 @@ public class ApiRepository {
         return categoryWithWords;
     }
 
-    private void downloadZip(DownloadableCategory downloadableCategory, CategoryWithWords data) {
+    private void downloadZip(DownloadableCategory downloadableCategory, CategoryWithWords data, MutableLiveData<Resource<CategoryWithWords>> categoryWithWords) {
         File file = new File(application.getExternalFilesDir("") + File.separator + downloadableCategory.getId() + ".zip");
         if (!file.exists()) {
             Uri uri = Uri.parse(application.getString(R.string.base_url) + "/api/category/" + downloadableCategory.getId() + "/file");
@@ -165,7 +167,6 @@ public class ApiRepository {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    application.unregisterReceiver(this);
                 }
             };
 
