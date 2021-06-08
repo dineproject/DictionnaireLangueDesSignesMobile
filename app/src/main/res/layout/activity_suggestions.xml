@@ -96,6 +96,12 @@
                     android:text="@string/size_image_max"
                     android:id="@+id/max_size_image_textview_suggestion"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/format_image"
+                    android:id="@+id/format_image_textview_suggestion"/>
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
@@ -131,6 +137,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/size_video_max"
                     android:id="@+id/max_size_video_textview_suggestion"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/format_video"
+                    android:id="@+id/format_video_textview_suggestion"/>
 
                 <VideoView
                     android:layout_width="wrap_content"
