@@ -7,64 +7,53 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.Build;
-import android.util.Base64;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.misc.IOUtils;
-import com.android.volley.request.JsonArrayRequest;
-import com.android.volley.request.MultiPartRequest;
-import com.android.volley.request.SimpleMultiPartRequest;
-//import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.wontanara.dictionnairedelanguedessignes.R;
 import com.wontanara.dictionnairedelanguedessignes.utils.RequestQueueSingleton;
 import com.wontanara.dictionnairedelanguedessignes.utils.ZipManager;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class ApiRepository {
 
     private final Application application;
-
     private final CategoryRepository categoryRepository;
-
     private final MutableLiveData<Resource<List<DownloadableCategory>>> downloadableCategories = new MutableLiveData<>();
-//    private final MutableLiveData<Resource<CategoryWithWords>> categoryWithWords = new MutableLiveData<>();
     private final MutableLiveData<Resource<Boolean>> successSuggestion = new MutableLiveData<>();
-
 
     ApiRepository(Application application) {
         this.application = application;
         categoryRepository = new CategoryRepository(application);
     }
 
-    LiveData<Resource<List<DownloadableCategory>>> getDownloadableCategories () {
+    LiveData<Resource<List<DownloadableCategory>>> getDownloadableCategories() {
         RequestQueue queue = RequestQueueSingleton.getInstance(application).getRequestQueue();
         String url = application.getResources().getString(R.string.base_url) + "/api/category";
 
@@ -94,9 +83,7 @@ public class ApiRepository {
         });
 
         downloadableCategories.setValue(Resource.loading(null));
-
         queue.add(jsonArrayRequest);
-
         return downloadableCategories;
     }
 
@@ -109,9 +96,8 @@ public class ApiRepository {
         RequestQueue queue = RequestQueueSingleton.getInstance(application).getRequestQueue();
         String url = application.getResources().getString(R.string.base_url) + "/api/category/" + downloadableCategory.getId() + "/word";
 
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
-            for (int i = 0 ; i < response.length() ; i++) {
+            for (int i = 0; i < response.length(); i++) {
                 JSONObject obj;
                 try {
                     obj = response.getJSONObject(i);
@@ -128,14 +114,12 @@ public class ApiRepository {
                 }
             }
             downloadZip(downloadableCategory, new CategoryWithWords(category, list), categoryWithWords);
-//            categoryWithWords.setValue(Resource.success(new CategoryWithWords(category, list)));
         }, error -> {
             error.printStackTrace();
             categoryWithWords.setValue(Resource.error(error.getMessage(), null));
         });
 
         queue.add(jsonArrayRequest);
-
         return categoryWithWords;
     }
 
@@ -170,8 +154,7 @@ public class ApiRepository {
                 }
             };
 
-            application.registerReceiver(onComplete, new IntentFilter(
-                    DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+            application.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         } else {
             try {
                 ZipManager.unzip(application.getExternalFilesDir("") + File.separator + downloadableCategory.getId() + ".zip", application.getExternalFilesDir("") + File.separator + downloadableCategory.getId());
@@ -186,37 +169,108 @@ public class ApiRepository {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
-    LiveData<Resource<Boolean>> postSuggestion (String word, String definition, String imagePath, String videoPath) {
+    LiveData<Resource<Boolean>> postSuggestion(String word, String definition, String imagePath, String videoPath) {
         RequestQueue queue = RequestQueueSingleton.getInstance(application).getRequestQueue();
         String url = application.getResources().getString(R.string.base_url) + "/api/suggestion";
 
-        SimpleMultiPartRequest smRequest = new SimpleMultiPartRequest(Request.Method.POST, url,
-                response -> {
-                    successSuggestion.setValue(Resource.success(true));
-                }, error -> {
-                    successSuggestion.setValue(Resource.error(error.getMessage(), false));
-        });
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
+                response -> successSuggestion.setValue(Resource.success(true)),
+                error -> successSuggestion.setValue(Resource.error(error.getMessage(), false))
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", word);
+                if (definition != null && !definition.isEmpty()) {
+                    params.put("description", definition);
+                }
+                return params;
+            }
 
-        smRequest.addStringParam("name", word);
-        if (definition != null && !definition.equals("")) {
-            smRequest.addStringParam("description", definition);
-        }
-
-        if (imagePath != null) {
-            smRequest.addFile("image", imagePath);
-        }
-        if (videoPath != null) {
-            smRequest.addFile("video", videoPath);
-        }
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                try {
+                    if (imagePath != null) {
+                        File imageFile = new File(imagePath);
+                        byte[] imageData = FileUtils.readFileToByteArray(imageFile);
+                        params.put("image", new DataPart(imageFile.getName(), imageData));
+                    }
+                    if (videoPath != null) {
+                        File videoFile = new File(videoPath);
+                        byte[] videoData = FileUtils.readFileToByteArray(videoFile);
+                        params.put("video", new DataPart(videoFile.getName(), videoData));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return params;
+            }
+        };
 
         successSuggestion.setValue(Resource.loading(null));
-
-        queue.add(smRequest);
-
+        queue.add(multipartRequest);
         return successSuggestion;
+    }
+
+    public static class VolleyMultipartRequest extends Request<NetworkResponse> {
+        private final Response.Listener<NetworkResponse> mListener;
+        private final Map<String, String> mHeaders;
+
+        public VolleyMultipartRequest(int method, String url,
+                                      Response.Listener<NetworkResponse> listener,
+                                      Response.ErrorListener errorListener) {
+            super(method, url, errorListener);
+            this.mListener = listener;
+            this.mHeaders = new HashMap<>();
+        }
+
+        @Override
+        public Map<String, String> getHeaders() {
+            return mHeaders;
+        }
+
+        @Override
+        protected void deliverResponse(NetworkResponse response) {
+            mListener.onResponse(response);
+        }
+
+        @Override
+        protected Response<NetworkResponse> parseNetworkResponse(NetworkResponse response) {
+            try {
+                return Response.success(response, HttpHeaderParser.parseCacheHeaders(response));
+            } catch (Exception e) {
+                return Response.error(new ParseError(e));
+            }
+        }
+
+        protected Map<String, String> getParams() {
+            return null;
+        }
+
+        protected Map<String, DataPart> getByteData() {
+            return null;
+        }
+
+        public static class DataPart {
+            private final String fileName;
+            private final byte[] content;
+
+            public DataPart(String name, byte[] data) {
+                fileName = name;
+                content = data;
+            }
+
+            public String getFileName() {
+                return fileName;
+            }
+
+            public byte[] getContent() {
+                return content;
+            }
+        }
     }
 }
