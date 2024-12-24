@@ -16,6 +16,7 @@ Sourds, entendants, parents, amis, enseignants ou simplement intéressés … ce
     <string name="apropos3">Elle se veut participative, vous pouvez donc nous suggérer des mots/signes à ajouter dans la rubrique « suggestion ».</string>
     <string name="apropos4">Nos remerciements sincères à Enzo d’Andréa et Deborah Fache, qui l’ont développée gracieusement dans le cadre de leurs études d’ingénieurs à Polytech Nancy.</string>
     <string name="apropos5">… à la mémoire de Karou KABA, initiateur du projet</string>
+    <string name="apropos_maintenance">Maintenance assurée depuis décembre 2024 par github.com/dineproject (Guinify).</string>
 
     <string name="download_categories_title">Ajouter une catégorie</string>
     <string name="download_category">Télécharger la catégorie %1$s ?</string>
